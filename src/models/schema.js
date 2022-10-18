@@ -17,6 +17,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "price": {
+                    "name": "price",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "description": {
                     "name": "description",
                     "isArray": false,
@@ -74,6 +81,20 @@ export const schema = {
                     "type": {
                         "enum": "AdvertisementStatus"
                     },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "postDate": {
+                    "name": "postDate",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "sortOrder": {
+                    "name": "sortOrder",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -178,6 +199,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "location": {
+                    "name": "location",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "postDate": {
+                    "name": "postDate",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "sortOrder": {
+                    "name": "sortOrder",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -234,5 +276,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "3bdfaef51881fbb078fc23ba0b2a8d02"
+    "version": "16246323cf3db4edd85a04eaa9154b65"
 };

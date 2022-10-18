@@ -31,6 +31,7 @@ type TheftMetaData = {
 export declare class Advertisement {
   readonly id: string;
   readonly title: string;
+  readonly price?: number | null;
   readonly description?: string | null;
   readonly model?: string | null;
   readonly brand?: string | null;
@@ -39,6 +40,8 @@ export declare class Advertisement {
   readonly platformId?: string | null;
   readonly imageUrl?: string | null;
   readonly status?: AdvertisementStatus | keyof typeof AdvertisementStatus | null;
+  readonly postDate?: string | null;
+  readonly sortOrder?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Advertisement, AdvertisementMetaData>);
@@ -56,6 +59,9 @@ export declare class Theft {
   readonly platformId?: string | null;
   readonly imageUrl?: string | null;
   readonly status?: TheftStatus | keyof typeof TheftStatus | null;
+  readonly location?: string | null;
+  readonly postDate?: string | null;
+  readonly sortOrder?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Theft, TheftMetaData>);

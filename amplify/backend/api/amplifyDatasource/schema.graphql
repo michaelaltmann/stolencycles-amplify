@@ -5,6 +5,7 @@ input AMPLIFY {
 type Advertisement @model {
   id: ID!
   title: String!
+  price: Float
   description: String
   model: String
   brand: String
@@ -13,6 +14,8 @@ type Advertisement @model {
   platformId: String
   imageUrl: String
   status: AdvertisementStatus
+  postDate: String
+  sortOrder: String
 }
 
 type Theft @model {
@@ -26,6 +29,9 @@ type Theft @model {
   platformId: String
   imageUrl: String
   status: TheftStatus
+  location: String
+  postDate: String
+  sortOrder: String
 }
 
 enum Platform {
