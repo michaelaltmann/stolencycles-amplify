@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-stolencycles-amplify-dev-94859-authRole",
+      "UnauthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-amplify-dev-94859-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-amplify-dev-94859-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-stolencycles-amplify-dev-94859-deployment",
+      "UnauthRoleName": "amplify-stolencycles-amplify-dev-94859-unauthRole",
+      "StackName": "amplify-stolencycles-amplify-dev-94859",
+      "StackId": "arn:aws:cloudformation:us-east-1:216407560218:stack/amplify-stolencycles-amplify-dev-94859/009b7c10-4ef4-11ed-80dc-12b75a536ae7",
+      "AmplifyAppId": "d32puiojk2l8vk"
+    },
+    "categories": {
+      "api": {
+        "amplifyDatasource": {}
+      }
+    }
+  }
+}

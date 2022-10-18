@@ -1,0 +1,49 @@
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+}
+
+type Advertisement @model {
+  id: ID!
+  title: String!
+  description: String
+  model: String
+  brand: String
+  color: String
+  platformName: Platform
+  platformId: String
+  imageUrl: String
+  status: AdvertisementStatus
+}
+
+type Theft @model {
+  id: ID!
+  title: String!
+  description: String
+  model: String
+  brand: String
+  color: String
+  platformName: String
+  platformId: String
+  imageUrl: String
+  status: TheftStatus
+}
+
+enum Platform {
+  MARKETPLACE
+  OFFERUP
+  CRAIGSLIST
+  OTHER
+}
+
+enum AdvertisementStatus {
+  UNREVIEWED
+  REVIEWED
+  SOLD
+  JUNK
+}
+
+enum TheftStatus {
+  UNREVIEWED
+  REVIEWED
+  RECOVERED
+}
