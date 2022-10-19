@@ -68,10 +68,10 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "imageUrl": {
-                    "name": "imageUrl",
+                "images": {
+                    "name": "images",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSJSON",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -183,10 +183,10 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "imageUrl": {
-                    "name": "imageUrl",
+                "images": {
+                    "name": "images",
                     "isArray": false,
-                    "type": "String",
+                    "type": "AWSJSON",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -276,5 +276,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "16246323cf3db4edd85a04eaa9154b65"
+    "version": "4c2eabdd6ea0d413ca6812f753d7b9df"
 };

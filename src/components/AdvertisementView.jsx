@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
@@ -14,7 +15,8 @@ import {
 import Autocomplete from "@mui/material/Autocomplete";
 import React, { useState } from "react";
 import { CirclePicker } from "react-color";
-import { Platform } from "../models";
+import { Advertisement, Platform } from "../models";
+import { DataStore } from "@aws-amplify/datastore";
 
 const classes = {
   card: {
@@ -39,7 +41,7 @@ const classes = {
 };
 
 const AdvertisementView = (props) => {
-  const advertisement = props.item;
+  const [advertisement, setAdvertisement] = useState(props.item);
   const {
     id,
     title,
@@ -47,7 +49,7 @@ const AdvertisementView = (props) => {
     price,
     modelName,
     color,
-    imageUrl,
+    images,
     platformName,
     platformId,
     postDate,
@@ -56,22 +58,31 @@ const AdvertisementView = (props) => {
     aliasId,
   } = advertisement;
   const brand = guessBrand();
+  const imageUrl = images && images.length > 0 ? images[0] : null;
   const postDateText = postDate
     ? new Date(Date.parse(postDate)).toDateString()
     : "";
   const [brands, setBrands] = useState([
+    "Cannondale",
     "Bianchi",
-    "Cervelo",
     "Diamondback",
+    "Fuji",
+    "Giant",
+    "Jamis",
+    "Liv",
+    "Marin",
+    "Raleigh",
+    "Salsa",
     "Schwinn",
+    "Specialized",
+    "Surly",
     "Trek",
+    "Yuba",
   ]);
   const [modified, setModified] = useState(false);
-  const bookmarked = false;
   const cardClass =
     brand && color && !modified ? classes.reviewed : classes.card;
   const colors = [
-    { name: "Blue", rgb: "#0000FF" },
     { name: "Blue", rgb: "#0000FF" },
     { name: "Green", rgb: "#008000" },
     { name: "Orange", rgb: "#FFA500" },
@@ -85,6 +96,7 @@ const AdvertisementView = (props) => {
   const notificationRef = React.createRef();
 
   function platformUrl() {
+    console.log(platformName);
     switch (platformName) {
       case Platform.OFFERUP:
         return "https://offerup.com/item/detail/" + platformId;
@@ -110,10 +122,12 @@ const AdvertisementView = (props) => {
         "Liv",
         "Marin",
         "Raleigh",
+        "Salsa",
         "Schwinn",
         "Specialized",
         "Surly",
         "Trek",
+        "Yuba",
       ];
       brands.forEach((b) => {
         brandMap[b.toLowerCase()] = b;
@@ -139,14 +153,52 @@ const AdvertisementView = (props) => {
     window.open(url, "_blank", "width=800,height=600");
   }
 
-  function handleChange() {}
+  function handleChange(e) {
+    var { name, value } = e.target;
+    setAdvertisement(
+      Advertisement.copyOf(advertisement, (draft) => {
+        draft[name] = value;
+      })
+    );
+    setModified(true);
+  }
+  function handleAutoCompleteChange(name, value) {
+    setAdvertisement(
+      Advertisement.copyOf(advertisement, (draft) => {
+        draft[name] = value;
+      })
+    );
+    setModified(true);
+  }
 
   function handleSearch() {}
-  function handleSubmit() {}
+
+  async function handleSubmit() {
+    await DataStore.save(advertisement);
+    setModified(false);
+  }
+
   function handleUpdate() {}
-  function setStatus(newStatus) {}
+  function setStatus(status) {
+    setAdvertisement(
+      Advertisement.copyOf(advertisement, (draft) => {
+        draft.status = status;
+      })
+    );
+    setModified(true);
+  }
   function handleBookmark() {}
-  function handleColorChanged(e) {}
+  function handleColorChanged(color, e) {
+    const selectedColor = color
+      ? colors.find((c) => c.rgb.toLowerCase() === color.hex).name
+      : undefined;
+    setAdvertisement(
+      Advertisement.copyOf(advertisement, (draft) => {
+        draft.color = selectedColor;
+      })
+    );
+    setModified(true);
+  }
 
   function renderColorSelect() {
     const fullColor = colors.find((c) => c.name === color);
@@ -155,7 +207,14 @@ const AdvertisementView = (props) => {
       return c.rgb.toLowerCase();
     });
     return (
-      <Container sx={{ backgroundColor: "rgb(220,220,220)", padding: 5 }}>
+      <Container
+        sx={{
+          backgroundColor: "rgb(220,220,220)",
+          padding: "5px",
+          marginTop: "2px",
+          marginBottom: "2px",
+        }}
+      >
         <CirclePicker
           color={rgb}
           colors={colorHexes}
@@ -168,26 +227,9 @@ const AdvertisementView = (props) => {
     );
   }
   return (
-    <Card className={cardClass} key={id}>
+    <Card sx={cardClass} key={id}>
       {imageUrl && (
         <CardActionArea onClick={handleViewAdvertisement}>
-          {false && (
-            <Button
-              size="small"
-              color="primary"
-              sx={{
-                width: 24,
-                position: "absolute",
-                top: 0,
-                left: 280,
-              }}
-              onClick={handleBookmark}
-            >
-              <Icon>
-                {bookmarked ? "bookmark_icon" : "bookmark_border_icon"}
-              </Icon>
-            </Button>
-          )}
           <CardMedia
             sx={{
               height: 200,
@@ -202,47 +244,53 @@ const AdvertisementView = (props) => {
         }}
       >
         <form id={"advertisement-form-" + id}>
-          <div
+          <Box
             sx={{
+              fontSize: "1rem",
               fontStyle: "italic",
               color: "gray",
             }}
           >
             {platformName} {postDateText}
-          </div>
-          <div
+          </Box>
+          <Box
             sx={{
               fontSize: "1.2rem",
+              textAlign: "left",
             }}
           >
-            {title.substring(0, Math.min(title.length, 24))} ${price}
-          </div>
-          <div
+            {title ? title.substring(0, Math.min(title.length, 24)) : ""} $
+            {price}
+          </Box>
+          <Box
             sx={{
               fontSize: "12px",
+              textAlign: "left",
             }}
           >
-            {description}
-          </div>
+            {description
+              ? description.substring(0, Math.min(description.length, 220))
+              : ""}
+          </Box>
 
-          <Autocomplete
-            freeSolo
-            label="Brand"
-            value={brand}
-            options={brands}
-            name="brand"
-            onChange={handleChange}
-            renderInput={(params) => <TextField {...params} label="Brand" />}
-          />
           {renderColorSelect()}
           <Autocomplete
+            sx={{ marginTop: "6px", marginBottom: "2px" }}
             freeSolo
+            label="Brand"
+            value={brand || ""}
+            options={brands}
+            name="brand"
+            onChange={(e, value) => handleAutoCompleteChange("brand", value)}
+            renderInput={(params) => <TextField {...params} label="Brand" />}
+          />
+          <TextField
             label="Model"
-            value={modelName}
+            value={modelName || ""}
             options={[]}
             name="modelName"
+            fullWidth
             onChange={handleChange}
-            renderInput={(params) => <TextField {...params} label="Model" />}
           />
         </form>
       </CardContent>
@@ -251,7 +299,7 @@ const AdvertisementView = (props) => {
           maxWidth: 325,
           position: "absolute",
           bottom: "0px",
-          margin: 5,
+          margin: "5px",
         }}
       >
         <Tooltip title="Save" sx={classes.button}>
@@ -318,7 +366,7 @@ const AdvertisementView = (props) => {
             <Button
               sx={classes.button}
               size="small"
-              onClick={setStatus.bind("Dirty")}
+              onClick={() => setStatus("Dirty")}
             >
               <Icon
                 style={{
@@ -336,7 +384,7 @@ const AdvertisementView = (props) => {
           <Button
             sx={classes.button}
             size="small"
-            onClick={setStatus.bind("Clean")}
+            onClick={() => setStatus("Clean")}
           >
             <Icon
               style={{
@@ -354,7 +402,7 @@ const AdvertisementView = (props) => {
           <Button
             sx={classes.button}
             size="small"
-            onClick={setStatus.bind("Junk")}
+            onClick={() => setStatus("Junk")}
           >
             <Icon
               style={{
@@ -372,7 +420,7 @@ const AdvertisementView = (props) => {
           <Button
             sx={classes.button}
             size="small"
-            onClick={setStatus.bind("Sold")}
+            onClick={() => setStatus("Sold")}
           >
             <Icon
               style={{
@@ -389,7 +437,7 @@ const AdvertisementView = (props) => {
           <Button
             sx={classes.button}
             size="small"
-            onClick={setStatus.bind("NeedsReview")}
+            onClick={() => setStatus("NeedsReview")}
           >
             <Icon
               style={{

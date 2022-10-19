@@ -38,7 +38,7 @@ export declare class Advertisement {
   readonly color?: string | null;
   readonly platformName?: Platform | keyof typeof Platform | null;
   readonly platformId?: string | null;
-  readonly imageUrl?: string | null;
+  readonly images?: string | null;
   readonly status?: AdvertisementStatus | keyof typeof AdvertisementStatus | null;
   readonly postDate?: string | null;
   readonly sortOrder?: string | null;
@@ -57,7 +57,7 @@ export declare class Theft {
   readonly color?: string | null;
   readonly platformName?: string | null;
   readonly platformId?: string | null;
-  readonly imageUrl?: string | null;
+  readonly images?: string | null;
   readonly status?: TheftStatus | keyof typeof TheftStatus | null;
   readonly location?: string | null;
   readonly postDate?: string | null;

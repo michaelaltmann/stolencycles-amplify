@@ -13,10 +13,17 @@ function AdvertisementForm(props) {
     <Container style={{ backgroundColor: "white" }}>
       <Stack>
         <TextField
-          label="imageUrl"
-          value={formState.imageUrl}
+          label="platformName"
+          value={formState.platformName}
           onChange={(e) =>
-            setFormState({ ...formState, imageUrl: e.target.value })
+            setFormState({ ...formState, platformName: e.target.value })
+          }
+        ></TextField>
+        <TextField
+          label="platformId"
+          value={formState.platformId}
+          onChange={(e) =>
+            setFormState({ ...formState, platformId: e.target.value })
           }
         ></TextField>
         <TextField
@@ -33,13 +40,26 @@ function AdvertisementForm(props) {
             setFormState({ ...formState, description: e.target.value })
           }
         ></TextField>
+        <TextField
+          label="imageUrl"
+          value={formState.imageUrl}
+          onChange={(e) =>
+            setFormState({ ...formState, imageUrl: e.target.value })
+          }
+        ></TextField>
         <Button onClick={() => create()}>Create</Button>
       </Stack>
     </Container>
   );
   async function create() {
     if (formState.title) {
-      await DataStore.save(new Advertisement({ ...formState }));
+      await DataStore.save(
+        new Advertisement({
+          ...formState,
+          imageUrl: null,
+          images: [formState.imageUrl],
+        })
+      );
       setFormState(initialState);
     }
   }
@@ -63,13 +83,13 @@ export default function Advertisements() {
     <Stack spacing={2}>
       <AdvertisementForm item={{}} />
       <h3>Advertisements</h3>
-      <Stack spacing={2}>
+      <Grid container direction="row">
         {advertisements.map((advertisement) => {
           return (
             <AdvertisementView item={advertisement} key={advertisement.id} />
           );
         })}
-      </Stack>
+      </Grid>
     </Stack>
   );
 }

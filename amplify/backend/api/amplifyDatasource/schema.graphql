@@ -12,7 +12,7 @@ type Advertisement @model {
   color: String
   platformName: Platform
   platformId: String
-  imageUrl: String
+  images: AWSJSON
   status: AdvertisementStatus
   postDate: String
   sortOrder: String
@@ -27,7 +27,7 @@ type Theft @model {
   color: String
   platformName: String
   platformId: String
-  imageUrl: String
+  images: AWSJSON
   status: TheftStatus
   location: String
   postDate: String
