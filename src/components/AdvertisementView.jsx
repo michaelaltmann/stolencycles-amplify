@@ -13,10 +13,12 @@ import {
   Tooltip,
 } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CirclePicker } from "react-color";
-import { Advertisement, Platform } from "../models";
-import { DataStore } from "@aws-amplify/datastore";
+import { Advertisement, AdvertisementStatus, Color, Platform } from "../models";
+import API from "@aws-amplify/api";
+import { listColors } from "../graphql/queries";
+import { updateAdvertisement } from "../graphql/mutations";
 
 const classes = {
   card: {
@@ -42,12 +44,32 @@ const classes = {
 
 const AdvertisementView = (props) => {
   const [advertisement, setAdvertisement] = useState(props.item);
+  const [modified, setModified] = useState(false);
+  const [colors, setColors] = useState(null);
+
+  useEffect(() => {
+    if (!colors) {
+      const f = async () => {
+        try {
+          const {
+            data: {
+              listColors: { items },
+            },
+          } = await API.graphql({ query: listColors });
+          setColors(items);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      f();
+    }
+  });
   const {
     id,
     title,
     description,
     price,
-    modelName,
+    model,
     color,
     images,
     platformName,
@@ -58,7 +80,7 @@ const AdvertisementView = (props) => {
     aliasId,
   } = advertisement;
   const brand = guessBrand();
-  const imageUrl = images && images.length > 0 ? images[0] : null;
+  const imageUrl = getImageUrl(images);
   const postDateText = postDate
     ? new Date(Date.parse(postDate)).toDateString()
     : "";
@@ -79,24 +101,20 @@ const AdvertisementView = (props) => {
     "Trek",
     "Yuba",
   ]);
-  const [modified, setModified] = useState(false);
   const cardClass =
     brand && color && !modified ? classes.reviewed : classes.card;
-  const colors = [
-    { name: "Blue", rgb: "#0000FF" },
-    { name: "Green", rgb: "#008000" },
-    { name: "Orange", rgb: "#FFA500" },
-    { name: "Red", rgb: "#FF0000" },
-    { name: "Black", rgb: "#000000" },
-    { name: "Purple", rgb: "#A000A0" },
-    { name: "Silver", rgb: "#A0A0A0" },
-    { name: "Yellow", rgb: "#FFFF00" },
-    { name: "White", rgb: "#FFFFFF" },
-  ];
+
   const notificationRef = React.createRef();
 
+  function getImageUrl(imagesString) {
+    if (!imagesString) {
+      return null;
+    } else {
+      const images = JSON.parse(imagesString);
+      return images && images.length > 0 ? images[0] : null;
+    }
+  }
   function platformUrl() {
-    console.log(platformName);
     switch (platformName) {
       case Platform.OFFERUP:
         return "https://offerup.com/item/detail/" + platformId;
@@ -155,76 +173,83 @@ const AdvertisementView = (props) => {
 
   function handleChange(e) {
     var { name, value } = e.target;
-    setAdvertisement(
-      Advertisement.copyOf(advertisement, (draft) => {
-        draft[name] = value;
-      })
-    );
+    let draft = { ...advertisement };
+    draft[name] = value;
+    setAdvertisement(draft);
     setModified(true);
   }
   function handleAutoCompleteChange(name, value) {
-    setAdvertisement(
-      Advertisement.copyOf(advertisement, (draft) => {
-        draft[name] = value;
-      })
-    );
+    let draft = { ...advertisement };
+    draft[name] = value;
+    setAdvertisement(draft);
+
     setModified(true);
   }
 
+  function revert() {
+    setAdvertisement(props.item);
+    setModified(false);
+  }
   function handleSearch() {}
 
+  function setStatus(status) {
+    setAdvertisement({ ...advertisement, status: status });
+
+    setModified(true);
+  }
+  function handleColorChanged(selectedColor, e) {
+    const color = selectedColor
+      ? colors.find((c) => c.rgb.toLowerCase() === selectedColor.hex).name
+      : null;
+    setAdvertisement({ ...advertisement, color: color });
+    setModified(true);
+  }
+
   async function handleSubmit() {
-    await DataStore.save(advertisement);
+    const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } =
+      advertisement;
+
+    const {
+      data: { updateAdvertisement: item },
+    } = await API.graphql({
+      query: updateAdvertisement,
+      variables: {
+        input: rest,
+      },
+    });
+    setAdvertisement(item);
     setModified(false);
   }
 
-  function handleUpdate() {}
-  function setStatus(status) {
-    setAdvertisement(
-      Advertisement.copyOf(advertisement, (draft) => {
-        draft.status = status;
-      })
-    );
-    setModified(true);
-  }
-  function handleBookmark() {}
-  function handleColorChanged(color, e) {
-    const selectedColor = color
-      ? colors.find((c) => c.rgb.toLowerCase() === color.hex).name
-      : undefined;
-    setAdvertisement(
-      Advertisement.copyOf(advertisement, (draft) => {
-        draft.color = selectedColor;
-      })
-    );
-    setModified(true);
-  }
-
   function renderColorSelect() {
-    const fullColor = colors.find((c) => c.name === color);
-    const rgb = fullColor ? fullColor.rgb.toLowerCase() : undefined;
-    const colorHexes = colors.map((c) => {
-      return c.rgb.toLowerCase();
-    });
-    return (
-      <Container
-        sx={{
-          backgroundColor: "rgb(220,220,220)",
-          padding: "5px",
-          marginTop: "2px",
-          marginBottom: "2px",
-        }}
-      >
-        <CirclePicker
-          color={rgb}
-          colors={colorHexes}
-          width="330px"
-          triangle="hide"
-          circleSpacing={2}
-          onChangeComplete={handleColorChanged}
-        />
-      </Container>
-    );
+    if (colors) {
+      const fullColor = colors.find((c) => c.name === color);
+      const rgb = fullColor ? fullColor.rgb.toLowerCase() : undefined;
+      const colorHexes = colors.map((c) => {
+        return c.rgb.toLowerCase();
+      });
+      return (
+        <Container
+          sx={{
+            backgroundColor: "rgb(220,220,220)",
+            padding: "5px",
+            marginTop: "2px",
+            marginBottom: "2px",
+          }}
+        >
+          <CirclePicker
+            color={rgb}
+            colors={colorHexes}
+            width="330px"
+            triangle="hide"
+            circleSpacing={2}
+            onChangeComplete={handleColorChanged}
+          />
+        </Container>
+      );
+    } else {
+      return <></>;
+    }
   }
   return (
     <Card sx={cardClass} key={id}>
@@ -286,9 +311,9 @@ const AdvertisementView = (props) => {
           />
           <TextField
             label="Model"
-            value={modelName || ""}
+            value={model || ""}
             options={[]}
-            name="modelName"
+            name="model"
             fullWidth
             onChange={handleChange}
           />
@@ -384,13 +409,14 @@ const AdvertisementView = (props) => {
           <Button
             sx={classes.button}
             size="small"
-            onClick={() => setStatus("Clean")}
+            onClick={() => setStatus(AdvertisementStatus.REVIEWED)}
           >
             <Icon
               style={{
-                color: status === "Clean" ? "gray" : "green",
+                color:
+                  status === AdvertisementStatus.REVIEWED ? "gray" : "green",
                 borderStyle: "solid",
-                borderWidth: status === "Clean" ? 1 : 0,
+                borderWidth: status === AdvertisementStatus.REVIEWED ? 1 : 0,
               }}
             >
               thumb_up_icon
@@ -402,13 +428,13 @@ const AdvertisementView = (props) => {
           <Button
             sx={classes.button}
             size="small"
-            onClick={() => setStatus("Junk")}
+            onClick={() => setStatus(AdvertisementStatus.JUNK)}
           >
             <Icon
               style={{
-                color: status === "Junk" ? "gray" : "blue",
+                color: status === AdvertisementStatus.JUNK ? "gray" : "blue",
                 borderStyle: "solid",
-                borderWidth: status === "Junk" ? 1 : 0,
+                borderWidth: status === AdvertisementStatus.JUNK ? 1 : 0,
               }}
             >
               toys_icon
@@ -420,13 +446,13 @@ const AdvertisementView = (props) => {
           <Button
             sx={classes.button}
             size="small"
-            onClick={() => setStatus("Sold")}
+            onClick={() => setStatus(AdvertisementStatus.SOLD)}
           >
             <Icon
               style={{
-                color: status === "Sold" ? "gray" : "blue",
+                color: status === AdvertisementStatus.SOLD ? "gray" : "blue",
                 borderStyle: "solid",
-                borderWidth: status === "Sold" ? 1 : 0,
+                borderWidth: status === AdvertisementStatus.SOLD ? 1 : 0,
               }}
             >
               shopping_cart_icon
@@ -434,14 +460,10 @@ const AdvertisementView = (props) => {
           </Button>
         </Tooltip>
         <Tooltip title="Undo" sx={classes.button}>
-          <Button
-            sx={classes.button}
-            size="small"
-            onClick={() => setStatus("NeedsReview")}
-          >
+          <Button sx={classes.button} size="small" onClick={() => revert()}>
             <Icon
               style={{
-                color: status === "NeedsReview" ? "gray" : "blue",
+                color: !modified ? "gray" : "blue",
                 borderStyle: "solid",
                 borderWidth: 0,
               }}

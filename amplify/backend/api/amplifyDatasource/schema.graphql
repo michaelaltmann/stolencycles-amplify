@@ -25,13 +25,38 @@ type Theft @model {
   model: String
   brand: String
   color: String
-  platformName: String
+  platformName: Platform
   platformId: String
   images: AWSJSON
   status: TheftStatus
   location: String
   postDate: String
   sortOrder: String
+}
+
+type Color @model {
+  name: String!
+  rgb: String!
+}
+
+type Brand @model {
+  name: String!
+}
+
+type Account @model {
+  id: ID!
+  platformName: Platform
+  platformId: String
+  images: AWSJSON
+  name: String
+  aka: [Account] @hasMany
+}
+
+type Match @model {
+  id: ID!
+  advertisement: Advertisement @hasOne
+  theft: Theft @hasOne
+  status: MatchStatus
 }
 
 enum Platform {
@@ -52,4 +77,10 @@ enum TheftStatus {
   UNREVIEWED
   REVIEWED
   RECOVERED
+}
+
+enum MatchStatus {
+  UNREVIEWED
+  MATCHED
+  MISMATCHED
 }

@@ -22,12 +22,23 @@ const TheftStatus = {
   "RECOVERED": "RECOVERED"
 };
 
-const { Advertisement, Theft } = initSchema(schema);
+const MatchStatus = {
+  "UNREVIEWED": "UNREVIEWED",
+  "MATCHED": "MATCHED",
+  "MISMATCHED": "MISMATCHED"
+};
+
+const { Advertisement, Theft, Color, Brand, Account, Match } = initSchema(schema);
 
 export {
   Advertisement,
   Theft,
+  Color,
+  Brand,
+  Account,
+  Match,
   Platform,
   AdvertisementStatus,
-  TheftStatus
+  TheftStatus,
+  MatchStatus
 };

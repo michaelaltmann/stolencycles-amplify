@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { DataStore } from "@aws-amplify/datastore";
+import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { Advertisement, AdvertisementStatus } from "../models";
 import AdvertisementView from "../components/AdvertisementView";
 import { Button, Grid, Stack, TextField } from "@mui/material";
 import { Container } from "@mui/system";
+import API from "@aws-amplify/api";
+import { listAdvertisements } from "../graphql/queries";
 function AdvertisementForm(props) {
   const { item } = props;
   const initialState = { title: "", status: AdvertisementStatus.UNREVIEWED };
@@ -57,7 +59,7 @@ function AdvertisementForm(props) {
         new Advertisement({
           ...formState,
           imageUrl: null,
-          images: [formState.imageUrl],
+          images: JSON.stringify(formState.imageUrl.split(/[\s,]+/)),
         })
       );
       setFormState(initialState);
@@ -66,17 +68,29 @@ function AdvertisementForm(props) {
 }
 export default function Advertisements() {
   const [showCreate, setShowCreate] = useState(true);
-  const [advertisements, setAdvertisement] = useState([]);
+  const [currentToken, setCurrentToken] = useState(null);
+  const [advertisements, setAdvertisements] = useState([]);
   useEffect(() => {
-    fetchAdvertisements();
-    const subscription = DataStore.observe(Advertisement).subscribe(() =>
-      fetchAdvertisements()
-    );
-    return () => subscription.unsubscribe();
-  });
+    const getData = async () => {
+      fetchAdvertisements();
+      const subscription = DataStore.observe(Advertisement).subscribe(() =>
+        fetchAdvertisements()
+      );
+      return () => subscription.unsubscribe();
+    };
+    if (!advertisements) getData();
+  }, [currentToken, advertisements]);
   async function fetchAdvertisements() {
-    const list = await DataStore.query(Advertisement);
-    setAdvertisement(list);
+    const {
+      data: {
+        listAdvertisements: { items: list, nextToken },
+      },
+    } = await API.graphql({
+      query: listAdvertisements,
+      variables: { limit: 1, nextToken: currentToken },
+    });
+    setCurrentToken(nextToken);
+    setAdvertisements(advertisements.concat(list));
   }
 
   return (
@@ -90,6 +104,7 @@ export default function Advertisements() {
           );
         })}
       </Grid>
+      <Button onClick={() => fetchAdvertisements()}>More</Button>
     </Stack>
   );
 }
