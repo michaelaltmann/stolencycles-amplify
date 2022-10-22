@@ -498,3 +498,87 @@ export const syncMatches = /* GraphQL */ `
     }
   }
 `;
+export const advertisementsByPlatformIdPlatformName = /* GraphQL */ `
+  query AdvertisementsByPlatformIdPlatformName(
+    $platformId: String!
+    $platformName: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelAdvertisementFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    advertisementsByPlatformIdPlatformName(
+      platformId: $platformId
+      platformName: $platformName
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        price
+        description
+        model
+        brand
+        color
+        platformName
+        platformId
+        images
+        status
+        postDate
+        sortOrder
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const advertisementsByStatusPostDateId = /* GraphQL */ `
+  query AdvertisementsByStatusPostDateId(
+    $status: AdvertisementStatus!
+    $postDateId: ModelAdvertisementAdvertisementsByStatusPostDateIdCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelAdvertisementFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    advertisementsByStatusPostDateId(
+      status: $status
+      postDateId: $postDateId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        title
+        price
+        description
+        model
+        brand
+        color
+        platformName
+        platformId
+        images
+        status
+        postDate
+        sortOrder
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;

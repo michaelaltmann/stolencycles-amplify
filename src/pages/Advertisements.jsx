@@ -5,7 +5,10 @@ import AdvertisementView from "../components/AdvertisementView";
 import { Button, Grid, Stack, TextField } from "@mui/material";
 import { Container } from "@mui/system";
 import API from "@aws-amplify/api";
-import { listAdvertisements } from "../graphql/queries";
+import {
+  advertisementsByStatusPostDateId,
+  listAdvertisements,
+} from "../graphql/queries";
 function AdvertisementForm(props) {
   const { item } = props;
   const initialState = { title: "", status: AdvertisementStatus.UNREVIEWED };
@@ -80,15 +83,34 @@ export default function Advertisements() {
     };
     if (!advertisements) getData();
   }, [currentToken, advertisements]);
+
   async function fetchAdvertisements() {
-    const {
+    /*const {
       data: {
         listAdvertisements: { items: list, nextToken },
       },
     } = await API.graphql({
       query: listAdvertisements,
-      variables: { limit: 1, nextToken: currentToken },
+      variables: {
+        limit: 1,
+        nextToken: currentToken,
+      },
     });
+    */
+
+    const {
+      data: {
+        advertisementsByStatusPostDateId: { items: list, nextToken },
+      },
+    } = await API.graphql({
+      query: advertisementsByStatusPostDateId,
+      variables: {
+        status: AdvertisementStatus.UNREVIEWED,
+        limit: 1,
+        nextToken: currentToken,
+      },
+    });
+
     setCurrentToken(nextToken);
     setAdvertisements(advertisements.concat(list));
   }

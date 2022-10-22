@@ -64,8 +64,6 @@ export declare class Advertisement {
   readonly status?: AdvertisementStatus | keyof typeof AdvertisementStatus | null;
   readonly postDate?: string | null;
   readonly sortOrder?: string | null;
-  readonly _version?: number | null;
-  readonly _deleted?: boolean | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Advertisement, AdvertisementMetaData>);

@@ -205,9 +205,14 @@ const AdvertisementView = (props) => {
     setModified(true);
   }
 
+  /**
+   * Save to the server
+   */
   async function handleSubmit() {
-    const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } =
-      advertisement;
+    const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } = {
+      ...advertisement,
+      postDate: new Date().toISOString(),
+    };
 
     const {
       data: { updateAdvertisement: item },
