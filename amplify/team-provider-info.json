@@ -13,7 +13,24 @@
     },
     "categories": {
       "api": {
-        "amplifyDatasource": {}
+        "amplifyDatasource": {},
+        "scrape": {}
+      },
+      "function": {
+        "stolencyclesamplifydataAccess": {
+          "deploymentBucketName": "amplify-stolencycles-amplify-dev-94859-deployment",
+          "s3Key": "amplify-builds/stolencyclesamplifydataAccess-LambdaLayerVersion45a6c81a-build.zip"
+        },
+        "scrape": {
+          "deploymentBucketName": "amplify-stolencycles-amplify-dev-94859-deployment",
+          "s3Key": "amplify-builds/scrape-52544f654d432f376445-build.zip"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d32puiojk2l8vk",
+          "type": "manual"
+        }
       }
     }
   }

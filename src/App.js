@@ -1,11 +1,11 @@
 import './App.css';
 import Advertisements from './pages/Advertisements';
 import { Amplify } from "@aws-amplify/core";
-import config from "./aws-exports";
+import awsconfig from "./aws-exports";
 import NavBar from './components/NavBar';
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-Amplify.configure(config);
+Amplify.configure(awsconfig);
 
 function Layout() {
   return (

@@ -1,0 +1,20 @@
+{
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "stolencyclesamplifydataAccess",
+      "env": "dev",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ],
+  "permissions": {
+    "api": {
+      "amplifyDatasource": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    }
+  }
+}
