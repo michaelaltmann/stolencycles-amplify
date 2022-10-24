@@ -2,7 +2,7 @@
 // this is an auto generated file. This will be overwritten
 
 export const getAdvertisement = /* GraphQL */ `
-  query GetAdvertisement($id: ID!) {
+  query GetAdvertisement($id: String!) {
     getAdvertisement(id: $id) {
       id
       title
@@ -11,8 +11,6 @@ export const getAdvertisement = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       postDate
@@ -27,11 +25,19 @@ export const getAdvertisement = /* GraphQL */ `
 `;
 export const listAdvertisements = /* GraphQL */ `
   query ListAdvertisements(
+    $id: String
     $filter: ModelAdvertisementFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listAdvertisements(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listAdvertisements(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         title
@@ -40,8 +46,6 @@ export const listAdvertisements = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -78,8 +82,6 @@ export const syncAdvertisements = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -96,7 +98,7 @@ export const syncAdvertisements = /* GraphQL */ `
   }
 `;
 export const getTheft = /* GraphQL */ `
-  query GetTheft($id: ID!) {
+  query GetTheft($id: String!) {
     getTheft(id: $id) {
       id
       title
@@ -104,8 +106,6 @@ export const getTheft = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       location
@@ -121,11 +121,19 @@ export const getTheft = /* GraphQL */ `
 `;
 export const listThefts = /* GraphQL */ `
   query ListThefts(
+    $id: String
     $filter: ModelTheftFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listThefts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listThefts(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
         title
@@ -133,8 +141,6 @@ export const listThefts = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location
@@ -171,8 +177,6 @@ export const syncThefts = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location
@@ -190,11 +194,10 @@ export const syncThefts = /* GraphQL */ `
   }
 `;
 export const getColor = /* GraphQL */ `
-  query GetColor($id: ID!) {
-    getColor(id: $id) {
+  query GetColor($rgb: String!) {
+    getColor(rgb: $rgb) {
       name
       rgb
-      id
       createdAt
       updatedAt
       _version
@@ -205,15 +208,22 @@ export const getColor = /* GraphQL */ `
 `;
 export const listColors = /* GraphQL */ `
   query ListColors(
+    $rgb: String
     $filter: ModelColorFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listColors(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listColors(
+      rgb: $rgb
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         name
         rgb
-        id
         createdAt
         updatedAt
         _version
@@ -241,7 +251,6 @@ export const syncColors = /* GraphQL */ `
       items {
         name
         rgb
-        id
         createdAt
         updatedAt
         _version
@@ -315,14 +324,12 @@ export const syncBrands = /* GraphQL */ `
   }
 `;
 export const getAccount = /* GraphQL */ `
-  query GetAccount($id: ID!) {
+  query GetAccount($id: String!) {
     getAccount(id: $id) {
       id
-      platformName
-      platformId
       images
       name
-      aka {
+      aliases {
         nextToken
         startedAt
       }
@@ -331,21 +338,27 @@ export const getAccount = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      accountAkaId
+      accountAliasesId
     }
   }
 `;
 export const listAccounts = /* GraphQL */ `
   query ListAccounts(
+    $id: String
     $filter: ModelAccountFilterInput
     $limit: Int
     $nextToken: String
+    $sortDirection: ModelSortDirection
   ) {
-    listAccounts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listAccounts(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
       items {
         id
-        platformName
-        platformId
         images
         name
         createdAt
@@ -353,7 +366,7 @@ export const listAccounts = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        accountAkaId
+        accountAliasesId
       }
       nextToken
       startedAt
@@ -375,8 +388,6 @@ export const syncAccounts = /* GraphQL */ `
     ) {
       items {
         id
-        platformName
-        platformId
         images
         name
         createdAt
@@ -384,7 +395,7 @@ export const syncAccounts = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        accountAkaId
+        accountAliasesId
       }
       nextToken
       startedAt
@@ -403,8 +414,6 @@ export const getMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -422,8 +431,6 @@ export const getMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location
@@ -498,48 +505,6 @@ export const syncMatches = /* GraphQL */ `
     }
   }
 `;
-export const advertisementsByPlatformIdPlatformName = /* GraphQL */ `
-  query AdvertisementsByPlatformIdPlatformName(
-    $platformId: String!
-    $platformName: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelAdvertisementFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    advertisementsByPlatformIdPlatformName(
-      platformId: $platformId
-      platformName: $platformName
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        title
-        price
-        description
-        model
-        brand
-        color
-        platformName
-        platformId
-        images
-        status
-        postDate
-        sortOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 export const advertisementsByStatusPostDateId = /* GraphQL */ `
   query AdvertisementsByStatusPostDateId(
     $status: AdvertisementStatus!
@@ -565,8 +530,6 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate

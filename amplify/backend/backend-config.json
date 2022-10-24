@@ -1,23 +1,5 @@
 {
   "api": {
-    "amplifyDatasource": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "additionalAuthenticationProviders": [],
-          "defaultAuthentication": {
-            "authenticationType": "API_KEY",
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 30,
-              "apiKeyExpirationDate": "2022-11-20T02:45:47.485Z",
-              "description": "devkey"
-            }
-          }
-        }
-      },
-      "dependsOn": []
-    },
     "scrape": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
@@ -31,14 +13,25 @@
           ]
         }
       ]
+    },
+    "stolencycles": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            }
+          },
+          "additionalAuthenticationProviders": []
+        }
+      }
     }
   },
   "function": {
-    "stolencyclesamplifydataAccess": {
-      "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer",
-      "build": true
-    },
     "scrape": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -46,21 +39,19 @@
       "dependsOn": [
         {
           "category": "api",
-          "resourceName": "amplifyDatasource",
+          "resourceName": "stolencycles",
           "attributes": [
             "GraphQLAPIIdOutput",
             "GraphQLAPIEndpointOutput",
             "GraphQLAPIKeyOutput"
           ]
-        },
-        {
-          "category": "function",
-          "resourceName": "stolencyclesamplifydataAccess",
-          "attributes": [
-            "Arn"
-          ]
         }
       ]
+    },
+    "stolencyclesdataaccess": {
+      "providerPlugin": "awscloudformation",
+      "service": "LambdaLayer",
+      "build": true
     }
   },
   "hosting": {

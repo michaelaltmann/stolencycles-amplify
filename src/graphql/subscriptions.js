@@ -2,8 +2,10 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateAdvertisement = /* GraphQL */ `
-  subscription OnCreateAdvertisement {
-    onCreateAdvertisement {
+  subscription OnCreateAdvertisement(
+    $filter: ModelSubscriptionAdvertisementFilterInput
+  ) {
+    onCreateAdvertisement(filter: $filter) {
       id
       title
       price
@@ -11,8 +13,6 @@ export const onCreateAdvertisement = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       postDate
@@ -26,8 +26,10 @@ export const onCreateAdvertisement = /* GraphQL */ `
   }
 `;
 export const onUpdateAdvertisement = /* GraphQL */ `
-  subscription OnUpdateAdvertisement {
-    onUpdateAdvertisement {
+  subscription OnUpdateAdvertisement(
+    $filter: ModelSubscriptionAdvertisementFilterInput
+  ) {
+    onUpdateAdvertisement(filter: $filter) {
       id
       title
       price
@@ -35,8 +37,6 @@ export const onUpdateAdvertisement = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       postDate
@@ -50,8 +50,10 @@ export const onUpdateAdvertisement = /* GraphQL */ `
   }
 `;
 export const onDeleteAdvertisement = /* GraphQL */ `
-  subscription OnDeleteAdvertisement {
-    onDeleteAdvertisement {
+  subscription OnDeleteAdvertisement(
+    $filter: ModelSubscriptionAdvertisementFilterInput
+  ) {
+    onDeleteAdvertisement(filter: $filter) {
       id
       title
       price
@@ -59,8 +61,6 @@ export const onDeleteAdvertisement = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       postDate
@@ -74,16 +74,14 @@ export const onDeleteAdvertisement = /* GraphQL */ `
   }
 `;
 export const onCreateTheft = /* GraphQL */ `
-  subscription OnCreateTheft {
-    onCreateTheft {
+  subscription OnCreateTheft($filter: ModelSubscriptionTheftFilterInput) {
+    onCreateTheft(filter: $filter) {
       id
       title
       description
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       location
@@ -98,16 +96,14 @@ export const onCreateTheft = /* GraphQL */ `
   }
 `;
 export const onUpdateTheft = /* GraphQL */ `
-  subscription OnUpdateTheft {
-    onUpdateTheft {
+  subscription OnUpdateTheft($filter: ModelSubscriptionTheftFilterInput) {
+    onUpdateTheft(filter: $filter) {
       id
       title
       description
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       location
@@ -122,16 +118,14 @@ export const onUpdateTheft = /* GraphQL */ `
   }
 `;
 export const onDeleteTheft = /* GraphQL */ `
-  subscription OnDeleteTheft {
-    onDeleteTheft {
+  subscription OnDeleteTheft($filter: ModelSubscriptionTheftFilterInput) {
+    onDeleteTheft(filter: $filter) {
       id
       title
       description
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       location
@@ -146,11 +140,10 @@ export const onDeleteTheft = /* GraphQL */ `
   }
 `;
 export const onCreateColor = /* GraphQL */ `
-  subscription OnCreateColor {
-    onCreateColor {
+  subscription OnCreateColor($filter: ModelSubscriptionColorFilterInput) {
+    onCreateColor(filter: $filter) {
       name
       rgb
-      id
       createdAt
       updatedAt
       _version
@@ -160,11 +153,10 @@ export const onCreateColor = /* GraphQL */ `
   }
 `;
 export const onUpdateColor = /* GraphQL */ `
-  subscription OnUpdateColor {
-    onUpdateColor {
+  subscription OnUpdateColor($filter: ModelSubscriptionColorFilterInput) {
+    onUpdateColor(filter: $filter) {
       name
       rgb
-      id
       createdAt
       updatedAt
       _version
@@ -174,11 +166,10 @@ export const onUpdateColor = /* GraphQL */ `
   }
 `;
 export const onDeleteColor = /* GraphQL */ `
-  subscription OnDeleteColor {
-    onDeleteColor {
+  subscription OnDeleteColor($filter: ModelSubscriptionColorFilterInput) {
+    onDeleteColor(filter: $filter) {
       name
       rgb
-      id
       createdAt
       updatedAt
       _version
@@ -188,8 +179,8 @@ export const onDeleteColor = /* GraphQL */ `
   }
 `;
 export const onCreateBrand = /* GraphQL */ `
-  subscription OnCreateBrand {
-    onCreateBrand {
+  subscription OnCreateBrand($filter: ModelSubscriptionBrandFilterInput) {
+    onCreateBrand(filter: $filter) {
       name
       id
       createdAt
@@ -201,8 +192,8 @@ export const onCreateBrand = /* GraphQL */ `
   }
 `;
 export const onUpdateBrand = /* GraphQL */ `
-  subscription OnUpdateBrand {
-    onUpdateBrand {
+  subscription OnUpdateBrand($filter: ModelSubscriptionBrandFilterInput) {
+    onUpdateBrand(filter: $filter) {
       name
       id
       createdAt
@@ -214,8 +205,8 @@ export const onUpdateBrand = /* GraphQL */ `
   }
 `;
 export const onDeleteBrand = /* GraphQL */ `
-  subscription OnDeleteBrand {
-    onDeleteBrand {
+  subscription OnDeleteBrand($filter: ModelSubscriptionBrandFilterInput) {
+    onDeleteBrand(filter: $filter) {
       name
       id
       createdAt
@@ -227,14 +218,12 @@ export const onDeleteBrand = /* GraphQL */ `
   }
 `;
 export const onCreateAccount = /* GraphQL */ `
-  subscription OnCreateAccount {
-    onCreateAccount {
+  subscription OnCreateAccount($filter: ModelSubscriptionAccountFilterInput) {
+    onCreateAccount(filter: $filter) {
       id
-      platformName
-      platformId
       images
       name
-      aka {
+      aliases {
         nextToken
         startedAt
       }
@@ -243,19 +232,17 @@ export const onCreateAccount = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      accountAkaId
+      accountAliasesId
     }
   }
 `;
 export const onUpdateAccount = /* GraphQL */ `
-  subscription OnUpdateAccount {
-    onUpdateAccount {
+  subscription OnUpdateAccount($filter: ModelSubscriptionAccountFilterInput) {
+    onUpdateAccount(filter: $filter) {
       id
-      platformName
-      platformId
       images
       name
-      aka {
+      aliases {
         nextToken
         startedAt
       }
@@ -264,19 +251,17 @@ export const onUpdateAccount = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      accountAkaId
+      accountAliasesId
     }
   }
 `;
 export const onDeleteAccount = /* GraphQL */ `
-  subscription OnDeleteAccount {
-    onDeleteAccount {
+  subscription OnDeleteAccount($filter: ModelSubscriptionAccountFilterInput) {
+    onDeleteAccount(filter: $filter) {
       id
-      platformName
-      platformId
       images
       name
-      aka {
+      aliases {
         nextToken
         startedAt
       }
@@ -285,13 +270,13 @@ export const onDeleteAccount = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      accountAkaId
+      accountAliasesId
     }
   }
 `;
 export const onCreateMatch = /* GraphQL */ `
-  subscription OnCreateMatch {
-    onCreateMatch {
+  subscription OnCreateMatch($filter: ModelSubscriptionMatchFilterInput) {
+    onCreateMatch(filter: $filter) {
       id
       advertisement {
         id
@@ -301,8 +286,6 @@ export const onCreateMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -320,8 +303,6 @@ export const onCreateMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location
@@ -345,8 +326,8 @@ export const onCreateMatch = /* GraphQL */ `
   }
 `;
 export const onUpdateMatch = /* GraphQL */ `
-  subscription OnUpdateMatch {
-    onUpdateMatch {
+  subscription OnUpdateMatch($filter: ModelSubscriptionMatchFilterInput) {
+    onUpdateMatch(filter: $filter) {
       id
       advertisement {
         id
@@ -356,8 +337,6 @@ export const onUpdateMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -375,8 +354,6 @@ export const onUpdateMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location
@@ -400,8 +377,8 @@ export const onUpdateMatch = /* GraphQL */ `
   }
 `;
 export const onDeleteMatch = /* GraphQL */ `
-  subscription OnDeleteMatch {
-    onDeleteMatch {
+  subscription OnDeleteMatch($filter: ModelSubscriptionMatchFilterInput) {
+    onDeleteMatch(filter: $filter) {
       id
       advertisement {
         id
@@ -411,8 +388,6 @@ export const onDeleteMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -430,8 +405,6 @@ export const onDeleteMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location

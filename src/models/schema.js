@@ -6,7 +6,7 @@ export const schema = {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -47,22 +47,6 @@ export const schema = {
                 },
                 "color": {
                     "name": "color",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "platformName": {
-                    "name": "platformName",
-                    "isArray": false,
-                    "type": {
-                        "enum": "Platform"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "platformId": {
-                    "name": "platformId",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -125,11 +109,8 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "advertisementsByPlatformIdPlatformName",
-                        "queryField": "advertisementsByPlatformIdPlatformName",
                         "fields": [
-                            "platformId",
-                            "platformName"
+                            "id"
                         ]
                     }
                 },
@@ -169,7 +150,7 @@ export const schema = {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -203,22 +184,6 @@ export const schema = {
                 },
                 "color": {
                     "name": "color",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "platformName": {
-                    "name": "platformName",
-                    "isArray": false,
-                    "type": {
-                        "enum": "Platform"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "platformId": {
-                    "name": "platformId",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -286,6 +251,14 @@ export const schema = {
                     "properties": {}
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "id"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -350,6 +323,14 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "rgb"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -434,24 +415,8 @@ export const schema = {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "platformName": {
-                    "name": "platformName",
-                    "isArray": false,
-                    "type": {
-                        "enum": "Platform"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "platformId": {
-                    "name": "platformId",
-                    "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "images": {
@@ -468,8 +433,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "aka": {
-                    "name": "aka",
+                "aliases": {
+                    "name": "aliases",
                     "isArray": true,
                     "type": {
                         "model": "Account"
@@ -479,7 +444,7 @@ export const schema = {
                     "isArrayNullable": true,
                     "association": {
                         "connectionType": "HAS_MANY",
-                        "associatedWith": "accountAkaId"
+                        "associatedWith": "accountAliasesId"
                     }
                 },
                 "createdAt": {
@@ -498,8 +463,8 @@ export const schema = {
                     "attributes": [],
                     "isReadOnly": true
                 },
-                "accountAkaId": {
-                    "name": "accountAkaId",
+                "accountAliasesId": {
+                    "name": "accountAliasesId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -512,6 +477,14 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "id"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -636,15 +609,6 @@ export const schema = {
         }
     },
     "enums": {
-        "Platform": {
-            "name": "Platform",
-            "values": [
-                "MARKETPLACE",
-                "OFFERUP",
-                "CRAIGSLIST",
-                "OTHER"
-            ]
-        },
         "AdvertisementStatus": {
             "name": "AdvertisementStatus",
             "values": [
@@ -669,8 +633,30 @@ export const schema = {
                 "MATCHED",
                 "MISMATCHED"
             ]
+        },
+        "AdvertisementPlatform": {
+            "name": "AdvertisementPlatform",
+            "values": [
+                "MARKETPLACE",
+                "OFFERUP",
+                "CRAIGSLIST",
+                "PROSCLOSET",
+                "EBAY",
+                "OTHER"
+            ]
+        },
+        "TheftPlatform": {
+            "name": "TheftPlatform",
+            "values": [
+                "FACEBOOK",
+                "BIKEINDEX",
+                "PROJECT529",
+                "NCIC",
+                "OTHER"
+            ]
         }
     },
     "nonModels": {},
-    "version": "e68270ea2f939e4d6c2abad537257dc0"
+    "codegenVersion": "3.2.0",
+    "version": "428634cbcafd8d9cf58764d10349eae6"
 };

@@ -1,0 +1,15 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-stolencyclesamplify-main-154555-authRole",
+      "UnauthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencyclesamplify-main-154555-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencyclesamplify-main-154555-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-stolencyclesamplify-main-154555-deployment",
+      "UnauthRoleName": "amplify-stolencyclesamplify-main-154555-unauthRole",
+      "StackName": "amplify-stolencyclesamplify-main-154555",
+      "StackId": "arn:aws:cloudformation:us-east-1:216407560218:stack/amplify-stolencyclesamplify-main-154555/b27f13b0-5313-11ed-950d-0e50ef923d43",
+      "AmplifyAppId": "d1wf0hfh429930"
+    }
+  }
+}

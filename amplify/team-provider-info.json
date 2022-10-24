@@ -1,36 +1,36 @@
 {
-  "dev": {
+  "main": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-stolencycles-amplify-dev-94859-authRole",
-      "UnauthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-amplify-dev-94859-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-amplify-dev-94859-authRole",
+      "AuthRoleName": "amplify-stolencycles-main-160247-authRole",
+      "UnauthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-main-160247-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-main-160247-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-stolencycles-amplify-dev-94859-deployment",
-      "UnauthRoleName": "amplify-stolencycles-amplify-dev-94859-unauthRole",
-      "StackName": "amplify-stolencycles-amplify-dev-94859",
-      "StackId": "arn:aws:cloudformation:us-east-1:216407560218:stack/amplify-stolencycles-amplify-dev-94859/009b7c10-4ef4-11ed-80dc-12b75a536ae7",
-      "AmplifyAppId": "d32puiojk2l8vk"
+      "DeploymentBucketName": "amplify-stolencycles-main-160247-deployment",
+      "UnauthRoleName": "amplify-stolencycles-main-160247-unauthRole",
+      "StackName": "amplify-stolencycles-main-160247",
+      "StackId": "arn:aws:cloudformation:us-east-1:216407560218:stack/amplify-stolencycles-main-160247/0d748780-5316-11ed-9143-0ead4def83c5",
+      "AmplifyAppId": "d2ujzmmwgg63s8"
     },
     "categories": {
-      "api": {
-        "amplifyDatasource": {},
-        "scrape": {}
-      },
       "function": {
-        "stolencyclesamplifydataAccess": {
-          "deploymentBucketName": "amplify-stolencycles-amplify-dev-94859-deployment",
-          "s3Key": "amplify-builds/stolencyclesamplifydataAccess-LambdaLayerVersion45a6c81a-build.zip"
-        },
         "scrape": {
-          "deploymentBucketName": "amplify-stolencycles-amplify-dev-94859-deployment",
-          "s3Key": "amplify-builds/scrape-52544f654d432f376445-build.zip"
+          "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
+          "s3Key": "amplify-builds/scrape-4234447346776f656c70-build.zip"
+        },
+        "stolencyclesdataaccess": {
+          "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
+          "s3Key": "amplify-builds/stolencyclesdataaccess-LambdaLayerVersion62872989-build.zip"
         }
       },
       "hosting": {
         "amplifyhosting": {
-          "appId": "d32puiojk2l8vk",
+          "appId": "d2ujzmmwgg63s8",
           "type": "manual"
         }
+      },
+      "api": {
+        "scrape": {},
+        "stolencycles": {}
       }
     }
   }

@@ -14,8 +14,6 @@ export const createAdvertisement = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       postDate
@@ -41,8 +39,6 @@ export const updateAdvertisement = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       postDate
@@ -68,8 +64,6 @@ export const deleteAdvertisement = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       postDate
@@ -94,8 +88,6 @@ export const createTheft = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       location
@@ -121,8 +113,6 @@ export const updateTheft = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       location
@@ -148,8 +138,6 @@ export const deleteTheft = /* GraphQL */ `
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       location
@@ -171,7 +159,6 @@ export const createColor = /* GraphQL */ `
     createColor(input: $input, condition: $condition) {
       name
       rgb
-      id
       createdAt
       updatedAt
       _version
@@ -188,7 +175,6 @@ export const updateColor = /* GraphQL */ `
     updateColor(input: $input, condition: $condition) {
       name
       rgb
-      id
       createdAt
       updatedAt
       _version
@@ -205,7 +191,6 @@ export const deleteColor = /* GraphQL */ `
     deleteColor(input: $input, condition: $condition) {
       name
       rgb
-      id
       createdAt
       updatedAt
       _version
@@ -269,11 +254,9 @@ export const createAccount = /* GraphQL */ `
   ) {
     createAccount(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       images
       name
-      aka {
+      aliases {
         nextToken
         startedAt
       }
@@ -282,7 +265,7 @@ export const createAccount = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      accountAkaId
+      accountAliasesId
     }
   }
 `;
@@ -293,11 +276,9 @@ export const updateAccount = /* GraphQL */ `
   ) {
     updateAccount(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       images
       name
-      aka {
+      aliases {
         nextToken
         startedAt
       }
@@ -306,7 +287,7 @@ export const updateAccount = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      accountAkaId
+      accountAliasesId
     }
   }
 `;
@@ -317,11 +298,9 @@ export const deleteAccount = /* GraphQL */ `
   ) {
     deleteAccount(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       images
       name
-      aka {
+      aliases {
         nextToken
         startedAt
       }
@@ -330,7 +309,7 @@ export const deleteAccount = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      accountAkaId
+      accountAliasesId
     }
   }
 `;
@@ -349,8 +328,6 @@ export const createMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -368,8 +345,6 @@ export const createMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location
@@ -407,8 +382,6 @@ export const updateMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -426,8 +399,6 @@ export const updateMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location
@@ -465,8 +436,6 @@ export const deleteMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         postDate
@@ -484,8 +453,6 @@ export const deleteMatch = /* GraphQL */ `
         model
         brand
         color
-        platformName
-        platformId
         images
         status
         location

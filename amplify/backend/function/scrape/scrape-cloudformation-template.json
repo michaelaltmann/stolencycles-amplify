@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"10.2.3\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"10.3.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -16,21 +16,17 @@
     "s3Key": {
       "Type": "String"
     },
-    "functionstolencyclesamplifydataAccessArn": {
+    "apistolencyclesGraphQLAPIIdOutput": {
       "Type": "String",
-      "Default": "functionstolencyclesamplifydataAccessArn"
+      "Default": "apistolencyclesGraphQLAPIIdOutput"
     },
-    "apiamplifyDatasourceGraphQLAPIIdOutput": {
+    "apistolencyclesGraphQLAPIEndpointOutput": {
       "Type": "String",
-      "Default": "apiamplifyDatasourceGraphQLAPIIdOutput"
+      "Default": "apistolencyclesGraphQLAPIEndpointOutput"
     },
-    "apiamplifyDatasourceGraphQLAPIEndpointOutput": {
+    "apistolencyclesGraphQLAPIKeyOutput": {
       "Type": "String",
-      "Default": "apiamplifyDatasourceGraphQLAPIEndpointOutput"
-    },
-    "apiamplifyDatasourceGraphQLAPIKeyOutput": {
-      "Type": "String",
-      "Default": "apiamplifyDatasourceGraphQLAPIKeyOutput"
+      "Default": "apistolencyclesGraphQLAPIKeyOutput"
     }
   },
   "Conditions": {
@@ -86,14 +82,14 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "API_AMPLIFYDATASOURCE_GRAPHQLAPIIDOUTPUT": {
-              "Ref": "apiamplifyDatasourceGraphQLAPIIdOutput"
+            "API_STOLENCYCLES_GRAPHQLAPIIDOUTPUT": {
+              "Ref": "apistolencyclesGraphQLAPIIdOutput"
             },
-            "API_AMPLIFYDATASOURCE_GRAPHQLAPIENDPOINTOUTPUT": {
-              "Ref": "apiamplifyDatasourceGraphQLAPIEndpointOutput"
+            "API_STOLENCYCLES_GRAPHQLAPIENDPOINTOUTPUT": {
+              "Ref": "apistolencyclesGraphQLAPIEndpointOutput"
             },
-            "API_AMPLIFYDATASOURCE_GRAPHQLAPIKEYOUTPUT": {
-              "Ref": "apiamplifyDatasourceGraphQLAPIKeyOutput"
+            "API_STOLENCYCLES_GRAPHQLAPIKEYOUTPUT": {
+              "Ref": "apistolencyclesGraphQLAPIKeyOutput"
             }
           }
         },
@@ -104,11 +100,7 @@
           ]
         },
         "Runtime": "nodejs14.x",
-        "Layers": [
-          {
-            "Ref": "functionstolencyclesamplifydataAccessArn"
-          }
-        ],
+        "Layers": [],
         "Timeout": 25
       }
     },
@@ -118,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "stolencyclesamplifyLambdaRole0bdc6b9c",
+            "stolencyclesLambdaRoleac975a8b",
             {
               "Fn::Join": [
                 "",
                 [
-                  "stolencyclesamplifyLambdaRole0bdc6b9c",
+                  "stolencyclesLambdaRoleac975a8b",
                   "-",
                   {
                     "Ref": "env"
@@ -229,7 +221,7 @@
                       },
                       ":apis/",
                       {
-                        "Ref": "apiamplifyDatasourceGraphQLAPIIdOutput"
+                        "Ref": "apistolencyclesGraphQLAPIIdOutput"
                       },
                       "/types/Query/*"
                     ]
@@ -249,7 +241,7 @@
                       },
                       ":apis/",
                       {
-                        "Ref": "apiamplifyDatasourceGraphQLAPIIdOutput"
+                        "Ref": "apistolencyclesGraphQLAPIIdOutput"
                       },
                       "/types/Mutation/*"
                     ]
@@ -269,7 +261,7 @@
                       },
                       ":apis/",
                       {
-                        "Ref": "apiamplifyDatasourceGraphQLAPIIdOutput"
+                        "Ref": "apistolencyclesGraphQLAPIIdOutput"
                       },
                       "/types/Subscription/*"
                     ]

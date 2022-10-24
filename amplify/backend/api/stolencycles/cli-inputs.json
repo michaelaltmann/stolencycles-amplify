@@ -1,19 +1,16 @@
 {
   "version": 1,
   "serviceConfiguration": {
+    "apiName": "stolencycles",
     "serviceName": "AppSync",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 30,
-      "apiKeyExpirationDate": "2022-11-20T02:45:47.485Z",
-      "keyDescription": "devkey"
+      "expirationTime": 7
     },
     "conflictResolution": {
       "defaultResolutionStrategy": {
         "type": "AUTOMERGE"
       }
-    },
-    "apiName": "amplifyDatasource",
-    "additionalAuthTypes": []
+    }
   }
 }

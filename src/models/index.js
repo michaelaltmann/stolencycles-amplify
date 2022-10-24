@@ -2,13 +2,6 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
-const Platform = {
-  "MARKETPLACE": "MARKETPLACE",
-  "OFFERUP": "OFFERUP",
-  "CRAIGSLIST": "CRAIGSLIST",
-  "OTHER": "OTHER"
-};
-
 const AdvertisementStatus = {
   "UNREVIEWED": "UNREVIEWED",
   "REVIEWED": "REVIEWED",
@@ -28,6 +21,23 @@ const MatchStatus = {
   "MISMATCHED": "MISMATCHED"
 };
 
+const AdvertisementPlatform = {
+  "MARKETPLACE": "MARKETPLACE",
+  "OFFERUP": "OFFERUP",
+  "CRAIGSLIST": "CRAIGSLIST",
+  "PROSCLOSET": "PROSCLOSET",
+  "EBAY": "EBAY",
+  "OTHER": "OTHER"
+};
+
+const TheftPlatform = {
+  "FACEBOOK": "FACEBOOK",
+  "BIKEINDEX": "BIKEINDEX",
+  "PROJECT529": "PROJECT529",
+  "NCIC": "NCIC",
+  "OTHER": "OTHER"
+};
+
 const { Advertisement, Theft, Color, Brand, Account, Match } = initSchema(schema);
 
 export {
@@ -37,8 +47,9 @@ export {
   Brand,
   Account,
   Match,
-  Platform,
   AdvertisementStatus,
   TheftStatus,
-  MatchStatus
+  MatchStatus,
+  AdvertisementPlatform,
+  TheftPlatform
 };

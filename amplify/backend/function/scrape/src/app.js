@@ -1,7 +1,7 @@
 /* Amplify Params - DO NOT EDIT
-  API_AMPLIFYDATASOURCE_GRAPHQLAPIENDPOINTOUTPUT
-  API_AMPLIFYDATASOURCE_GRAPHQLAPIIDOUTPUT
-  API_AMPLIFYDATASOURCE_GRAPHQLAPIKEYOUTPUT
+  API_STOLENCYCLES_GRAPHQLAPIENDPOINTOUTPUT
+  API_STOLENCYCLES_GRAPHQLAPIIDOUTPUT
+  API_STOLENCYCLES_GRAPHQLAPIKEYOUTPUT
   ENV
   REGION
 Amplify Params - DO NOT EDIT *//*
@@ -18,8 +18,8 @@ See the License for the specific language governing permissions and limitations 
 const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
-const GRAPHQL_ENDPOINT = process.env.API_AMPLIFYDATASOURCE_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_AMPLIFYDATASOURCE_GRAPHQLAPIKEYOUTPUT;
+const GRAPHQL_ENDPOINT = process.env.API_STOLENCYCLES_GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_API_KEY = process.env.API_STOLENCYCLES_GRAPHQLAPIKEYOUTPUT;
 
 const fetch = require('node-fetch-commonjs');
 
@@ -54,11 +54,11 @@ app.get('/ping', function (req, res) {
 app.post('/marketplace', async function (req, res) {
   const now = new Date()
   const advertisement = {
-    platformName: "MARKETPLACE",
-    platformId: Math.round(1000 * Math.random()).toString(),
+    id: "MARKETPLACE#" + Math.round(1000 * Math.random()).toString(),
     brand: "Fake",
     status: "UNREVIEWED",
     title: "Scraped",
+    color: "BLUE",
     description: "scraped at " + now.toLocaleString(),
     postDate: now.toISOString()
   }
@@ -76,8 +76,6 @@ app.post('/marketplace', async function (req, res) {
       model
       brand
       color
-      platformName
-      platformId
       images
       status
       postDate
@@ -109,6 +107,7 @@ app.post('/marketplace', async function (req, res) {
   try {
     response = await fetch(request);
     body = await response.json();
+    console.log("GraphQL responded with " + JSON.stringify(body))
 
     if (body.errors) statusCode = 400;
   } catch (error) {

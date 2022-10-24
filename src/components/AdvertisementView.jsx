@@ -15,10 +15,10 @@ import {
 import Autocomplete from "@mui/material/Autocomplete";
 import React, { useEffect, useState } from "react";
 import { CirclePicker } from "react-color";
-import { Advertisement, AdvertisementStatus, Color, Platform } from "../models";
+import { AdvertisementPlatform, AdvertisementStatus } from "../models";
 import API from "@aws-amplify/api";
-import { listColors } from "../graphql/queries";
 import { updateAdvertisement } from "../graphql/mutations";
+import { colors } from "../Colors";
 
 const classes = {
   card: {
@@ -42,28 +42,22 @@ const classes = {
   },
 };
 
+function unpackId(id) {
+  const pattern = /(\a*)#(.*)/;
+  const match = pattern.exec(id);
+  if (match) {
+    return [match[1], match[2]];
+  } else {
+    return [AdvertisementPlatform.OTHER, id];
+  }
+}
+function packId(platformName, platformId) {
+  return platformName + "#" + platformId;
+}
 const AdvertisementView = (props) => {
   const [advertisement, setAdvertisement] = useState(props.item);
   const [modified, setModified] = useState(false);
-  const [colors, setColors] = useState(null);
 
-  useEffect(() => {
-    if (!colors) {
-      const f = async () => {
-        try {
-          const {
-            data: {
-              listColors: { items },
-            },
-          } = await API.graphql({ query: listColors });
-          setColors(items);
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      f();
-    }
-  });
   const {
     id,
     title,
@@ -72,13 +66,12 @@ const AdvertisementView = (props) => {
     model,
     color,
     images,
-    platformName,
-    platformId,
     postDate,
     seller,
     status,
     aliasId,
   } = advertisement;
+  const [platformName, platformId] = unpackId(id);
   const brand = guessBrand();
   const imageUrl = getImageUrl(images);
   const postDateText = postDate
@@ -116,9 +109,9 @@ const AdvertisementView = (props) => {
   }
   function platformUrl() {
     switch (platformName) {
-      case Platform.OFFERUP:
+      case AdvertisementPlatform.OFFERUP:
         return "https://offerup.com/item/detail/" + platformId;
-      case Platform.MARKETPLACE:
+      case AdvertisementPlatform.MARKETPLACE:
         return "https://www.facebook.com/marketplace/item/" + platformId;
     }
     return null;

@@ -1,6 +1,6 @@
 projects:
-  amplifyDatasource:
-    schemaPath: amplify/backend/api/amplifyDatasource/build/schema.graphql
+  stolencycles:
+    schemaPath: amplify/backend/api/stolencycles/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:
