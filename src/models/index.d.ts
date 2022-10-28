@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
 export enum AdvertisementStatus {
   UNREVIEWED = "UNREVIEWED",
@@ -27,6 +27,7 @@ export enum AdvertisementPlatform {
   OFFERUP = "OFFERUP",
   CRAIGSLIST = "CRAIGSLIST",
   PROSCLOSET = "PROSCLOSET",
+  NEXTDOOR = "NEXTDOOR",
   EBAY = "EBAY",
   OTHER = "OTHER"
 }
@@ -43,11 +44,15 @@ type AdvertisementMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type TheftMetaData = {
+type SellerMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type ColorMetaData = {
+type SellerAliasMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
+type TheftMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
@@ -66,33 +71,39 @@ type MatchMetaData = {
 type EagerAdvertisement = {
   readonly id: string;
   readonly title: string;
+  readonly url?: string | null;
   readonly price?: number | null;
   readonly description?: string | null;
   readonly model?: string | null;
   readonly brand?: string | null;
   readonly color?: string | null;
   readonly images?: string | null;
+  readonly seller?: Seller | null;
   readonly status?: AdvertisementStatus | keyof typeof AdvertisementStatus | null;
   readonly postDate?: string | null;
   readonly sortOrder?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly advertisementSellerId?: string | null;
 }
 
 type LazyAdvertisement = {
   readonly id: string;
   readonly title: string;
+  readonly url?: string | null;
   readonly price?: number | null;
   readonly description?: string | null;
   readonly model?: string | null;
   readonly brand?: string | null;
   readonly color?: string | null;
   readonly images?: string | null;
+  readonly seller: AsyncItem<Seller | undefined>;
   readonly status?: AdvertisementStatus | keyof typeof AdvertisementStatus | null;
   readonly postDate?: string | null;
   readonly sortOrder?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
+  readonly advertisementSellerId?: string | null;
 }
 
 export declare type Advertisement = LazyLoading extends LazyLoadingDisabled ? EagerAdvertisement : LazyAdvertisement
@@ -101,9 +112,62 @@ export declare const Advertisement: (new (init: ModelInit<Advertisement, Adverti
   copyOf(source: Advertisement, mutator: (draft: MutableModel<Advertisement, AdvertisementMetaData>) => MutableModel<Advertisement, AdvertisementMetaData> | void): Advertisement;
 }
 
+type EagerSeller = {
+  readonly id: string;
+  readonly url?: string | null;
+  readonly name?: string | null;
+  readonly images?: string | null;
+  readonly notes?: string | null;
+  readonly aliasesAsFirstSeller?: (SellerAlias | null)[] | null;
+  readonly aliasesAsSecondSeller?: (SellerAlias | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySeller = {
+  readonly id: string;
+  readonly url?: string | null;
+  readonly name?: string | null;
+  readonly images?: string | null;
+  readonly notes?: string | null;
+  readonly aliasesAsFirstSeller: AsyncCollection<SellerAlias>;
+  readonly aliasesAsSecondSeller: AsyncCollection<SellerAlias>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Seller = LazyLoading extends LazyLoadingDisabled ? EagerSeller : LazySeller
+
+export declare const Seller: (new (init: ModelInit<Seller, SellerMetaData>) => Seller) & {
+  copyOf(source: Seller, mutator: (draft: MutableModel<Seller, SellerMetaData>) => MutableModel<Seller, SellerMetaData> | void): Seller;
+}
+
+type EagerSellerAlias = {
+  readonly id: string;
+  readonly firstSeller?: Seller | null;
+  readonly secondSeller?: Seller | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazySellerAlias = {
+  readonly id: string;
+  readonly firstSeller: AsyncItem<Seller | undefined>;
+  readonly secondSeller: AsyncItem<Seller | undefined>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type SellerAlias = LazyLoading extends LazyLoadingDisabled ? EagerSellerAlias : LazySellerAlias
+
+export declare const SellerAlias: (new (init: ModelInit<SellerAlias, SellerAliasMetaData>) => SellerAlias) & {
+  copyOf(source: SellerAlias, mutator: (draft: MutableModel<SellerAlias, SellerAliasMetaData>) => MutableModel<SellerAlias, SellerAliasMetaData> | void): SellerAlias;
+}
+
 type EagerTheft = {
   readonly id: string;
   readonly title: string;
+  readonly url?: string | null;
   readonly description?: string | null;
   readonly model?: string | null;
   readonly brand?: string | null;
@@ -120,6 +184,7 @@ type EagerTheft = {
 type LazyTheft = {
   readonly id: string;
   readonly title: string;
+  readonly url?: string | null;
   readonly description?: string | null;
   readonly model?: string | null;
   readonly brand?: string | null;
@@ -137,28 +202,6 @@ export declare type Theft = LazyLoading extends LazyLoadingDisabled ? EagerTheft
 
 export declare const Theft: (new (init: ModelInit<Theft, TheftMetaData>) => Theft) & {
   copyOf(source: Theft, mutator: (draft: MutableModel<Theft, TheftMetaData>) => MutableModel<Theft, TheftMetaData> | void): Theft;
-}
-
-type EagerColor = {
-  readonly id: string;
-  readonly name: string;
-  readonly rgb: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyColor = {
-  readonly id: string;
-  readonly name: string;
-  readonly rgb: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Color = LazyLoading extends LazyLoadingDisabled ? EagerColor : LazyColor
-
-export declare const Color: (new (init: ModelInit<Color, ColorMetaData>) => Color) & {
-  copyOf(source: Color, mutator: (draft: MutableModel<Color, ColorMetaData>) => MutableModel<Color, ColorMetaData> | void): Color;
 }
 
 type EagerBrand = {

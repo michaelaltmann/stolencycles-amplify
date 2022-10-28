@@ -27,6 +27,7 @@ const AdvertisementPlatform = {
   "OFFERUP": "OFFERUP",
   "CRAIGSLIST": "CRAIGSLIST",
   "PROSCLOSET": "PROSCLOSET",
+  "NEXTDOOR": "NEXTDOOR",
   "EBAY": "EBAY",
   "OTHER": "OTHER"
 };
@@ -39,12 +40,13 @@ const TheftPlatform = {
   "OTHER": "OTHER"
 };
 
-const { Advertisement, Theft, Color, Brand, Account, Match } = initSchema(schema);
+const { Advertisement, Seller, SellerAlias, Theft, Brand, Account, Match } = initSchema(schema);
 
 export {
   Advertisement,
+  Seller,
+  SellerAlias,
   Theft,
-  Color,
   Brand,
   Account,
   Match,

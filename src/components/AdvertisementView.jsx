@@ -49,9 +49,7 @@ function unpackId(id) {
     return [AdvertisementPlatform.OTHER, id];
   }
 }
-function packId(platformName, platformId) {
-  return platformName + "#" + platformId;
-}
+
 const AdvertisementView = (props) => {
   const [advertisement, setAdvertisement] = useState(props.item);
   const [modified, setModified] = useState(false);
@@ -59,6 +57,7 @@ const AdvertisementView = (props) => {
   const {
     id,
     title,
+    url,
     description,
     price,
     model,
@@ -94,15 +93,17 @@ const AdvertisementView = (props) => {
   ]);
   const cardClass =
     brand && color && !modified ? classes.reviewed : classes.card;
-
+  const listingUrl = url ? url : platformUrl();
   const notificationRef = React.createRef();
 
   function getImageUrl(imagesString) {
     if (!imagesString) {
-      return null;
+      return "/images/bicycle-drawing.png";
     } else {
       const images = JSON.parse(imagesString);
-      return images && images.length > 0 ? images[0] : null;
+      return images && images.length > 0
+        ? images[0]
+        : "/images/bicycle-drawing.png";
     }
   }
   function platformUrl() {
@@ -158,8 +159,7 @@ const AdvertisementView = (props) => {
     return null;
   }
   function handleViewAdvertisement() {
-    const url = platformUrl();
-    window.open(url, "_blank", "width=800,height=600");
+    window.open(listingUrl, "_blank", "width=800,height=600");
   }
 
   function handleChange(e) {

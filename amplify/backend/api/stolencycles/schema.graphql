@@ -1,12 +1,14 @@
 type Advertisement @model @auth(rules: [{ allow: public }]) {
   id: String! @primaryKey
   title: String!
+  url: String
   price: Float
   description: String
   model: String
   brand: String
   color: String
   images: AWSJSON
+  seller: Seller @hasOne
   status: AdvertisementStatus
     @index(
       name: "advertisementsByStatusPostDateId"
@@ -20,6 +22,7 @@ type Advertisement @model @auth(rules: [{ allow: public }]) {
 type Theft @model @auth(rules: [{ allow: public }]) {
   id: String! @primaryKey
   title: String!
+  url: String
   description: String
   model: String
   brand: String
@@ -31,12 +34,30 @@ type Theft @model @auth(rules: [{ allow: public }]) {
   sortOrder: String
 }
 
-type Color @model @auth(rules: [{ allow: public }]) {
-  name: String!
-  rgb: String! @primaryKey
+type Seller @model @auth(rules: [{ allow: public }]) {
+  id: String! @primaryKey
+  url: String
+  name: String
+  images: AWSJSON
+  notes: String
+  aliasesAsFirstSeller: [SellerAlias]
+    @hasMany(indexName: "byFirstSellerIndex", fields: ["id"])
+  aliasesAsSecondSeller: [SellerAlias]
+    @hasMany(indexName: "byFirstSellerIndex", fields: ["id"])
+}
+
+type SellerAlias @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  firstSellerId: String!
+    @index(name: "byFirstSellerIndex", sortKeyFields: ["secondSellerId"])
+  firstSeller: Seller @belongsTo(fields: ["firstSellerId"])
+  secondSellerId: String!
+    @index(name: "bySecondSellerIndex", sortKeyFields: ["firstSellerId"])
+  secondSeller: Seller @belongsTo(fields: ["secondSellerId"])
 }
 
 type Brand @model @auth(rules: [{ allow: public }]) {
+  id: ID!
   name: String!
 }
 
@@ -59,6 +80,7 @@ enum AdvertisementPlatform {
   OFFERUP
   CRAIGSLIST
   PROSCLOSET
+  NEXTDOOR
   EBAY
   OTHER
 }

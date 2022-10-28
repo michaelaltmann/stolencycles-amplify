@@ -9,12 +9,25 @@ export const createAdvertisement = /* GraphQL */ `
     createAdvertisement(input: $input, condition: $condition) {
       id
       title
+      url
       price
       description
       model
       brand
       color
       images
+      seller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       status
       postDate
       sortOrder
@@ -23,6 +36,7 @@ export const createAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      advertisementSellerId
     }
   }
 `;
@@ -34,12 +48,25 @@ export const updateAdvertisement = /* GraphQL */ `
     updateAdvertisement(input: $input, condition: $condition) {
       id
       title
+      url
       price
       description
       model
       brand
       color
       images
+      seller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       status
       postDate
       sortOrder
@@ -48,6 +75,7 @@ export const updateAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      advertisementSellerId
     }
   }
 `;
@@ -59,12 +87,25 @@ export const deleteAdvertisement = /* GraphQL */ `
     deleteAdvertisement(input: $input, condition: $condition) {
       id
       title
+      url
       price
       description
       model
       brand
       color
       images
+      seller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       status
       postDate
       sortOrder
@@ -73,6 +114,7 @@ export const deleteAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      advertisementSellerId
     }
   }
 `;
@@ -84,6 +126,7 @@ export const createTheft = /* GraphQL */ `
     createTheft(input: $input, condition: $condition) {
       id
       title
+      url
       description
       model
       brand
@@ -109,6 +152,7 @@ export const updateTheft = /* GraphQL */ `
     updateTheft(input: $input, condition: $condition) {
       id
       title
+      url
       description
       model
       brand
@@ -134,6 +178,7 @@ export const deleteTheft = /* GraphQL */ `
     deleteTheft(input: $input, condition: $condition) {
       id
       title
+      url
       description
       model
       brand
@@ -151,14 +196,25 @@ export const deleteTheft = /* GraphQL */ `
     }
   }
 `;
-export const createColor = /* GraphQL */ `
-  mutation CreateColor(
-    $input: CreateColorInput!
-    $condition: ModelColorConditionInput
+export const createSeller = /* GraphQL */ `
+  mutation CreateSeller(
+    $input: CreateSellerInput!
+    $condition: ModelSellerConditionInput
   ) {
-    createColor(input: $input, condition: $condition) {
+    createSeller(input: $input, condition: $condition) {
+      id
+      url
       name
-      rgb
+      images
+      notes
+      aliasesAsFirstSeller {
+        nextToken
+        startedAt
+      }
+      aliasesAsSecondSeller {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -167,14 +223,25 @@ export const createColor = /* GraphQL */ `
     }
   }
 `;
-export const updateColor = /* GraphQL */ `
-  mutation UpdateColor(
-    $input: UpdateColorInput!
-    $condition: ModelColorConditionInput
+export const updateSeller = /* GraphQL */ `
+  mutation UpdateSeller(
+    $input: UpdateSellerInput!
+    $condition: ModelSellerConditionInput
   ) {
-    updateColor(input: $input, condition: $condition) {
+    updateSeller(input: $input, condition: $condition) {
+      id
+      url
       name
-      rgb
+      images
+      notes
+      aliasesAsFirstSeller {
+        nextToken
+        startedAt
+      }
+      aliasesAsSecondSeller {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -183,14 +250,148 @@ export const updateColor = /* GraphQL */ `
     }
   }
 `;
-export const deleteColor = /* GraphQL */ `
-  mutation DeleteColor(
-    $input: DeleteColorInput!
-    $condition: ModelColorConditionInput
+export const deleteSeller = /* GraphQL */ `
+  mutation DeleteSeller(
+    $input: DeleteSellerInput!
+    $condition: ModelSellerConditionInput
   ) {
-    deleteColor(input: $input, condition: $condition) {
+    deleteSeller(input: $input, condition: $condition) {
+      id
+      url
       name
-      rgb
+      images
+      notes
+      aliasesAsFirstSeller {
+        nextToken
+        startedAt
+      }
+      aliasesAsSecondSeller {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createSellerAlias = /* GraphQL */ `
+  mutation CreateSellerAlias(
+    $input: CreateSellerAliasInput!
+    $condition: ModelSellerAliasConditionInput
+  ) {
+    createSellerAlias(input: $input, condition: $condition) {
+      id
+      firstSellerId
+      firstSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      secondSellerId
+      secondSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateSellerAlias = /* GraphQL */ `
+  mutation UpdateSellerAlias(
+    $input: UpdateSellerAliasInput!
+    $condition: ModelSellerAliasConditionInput
+  ) {
+    updateSellerAlias(input: $input, condition: $condition) {
+      id
+      firstSellerId
+      firstSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      secondSellerId
+      secondSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteSellerAlias = /* GraphQL */ `
+  mutation DeleteSellerAlias(
+    $input: DeleteSellerAliasInput!
+    $condition: ModelSellerAliasConditionInput
+  ) {
+    deleteSellerAlias(input: $input, condition: $condition) {
+      id
+      firstSellerId
+      firstSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      secondSellerId
+      secondSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -205,8 +406,8 @@ export const createBrand = /* GraphQL */ `
     $condition: ModelBrandConditionInput
   ) {
     createBrand(input: $input, condition: $condition) {
-      name
       id
+      name
       createdAt
       updatedAt
       _version
@@ -221,8 +422,8 @@ export const updateBrand = /* GraphQL */ `
     $condition: ModelBrandConditionInput
   ) {
     updateBrand(input: $input, condition: $condition) {
-      name
       id
+      name
       createdAt
       updatedAt
       _version
@@ -237,8 +438,8 @@ export const deleteBrand = /* GraphQL */ `
     $condition: ModelBrandConditionInput
   ) {
     deleteBrand(input: $input, condition: $condition) {
-      name
       id
+      name
       createdAt
       updatedAt
       _version
@@ -323,6 +524,7 @@ export const createMatch = /* GraphQL */ `
       advertisement {
         id
         title
+        url
         price
         description
         model
@@ -337,10 +539,12 @@ export const createMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       theft {
         id
         title
+        url
         description
         model
         brand
@@ -377,6 +581,7 @@ export const updateMatch = /* GraphQL */ `
       advertisement {
         id
         title
+        url
         price
         description
         model
@@ -391,10 +596,12 @@ export const updateMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       theft {
         id
         title
+        url
         description
         model
         brand
@@ -431,6 +638,7 @@ export const deleteMatch = /* GraphQL */ `
       advertisement {
         id
         title
+        url
         price
         description
         model
@@ -445,10 +653,12 @@ export const deleteMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       theft {
         id
         title
+        url
         description
         model
         brand

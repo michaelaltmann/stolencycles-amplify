@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DataStore, Predicates } from "@aws-amplify/datastore";
-import { Advertisement, AdvertisementStatus } from "../models";
+import {
+  Advertisement,
+  AdvertisementPlatform,
+  AdvertisementStatus,
+} from "../models";
 import AdvertisementView from "../components/AdvertisementView";
 import { Button, Dialog, Grid, Stack, TextField } from "@mui/material";
 import { Container } from "@mui/system";
@@ -14,56 +18,76 @@ import {
   onCreateAdvertisement,
 } from "../graphql/subscriptions";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
+import { CommentsDisabledOutlined } from "@mui/icons-material";
 function AdvertisementForm(props) {
-  const { item, open } = props;
+  const { item, open, onClose } = props;
   const initialState = { title: "", status: AdvertisementStatus.UNREVIEWED };
 
-  const [formState, setFormState] = useState({ initialState, ...item });
-  const [isOpen, setOpen] = useState(open);
+  const [formState, setFormState] = useState({ ...initialState, ...item });
 
   function cancelEdit() {
     setFormState(initialState);
-    setOpen(false);
+    onClose();
+  }
+  function packId(platformName, platformId) {
+    return platformName + "#" + platformId;
+  }
+  function handleUrl(url) {
+    const marketplacePattern =
+      /https:\/\/www.facebook.com\/marketplace\/item\/(\d+).*/;
+    const offerupPattern =
+      /https:\/\/offerup.com\/item\/detail\/([-A-z0-9]+).*/;
+    let matches;
+    matches = marketplacePattern.exec(url);
+    if (matches) {
+      const plattformName = AdvertisementPlatform.MARKETPLACE;
+      const platformId = matches[1];
+      const id = packId(plattformName, platformId);
+      setFormState({ ...formState, id: id });
+    } else {
+      matches = offerupPattern.exec(url);
+      if (matches) {
+        const plattformName = AdvertisementPlatform.OFFERUP;
+        const platformId = matches[1];
+        const id = packId(plattformName, platformId);
+        setFormState({ ...formState, id: id, url: url });
+      } else {
+        setFormState({ ...formState, url: url });
+      }
+    }
   }
   return (
-    <Dialog open={isOpen} onClose={cancelEdit}>
+    <Dialog open={open} onClose={cancelEdit}>
       <Container style={{ backgroundColor: "white" }}>
         <Stack>
           <TextField
-            label="platformName"
-            value={formState.platformName}
-            onChange={(e) =>
-              setFormState({ ...formState, platformName: e.target.value })
-            }
+            label="url"
+            value={formState.url || ""}
+            onChange={(e) => handleUrl(e.target.value)}
           ></TextField>
-          <TextField
-            label="platformId"
-            value={formState.platformId}
-            onChange={(e) =>
-              setFormState({ ...formState, platformId: e.target.value })
-            }
-          ></TextField>
+
           <TextField
             label="title"
-            value={formState.title}
+            value={formState.title || ""}
             onChange={(e) =>
               setFormState({ ...formState, title: e.target.value })
             }
           ></TextField>
           <TextField
             label="description"
-            value={formState.description}
+            value={formState.description || ""}
             onChange={(e) =>
               setFormState({ ...formState, description: e.target.value })
             }
           ></TextField>
           <TextField
             label="imageUrl"
-            value={formState.imageUrl}
+            value={formState.imageUrl || ""}
             onChange={(e) =>
               setFormState({ ...formState, imageUrl: e.target.value })
             }
           ></TextField>
+
           <Button onClick={cancelEdit}>Cancel</Button>
           <Button onClick={create}>Create</Button>
         </Stack>
@@ -71,16 +95,15 @@ function AdvertisementForm(props) {
     </Dialog>
   );
   async function create() {
-    if (formState.title) {
-      await DataStore.save(
-        new Advertisement({
-          ...formState,
-          imageUrl: null,
-          images: JSON.stringify(formState.imageUrl.split(/[\s,]+/)),
-        })
-      );
-      setFormState(initialState);
-    }
+    await AdvertisementRepository.create({
+      id: formState.id,
+      url: formState.url,
+      title: formState.title,
+      description: formState.description,
+      postDate: new Date().toISOString(),
+      images: JSON.stringify(formState.imageUrl.split(/[\s,]+/)),
+    });
+    setFormState(initialState);
   }
 }
 export default function Advertisements() {
@@ -136,7 +159,11 @@ export default function Advertisements() {
 
   return (
     <Stack spacing={2}>
-      <AdvertisementForm item={{}} open={displayForm} />
+      <AdvertisementForm
+        item={{}}
+        open={displayForm}
+        onClose={() => setDisplayForm(false)}
+      />
       <Grid container direction="row">
         {advertisements &&
           advertisements.map((advertisement) => {
