@@ -16,10 +16,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import React, { useEffect, useState } from "react";
 import { CirclePicker } from "react-color";
 import { AdvertisementPlatform, AdvertisementStatus } from "../models";
-import API from "@aws-amplify/api";
-import { updateAdvertisement } from "../graphql/mutations";
 import { colors } from "../Colors";
-
+import AdvertisementRepository from "../repositories/AdvertisementRepository";
 const classes = {
   card: {
     maxWidth: 325,
@@ -207,14 +205,7 @@ const AdvertisementView = (props) => {
       postDate: new Date().toISOString(),
     };
 
-    const {
-      data: { updateAdvertisement: item },
-    } = await API.graphql({
-      query: updateAdvertisement,
-      variables: {
-        input: rest,
-      },
-    });
+    const item = await AdvertisementRepository.update(rest);
     setAdvertisement(item);
     setModified(false);
   }
@@ -384,40 +375,20 @@ const AdvertisementView = (props) => {
         ) : (
           <Icon style={{ color: "lightgray" }}>person_icon</Icon>
         )}
-        {false && (
-          <Tooltip title="Shady" sx={classes.button}>
-            <Button
-              sx={classes.button}
-              size="small"
-              onClick={() => setStatus("Dirty")}
-            >
-              <Icon
-                style={{
-                  color: status === "Dirty" ? "gray" : "red",
-                  borderStyle: "solid",
-                  borderWidth: status === "Dirty" ? 1 : 0,
-                }}
-              >
-                sentiment_very_dissatisfied_icon
-              </Icon>
-            </Button>
-          </Tooltip>
-        )}
-        <Tooltip title="Legit" sx={classes.button}>
+        <Tooltip title="Flagged" sx={classes.button}>
           <Button
             sx={classes.button}
             size="small"
-            onClick={() => setStatus(AdvertisementStatus.REVIEWED)}
+            onClick={() => setStatus(AdvertisementStatus.FLAGGED)}
           >
             <Icon
               style={{
-                color:
-                  status === AdvertisementStatus.REVIEWED ? "gray" : "green",
+                color: status === AdvertisementStatus.FLAGGED ? "gray" : "red",
                 borderStyle: "solid",
-                borderWidth: status === AdvertisementStatus.REVIEWED ? 1 : 0,
+                borderWidth: status === "Dirty" ? 1 : 0,
               }}
             >
-              thumb_up_icon
+              flag_icon
             </Icon>
           </Button>
         </Tooltip>
@@ -435,11 +406,10 @@ const AdvertisementView = (props) => {
                 borderWidth: status === AdvertisementStatus.JUNK ? 1 : 0,
               }}
             >
-              toys_icon
+              delete_icon
             </Icon>
           </Button>
         </Tooltip>
-
         <Tooltip title="Sold" sx={classes.button}>
           <Button
             sx={classes.button}

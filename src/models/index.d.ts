@@ -5,6 +5,7 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@a
 export enum AdvertisementStatus {
   UNREVIEWED = "UNREVIEWED",
   REVIEWED = "REVIEWED",
+  FLAGGED = "FLAGGED",
   SOLD = "SOLD",
   JUNK = "JUNK"
 }

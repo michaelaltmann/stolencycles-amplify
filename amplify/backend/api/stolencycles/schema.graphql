@@ -73,6 +73,7 @@ enum TheftPlatform {
 enum AdvertisementStatus {
   UNREVIEWED
   REVIEWED
+  FLAGGED
   SOLD
   JUNK
 }

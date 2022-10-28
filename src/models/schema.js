@@ -614,6 +614,7 @@ export const schema = {
             "values": [
                 "UNREVIEWED",
                 "REVIEWED",
+                "FLAGGED",
                 "SOLD",
                 "JUNK"
             ]

@@ -4,11 +4,16 @@ import { Advertisement, AdvertisementStatus } from "../models";
 import AdvertisementView from "../components/AdvertisementView";
 import { Button, Dialog, Grid, Stack, TextField } from "@mui/material";
 import { Container } from "@mui/system";
-import API from "@aws-amplify/api";
+import API, { graphqlOperation } from "@aws-amplify/api";
 import {
   advertisementsByStatusPostDateId,
   listAdvertisements,
 } from "../graphql/queries";
+import {
+  onCreateAccount,
+  onCreateAdvertisement,
+} from "../graphql/subscriptions";
+import AdvertisementRepository from "../repositories/AdvertisementRepository";
 function AdvertisementForm(props) {
   const { item, open } = props;
   const initialState = { title: "", status: AdvertisementStatus.UNREVIEWED };
@@ -79,64 +84,67 @@ function AdvertisementForm(props) {
   }
 }
 export default function Advertisements() {
-  const [displayForm, setDisplayForm] = useState(true);
+  const [displayForm, setDisplayForm] = useState(false);
   const [currentToken, setCurrentToken] = useState(null);
   const [advertisements, setAdvertisements] = useState(null);
   useEffect(() => {
+    console.log("UseEffect");
+    let subscription;
     const getData = async () => {
       fetchAdvertisements();
-      const subscription = DataStore.observe(Advertisement).subscribe(() =>
-        fetchAdvertisements()
-      );
-      return () => subscription.unsubscribe();
+      subscription = await API.graphql(
+        graphqlOperation(onCreateAdvertisement)
+      ).subscribe({
+        next: ({ provider, value }) => {
+          const newAdvertisement = value.data.onCreateAdvertisement;
+          handleNewAdvertisement(newAdvertisement);
+        },
+        error: (error) => console.warn(error),
+      });
+      return () => {
+        subscription.unsubscribe();
+      };
     };
     if (!advertisements) getData();
-  }, [currentToken, advertisements]);
+    return () => {
+      if (subscription) subscription.unsubscribe();
+    };
+  }, []);
+
+  function handleNewAdvertisement(newAdvertisement) {
+    console.log(advertisements);
+    const newList = [newAdvertisement].concat(advertisements || []);
+    setAdvertisements(newList);
+  }
 
   async function fetchAdvertisements() {
     await fetchUnreviewed();
   }
   async function fetchAll() {
-    const {
-      data: {
-        listAdvertisements: { items: list, nextToken },
-      },
-    } = await API.graphql({
-      query: listAdvertisements,
-      variables: {
-        limit: 1,
-        nextToken: currentToken,
-      },
-    });
+    const { list, nextToken } = await AdvertisementRepository.list(
+      currentToken
+    );
     setCurrentToken(nextToken);
-    setAdvertisements(advertisements.concat(list));
+    setAdvertisements((advertisements || []).concat(list));
   }
-  async function fetchUnreviewed() {
-    const {
-      data: {
-        advertisementsByStatusPostDateId: { items: list, nextToken },
-      },
-    } = await API.graphql({
-      query: advertisementsByStatusPostDateId,
-      variables: {
-        status: AdvertisementStatus.UNREVIEWED,
-        limit: 1,
-        nextToken: currentToken,
-      },
-    });
 
+  async function fetchUnreviewed() {
+    const { list, nextToken } = await AdvertisementRepository.listByStatus(
+      AdvertisementStatus.UNREVIEWED,
+      currentToken
+    );
     setCurrentToken(nextToken);
     setAdvertisements((advertisements || []).concat(list));
   }
 
   async function scrape() {
-    const response = await API.post("scrape", "/marketplace");
-    console.log(response);
+    console.log(advertisements);
+    await API.post("scrape", "/marketplace");
   }
+
   return (
     <Stack spacing={2}>
       <AdvertisementForm item={{}} open={displayForm} />
-      <h3>Advertisements</h3>
       <Grid container direction="row">
         {advertisements &&
           advertisements.map((advertisement) => {
