@@ -88,34 +88,26 @@ export default function Advertisements() {
   const [currentToken, setCurrentToken] = useState(null);
   const [advertisements, setAdvertisements] = useState(null);
   useEffect(() => {
-    console.log("UseEffect");
-    let subscription;
     const getData = async () => {
-      fetchAdvertisements();
-      subscription = await API.graphql(
-        graphqlOperation(onCreateAdvertisement)
-      ).subscribe({
-        next: ({ provider, value }) => {
-          const newAdvertisement = value.data.onCreateAdvertisement;
-          handleNewAdvertisement(newAdvertisement);
-        },
-        error: (error) => console.warn(error),
-      });
-      return () => {
-        subscription.unsubscribe();
-      };
+      await fetchAdvertisements();
     };
     if (!advertisements) getData();
+
+    const subscription = API.graphql(
+      graphqlOperation(onCreateAdvertisement)
+    ).subscribe({
+      next: ({ provider, value }) => {
+        const newAdvertisement = value.data.onCreateAdvertisement;
+        setAdvertisements((ads) => {
+          return [newAdvertisement].concat(ads || []);
+        });
+      },
+      error: (error) => console.warn(error),
+    });
     return () => {
       if (subscription) subscription.unsubscribe();
     };
   }, []);
-
-  function handleNewAdvertisement(newAdvertisement) {
-    console.log(advertisements);
-    const newList = [newAdvertisement].concat(advertisements || []);
-    setAdvertisements(newList);
-  }
 
   async function fetchAdvertisements() {
     await fetchUnreviewed();

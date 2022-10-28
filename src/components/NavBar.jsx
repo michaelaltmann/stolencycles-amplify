@@ -10,6 +10,12 @@ const NavBar = () => {
           <Button color="inherit" component={Link} to="/ads">
             Ads
           </Button>
+          <Button color="inherit" component={Link} to="/thefts">
+            Thefts
+          </Button>
+          <Button color="inherit" component={Link} to="/matches">
+            Matches
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
