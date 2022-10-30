@@ -40,17 +40,7 @@ const classes = {
   },
 };
 
-function unpackId(id) {
-  const pattern = /(\a*)#(.*)/;
-  const match = pattern.exec(id);
-  if (match) {
-    return [match[1], match[2]];
-  } else {
-    return [AdvertisementPlatform.OTHER, id];
-  }
-}
-
-const AdvertisementView = (props) => {
+export function AdvertisementView(props) {
   const [advertisement, setAdvertisement] = useState(props.item);
   const [modified, setModified] = useState(false);
 
@@ -58,6 +48,8 @@ const AdvertisementView = (props) => {
     id,
     title,
     url,
+    platformName,
+    platformId,
     description,
     price,
     model,
@@ -68,7 +60,6 @@ const AdvertisementView = (props) => {
     status,
     aliasId,
   } = advertisement;
-  const [platformName, platformId] = unpackId(id);
   const brand = guessBrand();
   const imageUrl = getImageUrl(images);
   const postDateText = postDate
@@ -123,24 +114,28 @@ const AdvertisementView = (props) => {
     } else {
       var brandMap = {};
       const brands = [
-        "Cannondale",
         "Bianchi",
+        "Cannondale",
         "Diamondback",
         "Fuji",
         "Giant",
         "Jamis",
         "Liv",
         "Marin",
+        "Masi",
+        "Mongoose",
+        "RadPower",
         "Raleigh",
         "Salsa",
         "Schwinn",
         "Specialized",
         "Surly",
         "Trek",
+        "Yeti",
         "Yuba",
       ];
       brands.forEach((b) => {
-        brandMap[b.toLowerCase()] = b;
+        brandMap[b.toLowerCase().split(/s/)[0]] = b;
       });
       const words = (title || "")
         .split(/\s/)
@@ -173,10 +168,41 @@ const AdvertisementView = (props) => {
     let draft = { ...advertisement };
     draft[name] = value;
     setAdvertisement(draft);
-
     setModified(true);
   }
 
+  function handleUrlChange(e) {
+    const { value: url } = e.target;
+    const marketplacePattern =
+      /https:\/\/www.facebook.com\/marketplace\/item\/(\d+).*/;
+    const offerupPattern =
+      /https:\/\/offerup.com\/item\/detail\/([-A-z0-9]+).*/;
+    let matches;
+    matches = marketplacePattern.exec(url);
+    if (matches) {
+      const platformName = AdvertisementPlatform.MARKETPLACE;
+      const platformId = matches[1];
+      setAdvertisement({ ...advertisement, url, platformName, platformId });
+      setModified(true);
+    } else {
+      matches = offerupPattern.exec(url);
+      if (matches) {
+        const platformName = AdvertisementPlatform.OFFERUP;
+        const platformId = matches[1];
+        setAdvertisement({ ...advertisement, url, platformName, platformId });
+        setModified(true);
+      } else {
+        setAdvertisement({ ...advertisement, url, platformName, platformId });
+        setModified(true);
+      }
+    }
+  }
+  function handleImageUrlChange(e) {
+    const { value } = e.target;
+    var newImages = images ? [...images, value] : [value];
+    setAdvertisement({ ...advertisement, images: JSON.stringify(newImages) });
+    setModified(true);
+  }
   function revert() {
     setAdvertisement(props.item);
     setModified(false);
@@ -185,7 +211,6 @@ const AdvertisementView = (props) => {
 
   function setStatus(status) {
     setAdvertisement({ ...advertisement, status: status });
-
     setModified(true);
   }
   function handleColorChanged(selectedColor, e) {
@@ -200,12 +225,22 @@ const AdvertisementView = (props) => {
    * Save to the server
    */
   async function handleSubmit() {
-    const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } = {
-      ...advertisement,
-      postDate: new Date().toISOString(),
-    };
+    let item;
+    if (id) {
+      const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } = {
+        ...advertisement,
+        postDate: new Date().toISOString(),
+      };
 
-    const item = await AdvertisementRepository.update(rest);
+      item = await AdvertisementRepository.update(rest);
+    } else {
+      const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } = {
+        ...advertisement,
+        postDate: new Date().toISOString(),
+        id: id,
+      };
+      item = await AdvertisementRepository.create(rest);
+    }
     setAdvertisement(item);
     setModified(false);
   }
@@ -242,71 +277,114 @@ const AdvertisementView = (props) => {
   }
   return (
     <Card sx={cardClass} key={id}>
-      {imageUrl && (
-        <CardActionArea onClick={handleViewAdvertisement}>
-          <CardMedia
-            sx={{
-              height: 200,
-            }}
-            image={imageUrl}
+      {url ? (
+        imageUrl && (
+          <CardActionArea onClick={handleViewAdvertisement}>
+            <CardMedia
+              sx={{
+                height: 200,
+              }}
+              image={imageUrl}
+            />
+          </CardActionArea>
+        )
+      ) : (
+        <>
+          <TextField
+            name="url"
+            variant="standard"
+            value={url || ""}
+            helperText="URL"
+            onChange={handleUrlChange}
+            fullWidth
           />
-        </CardActionArea>
+          <TextField
+            name="imageUrl"
+            variant="standard"
+            value={imageUrl || ""}
+            helperText="Image URL"
+            onChange={handleImageUrlChange}
+            fullWidth
+          />
+        </>
       )}
       <CardContent
         sx={{
           alignSelf: "end",
         }}
       >
-        <form id={"advertisement-form-" + id}>
-          <Box
-            sx={{
-              fontSize: "1rem",
-              fontStyle: "italic",
-              color: "gray",
-            }}
-          >
-            {platformName} {postDateText}
-          </Box>
-          <Box
+        <Box
+          sx={{
+            fontSize: "1rem",
+            fontStyle: "italic",
+            color: "gray",
+          }}
+        >
+          {platformName} {postDateText}
+        </Box>
+        <Box
+          sx={{
+            alignContent: "space-between",
+          }}
+        >
+          <TextField
+            name="title"
             sx={{
               fontSize: "1.2rem",
               textAlign: "left",
             }}
-          >
-            {title ? title.substring(0, Math.min(title.length, 24)) : ""} $
-            {price}
-          </Box>
-          <Box
-            sx={{
-              fontSize: "12px",
-              textAlign: "left",
-            }}
-          >
-            {description
-              ? description.substring(0, Math.min(description.length, 220))
-              : ""}
-          </Box>
-
-          {renderColorSelect()}
-          <Autocomplete
-            sx={{ marginTop: "6px", marginBottom: "2px" }}
-            freeSolo
-            label="Brand"
-            value={brand || ""}
-            options={brands}
-            name="brand"
-            onChange={(e, value) => handleAutoCompleteChange("brand", value)}
-            renderInput={(params) => <TextField {...params} label="Brand" />}
-          />
-          <TextField
-            label="Model"
-            value={model || ""}
-            options={[]}
-            name="model"
-            fullWidth
+            value={title ? title.substring(0, Math.min(title.length, 24)) : ""}
+            variant="standard"
             onChange={handleChange}
-          />
-        </form>
+          ></TextField>
+          $
+          <TextField
+            name="price"
+            sx={{
+              fontSize: "1.2rem",
+              textAlign: "left",
+              width: "3em",
+            }}
+            type="number"
+            value={price || ""}
+            onChange={handleChange}
+            variant="standard"
+          ></TextField>
+        </Box>
+        <TextField
+          name="description"
+          sx={{
+            fontSize: "1.2rem",
+            textAlign: "left",
+          }}
+          fullWidth
+          value={
+            description
+              ? description.substring(0, Math.min(description.length, 220))
+              : ""
+          }
+          onChange={handleChange}
+          variant="standard"
+        ></TextField>
+        {renderColorSelect()}
+        <Autocomplete
+          sx={{ marginTop: "6px", marginBottom: "2px" }}
+          freeSolo
+          label="Brand"
+          value={brand || ""}
+          options={brands}
+          name="brand"
+          onChange={(e, value) => handleAutoCompleteChange("brand", value)}
+          renderInput={(params) => <TextField {...params} label="Brand" />}
+        />
+        <TextField
+          label="Model"
+          value={model || ""}
+          options={[]}
+          name="model"
+          fullWidth
+          onChange={handleChange}
+        />
       </CardContent>
       <CardActions
         sx={{
@@ -444,6 +522,4 @@ const AdvertisementView = (props) => {
       </CardActions>
     </Card>
   );
-};
-
-export default AdvertisementView;
+}

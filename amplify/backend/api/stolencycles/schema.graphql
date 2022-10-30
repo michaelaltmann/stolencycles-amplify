@@ -1,5 +1,8 @@
 type Advertisement @model @auth(rules: [{ allow: public }]) {
-  id: String! @primaryKey
+  id: ID! @primaryKey
+  platformName: AdvertisementPlatform
+  platformId: String
+    @index(name: "advertisementsByPlatformId", sortKeyFields: ["platformName"])
   title: String!
   url: String
   price: Float
@@ -20,7 +23,10 @@ type Advertisement @model @auth(rules: [{ allow: public }]) {
 }
 
 type Theft @model @auth(rules: [{ allow: public }]) {
-  id: String! @primaryKey
+  id: ID! @primaryKey
+  platformName: AdvertisementPlatform
+  platformId: String
+    @index(name: "theftsByPlatformId", sortKeyFields: ["platformName"])
   title: String!
   url: String
   description: String
@@ -29,6 +35,11 @@ type Theft @model @auth(rules: [{ allow: public }]) {
   color: String
   images: AWSJSON
   status: TheftStatus
+    @index(
+      name: "theftsByStatusPostDateId"
+      sortKeyFields: ["postDate", "id"]
+      queryField: "theftsByStatusPostDateId"
+    )
   location: String
   postDate: String
   sortOrder: String

@@ -2,16 +2,31 @@
 // this is an auto generated file. This will be overwritten
 
 export const getAdvertisement = /* GraphQL */ `
-  query GetAdvertisement($id: String!) {
+  query GetAdvertisement($id: ID!) {
     getAdvertisement(id: $id) {
       id
+      platformName
+      platformId
       title
+      url
       price
       description
       model
       brand
       color
       images
+      seller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       status
       postDate
       sortOrder
@@ -20,12 +35,13 @@ export const getAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      advertisementSellerId
     }
   }
 `;
 export const listAdvertisements = /* GraphQL */ `
   query ListAdvertisements(
-    $id: String
+    $id: ID
     $filter: ModelAdvertisementFilterInput
     $limit: Int
     $nextToken: String
@@ -40,7 +56,10 @@ export const listAdvertisements = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
+        url
         price
         description
         model
@@ -55,6 +74,7 @@ export const listAdvertisements = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       nextToken
       startedAt
@@ -76,7 +96,10 @@ export const syncAdvertisements = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
+        url
         price
         description
         model
@@ -91,6 +114,7 @@ export const syncAdvertisements = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       nextToken
       startedAt
@@ -98,10 +122,13 @@ export const syncAdvertisements = /* GraphQL */ `
   }
 `;
 export const getTheft = /* GraphQL */ `
-  query GetTheft($id: String!) {
+  query GetTheft($id: ID!) {
     getTheft(id: $id) {
       id
+      platformName
+      platformId
       title
+      url
       description
       model
       brand
@@ -121,7 +148,7 @@ export const getTheft = /* GraphQL */ `
 `;
 export const listThefts = /* GraphQL */ `
   query ListThefts(
-    $id: String
+    $id: ID
     $filter: ModelTheftFilterInput
     $limit: Int
     $nextToken: String
@@ -136,7 +163,10 @@ export const listThefts = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
+        url
         description
         model
         brand
@@ -172,7 +202,10 @@ export const syncThefts = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
+        url
         description
         model
         brand
@@ -193,11 +226,22 @@ export const syncThefts = /* GraphQL */ `
     }
   }
 `;
-export const getColor = /* GraphQL */ `
-  query GetColor($rgb: String!) {
-    getColor(rgb: $rgb) {
+export const getSeller = /* GraphQL */ `
+  query GetSeller($id: String!) {
+    getSeller(id: $id) {
+      id
+      url
       name
-      rgb
+      images
+      notes
+      aliasesAsFirstSeller {
+        nextToken
+        startedAt
+      }
+      aliasesAsSecondSeller {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -206,24 +250,27 @@ export const getColor = /* GraphQL */ `
     }
   }
 `;
-export const listColors = /* GraphQL */ `
-  query ListColors(
-    $rgb: String
-    $filter: ModelColorFilterInput
+export const listSellers = /* GraphQL */ `
+  query ListSellers(
+    $id: String
+    $filter: ModelSellerFilterInput
     $limit: Int
     $nextToken: String
     $sortDirection: ModelSortDirection
   ) {
-    listColors(
-      rgb: $rgb
+    listSellers(
+      id: $id
       filter: $filter
       limit: $limit
       nextToken: $nextToken
       sortDirection: $sortDirection
     ) {
       items {
+        id
+        url
         name
-        rgb
+        images
+        notes
         createdAt
         updatedAt
         _version
@@ -235,22 +282,113 @@ export const listColors = /* GraphQL */ `
     }
   }
 `;
-export const syncColors = /* GraphQL */ `
-  query SyncColors(
-    $filter: ModelColorFilterInput
+export const syncSellers = /* GraphQL */ `
+  query SyncSellers(
+    $filter: ModelSellerFilterInput
     $limit: Int
     $nextToken: String
     $lastSync: AWSTimestamp
   ) {
-    syncColors(
+    syncSellers(
       filter: $filter
       limit: $limit
       nextToken: $nextToken
       lastSync: $lastSync
     ) {
       items {
+        id
+        url
         name
-        rgb
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getSellerAlias = /* GraphQL */ `
+  query GetSellerAlias($id: ID!) {
+    getSellerAlias(id: $id) {
+      id
+      firstSellerId
+      firstSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      secondSellerId
+      secondSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listSellerAliases = /* GraphQL */ `
+  query ListSellerAliases(
+    $filter: ModelSellerAliasFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSellerAliases(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        firstSellerId
+        secondSellerId
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncSellerAliases = /* GraphQL */ `
+  query SyncSellerAliases(
+    $filter: ModelSellerAliasFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncSellerAliases(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        firstSellerId
+        secondSellerId
         createdAt
         updatedAt
         _version
@@ -265,8 +403,8 @@ export const syncColors = /* GraphQL */ `
 export const getBrand = /* GraphQL */ `
   query GetBrand($id: ID!) {
     getBrand(id: $id) {
-      name
       id
+      name
       createdAt
       updatedAt
       _version
@@ -283,8 +421,8 @@ export const listBrands = /* GraphQL */ `
   ) {
     listBrands(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        name
         id
+        name
         createdAt
         updatedAt
         _version
@@ -310,8 +448,8 @@ export const syncBrands = /* GraphQL */ `
       lastSync: $lastSync
     ) {
       items {
-        name
         id
+        name
         createdAt
         updatedAt
         _version
@@ -408,7 +546,10 @@ export const getMatch = /* GraphQL */ `
       id
       advertisement {
         id
+        platformName
+        platformId
         title
+        url
         price
         description
         model
@@ -423,10 +564,14 @@ export const getMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       theft {
         id
+        platformName
+        platformId
         title
+        url
         description
         model
         brand
@@ -524,7 +669,10 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
+        url
         price
         description
         model
@@ -532,6 +680,50 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
         color
         images
         status
+        postDate
+        sortOrder
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        advertisementSellerId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const theftsByStatusPostDateId = /* GraphQL */ `
+  query TheftsByStatusPostDateId(
+    $status: TheftStatus!
+    $postDateId: ModelTheftTheftsByStatusPostDateIdCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTheftFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    theftsByStatusPostDateId(
+      status: $status
+      postDateId: $postDateId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        platformName
+        platformId
+        title
+        url
+        description
+        model
+        brand
+        color
+        images
+        status
+        location
         postDate
         sortOrder
         createdAt

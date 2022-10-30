@@ -54,12 +54,13 @@ app.get('/ping', function (req, res) {
 app.post('/marketplace', async function (req, res) {
   const now = new Date()
   const advertisement = {
-    id: "MARKETPLACE#" + Math.round(1000 * Math.random()).toString(),
-    brand: "Fake",
+    platformName: "MARKETPLACE",
+    platformId: Math.round(1000 * Math.random()).toString(),
+    brand: "Trek",
     status: "UNREVIEWED",
-    title: "Scraped",
+    title: "Fake ad",
     color: "BLUE",
-    description: "scraped at " + now.toLocaleString(),
+    description: "This ad was scraped at " + now.toLocaleString(),
     postDate: now.toISOString()
   }
 
@@ -71,6 +72,8 @@ app.post('/marketplace', async function (req, res) {
     createAdvertisement(input: $input, condition: $condition) {
       id
       title
+      platformName
+      platformId
       price
       description
       model

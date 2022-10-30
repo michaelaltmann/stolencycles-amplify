@@ -2,9 +2,11 @@
 // this is an auto generated file. This will be overwritten
 
 export const getAdvertisement = /* GraphQL */ `
-  query GetAdvertisement($id: String!) {
+  query GetAdvertisement($id: ID!) {
     getAdvertisement(id: $id) {
       id
+      platformName
+      platformId
       title
       url
       price
@@ -39,7 +41,7 @@ export const getAdvertisement = /* GraphQL */ `
 `;
 export const listAdvertisements = /* GraphQL */ `
   query ListAdvertisements(
-    $id: String
+    $id: ID
     $filter: ModelAdvertisementFilterInput
     $limit: Int
     $nextToken: String
@@ -54,6 +56,8 @@ export const listAdvertisements = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
         url
         price
@@ -92,6 +96,8 @@ export const syncAdvertisements = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
         url
         price
@@ -116,9 +122,11 @@ export const syncAdvertisements = /* GraphQL */ `
   }
 `;
 export const getTheft = /* GraphQL */ `
-  query GetTheft($id: String!) {
+  query GetTheft($id: ID!) {
     getTheft(id: $id) {
       id
+      platformName
+      platformId
       title
       url
       description
@@ -140,7 +148,7 @@ export const getTheft = /* GraphQL */ `
 `;
 export const listThefts = /* GraphQL */ `
   query ListThefts(
-    $id: String
+    $id: ID
     $filter: ModelTheftFilterInput
     $limit: Int
     $nextToken: String
@@ -155,6 +163,8 @@ export const listThefts = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
         url
         description
@@ -192,6 +202,8 @@ export const syncThefts = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
         url
         description
@@ -534,6 +546,8 @@ export const getMatch = /* GraphQL */ `
       id
       advertisement {
         id
+        platformName
+        platformId
         title
         url
         price
@@ -554,6 +568,8 @@ export const getMatch = /* GraphQL */ `
       }
       theft {
         id
+        platformName
+        platformId
         title
         url
         description
@@ -653,6 +669,8 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
     ) {
       items {
         id
+        platformName
+        platformId
         title
         url
         price
@@ -670,6 +688,49 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
         _deleted
         _lastChangedAt
         advertisementSellerId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const theftsByStatusPostDateId = /* GraphQL */ `
+  query TheftsByStatusPostDateId(
+    $status: TheftStatus!
+    $postDateId: ModelTheftTheftsByStatusPostDateIdCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelTheftFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    theftsByStatusPostDateId(
+      status: $status
+      postDateId: $postDateId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        platformName
+        platformId
+        title
+        url
+        description
+        model
+        brand
+        color
+        images
+        status
+        location
+        postDate
+        sortOrder
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
       startedAt

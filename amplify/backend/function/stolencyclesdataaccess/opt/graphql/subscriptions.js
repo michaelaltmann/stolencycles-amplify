@@ -7,13 +7,28 @@ export const onCreateAdvertisement = /* GraphQL */ `
   ) {
     onCreateAdvertisement(filter: $filter) {
       id
+      platformName
+      platformId
       title
+      url
       price
       description
       model
       brand
       color
       images
+      seller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       status
       postDate
       sortOrder
@@ -22,6 +37,7 @@ export const onCreateAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      advertisementSellerId
     }
   }
 `;
@@ -31,13 +47,28 @@ export const onUpdateAdvertisement = /* GraphQL */ `
   ) {
     onUpdateAdvertisement(filter: $filter) {
       id
+      platformName
+      platformId
       title
+      url
       price
       description
       model
       brand
       color
       images
+      seller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       status
       postDate
       sortOrder
@@ -46,6 +77,7 @@ export const onUpdateAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      advertisementSellerId
     }
   }
 `;
@@ -55,13 +87,28 @@ export const onDeleteAdvertisement = /* GraphQL */ `
   ) {
     onDeleteAdvertisement(filter: $filter) {
       id
+      platformName
+      platformId
       title
+      url
       price
       description
       model
       brand
       color
       images
+      seller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       status
       postDate
       sortOrder
@@ -70,6 +117,7 @@ export const onDeleteAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      advertisementSellerId
     }
   }
 `;
@@ -77,7 +125,10 @@ export const onCreateTheft = /* GraphQL */ `
   subscription OnCreateTheft($filter: ModelSubscriptionTheftFilterInput) {
     onCreateTheft(filter: $filter) {
       id
+      platformName
+      platformId
       title
+      url
       description
       model
       brand
@@ -99,7 +150,10 @@ export const onUpdateTheft = /* GraphQL */ `
   subscription OnUpdateTheft($filter: ModelSubscriptionTheftFilterInput) {
     onUpdateTheft(filter: $filter) {
       id
+      platformName
+      platformId
       title
+      url
       description
       model
       brand
@@ -121,7 +175,10 @@ export const onDeleteTheft = /* GraphQL */ `
   subscription OnDeleteTheft($filter: ModelSubscriptionTheftFilterInput) {
     onDeleteTheft(filter: $filter) {
       id
+      platformName
+      platformId
       title
+      url
       description
       model
       brand
@@ -139,11 +196,22 @@ export const onDeleteTheft = /* GraphQL */ `
     }
   }
 `;
-export const onCreateColor = /* GraphQL */ `
-  subscription OnCreateColor($filter: ModelSubscriptionColorFilterInput) {
-    onCreateColor(filter: $filter) {
+export const onCreateSeller = /* GraphQL */ `
+  subscription OnCreateSeller($filter: ModelSubscriptionSellerFilterInput) {
+    onCreateSeller(filter: $filter) {
+      id
+      url
       name
-      rgb
+      images
+      notes
+      aliasesAsFirstSeller {
+        nextToken
+        startedAt
+      }
+      aliasesAsSecondSeller {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -152,11 +220,22 @@ export const onCreateColor = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateColor = /* GraphQL */ `
-  subscription OnUpdateColor($filter: ModelSubscriptionColorFilterInput) {
-    onUpdateColor(filter: $filter) {
+export const onUpdateSeller = /* GraphQL */ `
+  subscription OnUpdateSeller($filter: ModelSubscriptionSellerFilterInput) {
+    onUpdateSeller(filter: $filter) {
+      id
+      url
       name
-      rgb
+      images
+      notes
+      aliasesAsFirstSeller {
+        nextToken
+        startedAt
+      }
+      aliasesAsSecondSeller {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -165,11 +244,142 @@ export const onUpdateColor = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteColor = /* GraphQL */ `
-  subscription OnDeleteColor($filter: ModelSubscriptionColorFilterInput) {
-    onDeleteColor(filter: $filter) {
+export const onDeleteSeller = /* GraphQL */ `
+  subscription OnDeleteSeller($filter: ModelSubscriptionSellerFilterInput) {
+    onDeleteSeller(filter: $filter) {
+      id
+      url
       name
-      rgb
+      images
+      notes
+      aliasesAsFirstSeller {
+        nextToken
+        startedAt
+      }
+      aliasesAsSecondSeller {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateSellerAlias = /* GraphQL */ `
+  subscription OnCreateSellerAlias(
+    $filter: ModelSubscriptionSellerAliasFilterInput
+  ) {
+    onCreateSellerAlias(filter: $filter) {
+      id
+      firstSellerId
+      firstSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      secondSellerId
+      secondSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateSellerAlias = /* GraphQL */ `
+  subscription OnUpdateSellerAlias(
+    $filter: ModelSubscriptionSellerAliasFilterInput
+  ) {
+    onUpdateSellerAlias(filter: $filter) {
+      id
+      firstSellerId
+      firstSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      secondSellerId
+      secondSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteSellerAlias = /* GraphQL */ `
+  subscription OnDeleteSellerAlias(
+    $filter: ModelSubscriptionSellerAliasFilterInput
+  ) {
+    onDeleteSellerAlias(filter: $filter) {
+      id
+      firstSellerId
+      firstSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      secondSellerId
+      secondSeller {
+        id
+        url
+        name
+        images
+        notes
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
       createdAt
       updatedAt
       _version
@@ -181,8 +391,8 @@ export const onDeleteColor = /* GraphQL */ `
 export const onCreateBrand = /* GraphQL */ `
   subscription OnCreateBrand($filter: ModelSubscriptionBrandFilterInput) {
     onCreateBrand(filter: $filter) {
-      name
       id
+      name
       createdAt
       updatedAt
       _version
@@ -194,8 +404,8 @@ export const onCreateBrand = /* GraphQL */ `
 export const onUpdateBrand = /* GraphQL */ `
   subscription OnUpdateBrand($filter: ModelSubscriptionBrandFilterInput) {
     onUpdateBrand(filter: $filter) {
-      name
       id
+      name
       createdAt
       updatedAt
       _version
@@ -207,8 +417,8 @@ export const onUpdateBrand = /* GraphQL */ `
 export const onDeleteBrand = /* GraphQL */ `
   subscription OnDeleteBrand($filter: ModelSubscriptionBrandFilterInput) {
     onDeleteBrand(filter: $filter) {
-      name
       id
+      name
       createdAt
       updatedAt
       _version
@@ -280,7 +490,10 @@ export const onCreateMatch = /* GraphQL */ `
       id
       advertisement {
         id
+        platformName
+        platformId
         title
+        url
         price
         description
         model
@@ -295,10 +508,14 @@ export const onCreateMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       theft {
         id
+        platformName
+        platformId
         title
+        url
         description
         model
         brand
@@ -331,7 +548,10 @@ export const onUpdateMatch = /* GraphQL */ `
       id
       advertisement {
         id
+        platformName
+        platformId
         title
+        url
         price
         description
         model
@@ -346,10 +566,14 @@ export const onUpdateMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       theft {
         id
+        platformName
+        platformId
         title
+        url
         description
         model
         brand
@@ -382,7 +606,10 @@ export const onDeleteMatch = /* GraphQL */ `
       id
       advertisement {
         id
+        platformName
+        platformId
         title
+        url
         price
         description
         model
@@ -397,10 +624,14 @@ export const onDeleteMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        advertisementSellerId
       }
       theft {
         id
+        platformName
+        platformId
         title
+        url
         description
         model
         brand

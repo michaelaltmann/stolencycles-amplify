@@ -25,8 +25,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "amplify-modelgen": "node amplify/scripts/amplify-modelgen.js",
-        "amplify-push": "node amplify/scripts/amplify-push.js"
+        "push": "node amplify/scripts/amplify-push.js --yes; node amplify/scripts/amplify-modelgen.js; cp -r src/graphql amplify/backend/function/stolencyclesdataaccess/opt"
     },
     "eslintConfig": {
         "extends": [

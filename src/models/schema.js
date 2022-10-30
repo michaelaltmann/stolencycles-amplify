@@ -6,8 +6,24 @@ export const schema = {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "platformName": {
+                    "name": "platformName",
+                    "isArray": false,
+                    "type": {
+                        "enum": "AdvertisementPlatform"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "platformId": {
+                    "name": "platformId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "title": {
@@ -139,6 +155,16 @@ export const schema = {
                     "properties": {
                         "fields": [
                             "id"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "advertisementsByPlatformId",
+                        "fields": [
+                            "platformId",
+                            "platformName"
                         ]
                     }
                 },
@@ -392,8 +418,24 @@ export const schema = {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "String",
+                    "type": "ID",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "platformName": {
+                    "name": "platformName",
+                    "isArray": false,
+                    "type": {
+                        "enum": "AdvertisementPlatform"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "platformId": {
+                    "name": "platformId",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "title": {
@@ -503,6 +545,28 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "fields": [
+                            "id"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "theftsByPlatformId",
+                        "fields": [
+                            "platformId",
+                            "platformName"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "theftsByStatusPostDateId",
+                        "queryField": "theftsByStatusPostDateId",
+                        "fields": [
+                            "status",
+                            "postDate",
                             "id"
                         ]
                     }
@@ -784,6 +848,18 @@ export const schema = {
         }
     },
     "enums": {
+        "AdvertisementPlatform": {
+            "name": "AdvertisementPlatform",
+            "values": [
+                "MARKETPLACE",
+                "OFFERUP",
+                "CRAIGSLIST",
+                "PROSCLOSET",
+                "NEXTDOOR",
+                "EBAY",
+                "OTHER"
+            ]
+        },
         "AdvertisementStatus": {
             "name": "AdvertisementStatus",
             "values": [
@@ -810,18 +886,6 @@ export const schema = {
                 "MISMATCHED"
             ]
         },
-        "AdvertisementPlatform": {
-            "name": "AdvertisementPlatform",
-            "values": [
-                "MARKETPLACE",
-                "OFFERUP",
-                "CRAIGSLIST",
-                "PROSCLOSET",
-                "NEXTDOOR",
-                "EBAY",
-                "OTHER"
-            ]
-        },
         "TheftPlatform": {
             "name": "TheftPlatform",
             "values": [
@@ -835,5 +899,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.2.0",
-    "version": "d99defbcaa6a5734da1d5901f753d7af"
+    "version": "1cdf084a659476fe0b36a52ae64dc462"
 };

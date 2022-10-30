@@ -2,6 +2,16 @@ import { ModelInit, MutableModel } from "@aws-amplify/datastore";
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
+export enum AdvertisementPlatform {
+  MARKETPLACE = "MARKETPLACE",
+  OFFERUP = "OFFERUP",
+  CRAIGSLIST = "CRAIGSLIST",
+  PROSCLOSET = "PROSCLOSET",
+  NEXTDOOR = "NEXTDOOR",
+  EBAY = "EBAY",
+  OTHER = "OTHER"
+}
+
 export enum AdvertisementStatus {
   UNREVIEWED = "UNREVIEWED",
   REVIEWED = "REVIEWED",
@@ -20,16 +30,6 @@ export enum MatchStatus {
   UNREVIEWED = "UNREVIEWED",
   MATCHED = "MATCHED",
   MISMATCHED = "MISMATCHED"
-}
-
-export enum AdvertisementPlatform {
-  MARKETPLACE = "MARKETPLACE",
-  OFFERUP = "OFFERUP",
-  CRAIGSLIST = "CRAIGSLIST",
-  PROSCLOSET = "PROSCLOSET",
-  NEXTDOOR = "NEXTDOOR",
-  EBAY = "EBAY",
-  OTHER = "OTHER"
 }
 
 export enum TheftPlatform {
@@ -70,6 +70,8 @@ type MatchMetaData = {
 
 type EagerAdvertisement = {
   readonly id: string;
+  readonly platformName?: AdvertisementPlatform | keyof typeof AdvertisementPlatform | null;
+  readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
   readonly price?: number | null;
@@ -89,6 +91,8 @@ type EagerAdvertisement = {
 
 type LazyAdvertisement = {
   readonly id: string;
+  readonly platformName?: AdvertisementPlatform | keyof typeof AdvertisementPlatform | null;
+  readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
   readonly price?: number | null;
@@ -166,6 +170,8 @@ export declare const SellerAlias: (new (init: ModelInit<SellerAlias, SellerAlias
 
 type EagerTheft = {
   readonly id: string;
+  readonly platformName?: AdvertisementPlatform | keyof typeof AdvertisementPlatform | null;
+  readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
   readonly description?: string | null;
@@ -183,6 +189,8 @@ type EagerTheft = {
 
 type LazyTheft = {
   readonly id: string;
+  readonly platformName?: AdvertisementPlatform | keyof typeof AdvertisementPlatform | null;
+  readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
   readonly description?: string | null;
