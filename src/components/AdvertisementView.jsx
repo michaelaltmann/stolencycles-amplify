@@ -82,7 +82,9 @@ export function AdvertisementView(props) {
     "Yuba",
   ]);
   const cardClass =
-    brand && color && !modified ? classes.reviewed : classes.card;
+    status === AdvertisementStatus.UNREVIEWED || modified
+      ? classes.card
+      : classes.reviewed;
   const listingUrl = url ? url : platformUrl();
   const notificationRef = React.createRef();
 
@@ -156,17 +158,35 @@ export function AdvertisementView(props) {
     window.open(listingUrl, "_blank", "width=800,height=600");
   }
 
+  /* Changes */
+
+  function checkReviewStatus(draft) {
+    if (draft.status === AdvertisementStatus.UNREVIEWED) {
+      if (draft.brand && draft.color) {
+        return { ...draft, status: AdvertisementStatus.REVIEWED };
+      } else {
+        return draft;
+      }
+    } else if (draft.status === AdvertisementStatus.REVIEWED) {
+      if (draft.brand && draft.color) {
+        return draft;
+      } else {
+        return { ...draft, status: AdvertisementStatus.UNREVIEWED };
+      }
+    }
+  }
+
   function handleChange(e) {
     var { name, value } = e.target;
     let draft = { ...advertisement };
     draft[name] = value;
-    setAdvertisement(draft);
+    setAdvertisement(checkReviewStatus(draft));
     setModified(true);
   }
   function handleAutoCompleteChange(name, value) {
     let draft = { ...advertisement };
     draft[name] = value;
-    setAdvertisement(draft);
+    setAdvertisement(checkReviewStatus(draft));
     setModified(true);
   }
 
@@ -202,11 +222,6 @@ export function AdvertisementView(props) {
     setAdvertisement({ ...advertisement, images: JSON.stringify(newImages) });
     setModified(true);
   }
-  function revert() {
-    setAdvertisement(props.item);
-    setModified(false);
-  }
-  function handleSearch() {}
 
   function setStatus(status) {
     setAdvertisement({ ...advertisement, status: status });
@@ -216,9 +231,16 @@ export function AdvertisementView(props) {
     const color = selectedColor
       ? colors.find((c) => c.rgb.toLowerCase() === selectedColor.hex).name
       : null;
-    setAdvertisement({ ...advertisement, color: color });
+    const draft = checkReviewStatus(advertisement);
+    setAdvertisement({ ...draft, color: color });
     setModified(true);
   }
+
+  function revert() {
+    setAdvertisement(props.item);
+    setModified(false);
+  }
+  function handleSearch() {}
 
   /**
    * Save to the server
