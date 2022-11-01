@@ -226,19 +226,15 @@ export function AdvertisementView(props) {
   async function handleSubmit() {
     let item;
     if (id) {
-      const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } = {
+      item = await AdvertisementRepository.update({
         ...advertisement,
         postDate: new Date().toISOString(),
-      };
-
-      item = await AdvertisementRepository.update(rest);
+      });
     } else {
-      const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } = {
+      item = await AdvertisementRepository.create({
         ...advertisement,
         postDate: new Date().toISOString(),
-        id: id,
-      };
-      item = await AdvertisementRepository.create(rest);
+      });
     }
     setAdvertisement(item);
     setModified(false);
