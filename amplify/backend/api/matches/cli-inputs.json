@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/check/advertisement/{id}": {
+      "name": "/check/advertisement/{id}",
+      "lambdaFunction": "matches",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/check/theft/{id}": {
+      "name": "/check/theft/{id}",
+      "lambdaFunction": "matches",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

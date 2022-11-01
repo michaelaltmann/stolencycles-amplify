@@ -6,18 +6,17 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Container,
   Icon,
   Snackbar,
   TextField,
   Tooltip,
 } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
-import React, { useEffect, useState } from "react";
-import { CirclePicker } from "react-color";
+import React, { useState } from "react";
 import { AdvertisementPlatform, AdvertisementStatus } from "../models";
 import { colors } from "../Colors";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
+import { ColorSelector } from "./ColorSelector";
 const classes = {
   card: {
     maxWidth: 325,
@@ -245,36 +244,6 @@ export function AdvertisementView(props) {
     setModified(false);
   }
 
-  function renderColorSelect() {
-    if (colors) {
-      const fullColor = colors.find((c) => c.name === color);
-      const rgb = fullColor ? fullColor.rgb.toLowerCase() : undefined;
-      const colorHexes = colors.map((c) => {
-        return c.rgb.toLowerCase();
-      });
-      return (
-        <Container
-          sx={{
-            backgroundColor: "rgb(220,220,220)",
-            padding: "5px",
-            marginTop: "2px",
-            marginBottom: "2px",
-          }}
-        >
-          <CirclePicker
-            color={rgb}
-            colors={colorHexes}
-            width="330px"
-            triangle="hide"
-            circleSpacing={2}
-            onChangeComplete={handleColorChanged}
-          />
-        </Container>
-      );
-    } else {
-      return <></>;
-    }
-  }
   return (
     <Card sx={cardClass} key={id}>
       {url ? (
@@ -366,7 +335,7 @@ export function AdvertisementView(props) {
           onChange={handleChange}
           variant="standard"
         ></TextField>
-        {renderColorSelect()}
+        <ColorSelector color={color} handleColorChanged={handleColorChanged} />
         <Autocomplete
           sx={{ marginTop: "6px", marginBottom: "2px" }}
           freeSolo

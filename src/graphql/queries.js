@@ -30,6 +30,10 @@ export const getAdvertisement = /* GraphQL */ `
       status
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -41,19 +45,11 @@ export const getAdvertisement = /* GraphQL */ `
 `;
 export const listAdvertisements = /* GraphQL */ `
   query ListAdvertisements(
-    $id: ID
     $filter: ModelAdvertisementFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listAdvertisements(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listAdvertisements(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         platformName
@@ -138,6 +134,10 @@ export const getTheft = /* GraphQL */ `
       location
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -148,19 +148,11 @@ export const getTheft = /* GraphQL */ `
 `;
 export const listThefts = /* GraphQL */ `
   query ListThefts(
-    $id: ID
     $filter: ModelTheftFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listThefts(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listThefts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         platformName
@@ -227,7 +219,7 @@ export const syncThefts = /* GraphQL */ `
   }
 `;
 export const getSeller = /* GraphQL */ `
-  query GetSeller($id: String!) {
+  query GetSeller($id: ID!) {
     getSeller(id: $id) {
       id
       url
@@ -252,19 +244,11 @@ export const getSeller = /* GraphQL */ `
 `;
 export const listSellers = /* GraphQL */ `
   query ListSellers(
-    $id: String
     $filter: ModelSellerFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listSellers(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listSellers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         url
@@ -462,7 +446,7 @@ export const syncBrands = /* GraphQL */ `
   }
 `;
 export const getAccount = /* GraphQL */ `
-  query GetAccount($id: String!) {
+  query GetAccount($id: ID!) {
     getAccount(id: $id) {
       id
       images
@@ -482,19 +466,11 @@ export const getAccount = /* GraphQL */ `
 `;
 export const listAccounts = /* GraphQL */ `
   query ListAccounts(
-    $id: String
     $filter: ModelAccountFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listAccounts(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listAccounts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         images
@@ -544,6 +520,7 @@ export const getMatch = /* GraphQL */ `
   query GetMatch($id: ID!) {
     getMatch(id: $id) {
       id
+      advertisementId
       advertisement {
         id
         platformName
@@ -566,6 +543,7 @@ export const getMatch = /* GraphQL */ `
         _lastChangedAt
         advertisementSellerId
       }
+      theftId
       theft {
         id
         platformName
@@ -593,8 +571,6 @@ export const getMatch = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      matchAdvertisementId
-      matchTheftId
     }
   }
 `;
@@ -607,14 +583,14 @@ export const listMatches = /* GraphQL */ `
     listMatches(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        advertisementId
+        theftId
         status
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        matchAdvertisementId
-        matchTheftId
       }
       nextToken
       startedAt
@@ -636,14 +612,14 @@ export const syncMatches = /* GraphQL */ `
     ) {
       items {
         id
+        advertisementId
+        theftId
         status
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
-        matchAdvertisementId
-        matchTheftId
       }
       nextToken
       startedAt

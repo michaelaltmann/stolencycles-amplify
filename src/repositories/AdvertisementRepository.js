@@ -11,6 +11,8 @@ async function create(advertisement) {
       input: advertisement,
     },
   });
+  const { items: matches } = await API.get("matches", "check/advertisement/" + item.id)
+  console.log(matches)
   return item
 }
 async function update(advertisement) {

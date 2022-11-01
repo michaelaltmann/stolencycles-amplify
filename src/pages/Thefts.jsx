@@ -65,6 +65,9 @@ export default function Thefts() {
           })}
       </Grid>
       <Stack direction="row">
+        <Button onClick={() => setThefts([{}].concat(thefts || []))}>
+          New
+        </Button>
         <Button onClick={() => fetchThefts()} disabled={!currentToken}>
           More
         </Button>

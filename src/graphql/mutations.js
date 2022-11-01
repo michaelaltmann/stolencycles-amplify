@@ -33,6 +33,10 @@ export const createAdvertisement = /* GraphQL */ `
       status
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -74,6 +78,10 @@ export const updateAdvertisement = /* GraphQL */ `
       status
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -115,6 +123,10 @@ export const deleteAdvertisement = /* GraphQL */ `
       status
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -144,6 +156,10 @@ export const createTheft = /* GraphQL */ `
       location
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -172,6 +188,10 @@ export const updateTheft = /* GraphQL */ `
       location
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -200,6 +220,10 @@ export const deleteTheft = /* GraphQL */ `
       location
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -533,6 +557,7 @@ export const createMatch = /* GraphQL */ `
   ) {
     createMatch(input: $input, condition: $condition) {
       id
+      advertisementId
       advertisement {
         id
         platformName
@@ -555,6 +580,7 @@ export const createMatch = /* GraphQL */ `
         _lastChangedAt
         advertisementSellerId
       }
+      theftId
       theft {
         id
         platformName
@@ -582,8 +608,6 @@ export const createMatch = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      matchAdvertisementId
-      matchTheftId
     }
   }
 `;
@@ -594,6 +618,7 @@ export const updateMatch = /* GraphQL */ `
   ) {
     updateMatch(input: $input, condition: $condition) {
       id
+      advertisementId
       advertisement {
         id
         platformName
@@ -616,6 +641,7 @@ export const updateMatch = /* GraphQL */ `
         _lastChangedAt
         advertisementSellerId
       }
+      theftId
       theft {
         id
         platformName
@@ -643,8 +669,6 @@ export const updateMatch = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      matchAdvertisementId
-      matchTheftId
     }
   }
 `;
@@ -655,6 +679,7 @@ export const deleteMatch = /* GraphQL */ `
   ) {
     deleteMatch(input: $input, condition: $condition) {
       id
+      advertisementId
       advertisement {
         id
         platformName
@@ -677,6 +702,7 @@ export const deleteMatch = /* GraphQL */ `
         _lastChangedAt
         advertisementSellerId
       }
+      theftId
       theft {
         id
         platformName
@@ -704,8 +730,6 @@ export const deleteMatch = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      matchAdvertisementId
-      matchTheftId
     }
   }
 `;

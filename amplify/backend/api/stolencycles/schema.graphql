@@ -1,5 +1,5 @@
 type Advertisement @model @auth(rules: [{ allow: public }]) {
-  id: ID! @primaryKey
+  id: ID!
   platformName: AdvertisementPlatform
   platformId: String
     @index(name: "advertisementsByPlatformId", sortKeyFields: ["platformName"])
@@ -20,10 +20,11 @@ type Advertisement @model @auth(rules: [{ allow: public }]) {
     )
   postDate: String
   sortOrder: String
+  matches: [Match] @hasMany(indexName: "byAdvertisementIndex", fields: ["id"])
 }
 
 type Theft @model @auth(rules: [{ allow: public }]) {
-  id: ID! @primaryKey
+  id: ID!
   platformName: AdvertisementPlatform
   platformId: String
     @index(name: "theftsByPlatformId", sortKeyFields: ["platformName"])
@@ -43,10 +44,11 @@ type Theft @model @auth(rules: [{ allow: public }]) {
   location: String
   postDate: String
   sortOrder: String
+  matches: [Match] @hasMany(indexName: "byTheftIndex", fields: ["id"])
 }
 
 type Seller @model @auth(rules: [{ allow: public }]) {
-  id: String! @primaryKey
+  id: ID!
   url: String
   name: String
   images: AWSJSON
@@ -59,10 +61,10 @@ type Seller @model @auth(rules: [{ allow: public }]) {
 
 type SellerAlias @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  firstSellerId: String!
+  firstSellerId: ID!
     @index(name: "byFirstSellerIndex", sortKeyFields: ["secondSellerId"])
   firstSeller: Seller @belongsTo(fields: ["firstSellerId"])
-  secondSellerId: String!
+  secondSellerId: ID!
     @index(name: "bySecondSellerIndex", sortKeyFields: ["firstSellerId"])
   secondSeller: Seller @belongsTo(fields: ["secondSellerId"])
 }
@@ -73,7 +75,7 @@ type Brand @model @auth(rules: [{ allow: public }]) {
 }
 
 type Account @model @auth(rules: [{ allow: public }]) {
-  id: String! @primaryKey
+  id: ID!
   images: AWSJSON
   name: String
   aliases: [Account] @hasMany
@@ -81,8 +83,11 @@ type Account @model @auth(rules: [{ allow: public }]) {
 
 type Match @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  advertisement: Advertisement @hasOne
-  theft: Theft @hasOne
+  advertisementId: ID!
+    @index(name: "byAdvertisementIndex", sortKeyFields: ["theftId"])
+  advertisement: Advertisement @belongsTo(fields: ["advertisementId"])
+  theftId: ID! @index(name: "byTheftIndex", sortKeyFields: ["advertisementId"])
+  theft: Theft @belongsTo(fields: ["theftId"])
   status: MatchStatus
 }
 

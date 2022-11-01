@@ -32,6 +32,10 @@ export const onCreateAdvertisement = /* GraphQL */ `
       status
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -72,6 +76,10 @@ export const onUpdateAdvertisement = /* GraphQL */ `
       status
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -112,6 +120,10 @@ export const onDeleteAdvertisement = /* GraphQL */ `
       status
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -138,6 +150,10 @@ export const onCreateTheft = /* GraphQL */ `
       location
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -163,6 +179,10 @@ export const onUpdateTheft = /* GraphQL */ `
       location
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -188,6 +208,10 @@ export const onDeleteTheft = /* GraphQL */ `
       location
       postDate
       sortOrder
+      matches {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
@@ -488,6 +512,7 @@ export const onCreateMatch = /* GraphQL */ `
   subscription OnCreateMatch($filter: ModelSubscriptionMatchFilterInput) {
     onCreateMatch(filter: $filter) {
       id
+      advertisementId
       advertisement {
         id
         platformName
@@ -510,6 +535,7 @@ export const onCreateMatch = /* GraphQL */ `
         _lastChangedAt
         advertisementSellerId
       }
+      theftId
       theft {
         id
         platformName
@@ -537,8 +563,6 @@ export const onCreateMatch = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      matchAdvertisementId
-      matchTheftId
     }
   }
 `;
@@ -546,6 +570,7 @@ export const onUpdateMatch = /* GraphQL */ `
   subscription OnUpdateMatch($filter: ModelSubscriptionMatchFilterInput) {
     onUpdateMatch(filter: $filter) {
       id
+      advertisementId
       advertisement {
         id
         platformName
@@ -568,6 +593,7 @@ export const onUpdateMatch = /* GraphQL */ `
         _lastChangedAt
         advertisementSellerId
       }
+      theftId
       theft {
         id
         platformName
@@ -595,8 +621,6 @@ export const onUpdateMatch = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      matchAdvertisementId
-      matchTheftId
     }
   }
 `;
@@ -604,6 +628,7 @@ export const onDeleteMatch = /* GraphQL */ `
   subscription OnDeleteMatch($filter: ModelSubscriptionMatchFilterInput) {
     onDeleteMatch(filter: $filter) {
       id
+      advertisementId
       advertisement {
         id
         platformName
@@ -626,6 +651,7 @@ export const onDeleteMatch = /* GraphQL */ `
         _lastChangedAt
         advertisementSellerId
       }
+      theftId
       theft {
         id
         platformName
@@ -653,8 +679,6 @@ export const onDeleteMatch = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      matchAdvertisementId
-      matchTheftId
     }
   }
 `;

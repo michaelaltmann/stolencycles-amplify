@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "storage": {
+      "Advertisement:@model(appsync)": [
+        "read"
+      ],
+      "Theft:@model(appsync)": [
+        "read"
+      ],
+      "Brand:@model(appsync)": [
+        "read"
+      ],
+      "Match:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": [
+    {
+      "type": "ProjectLayer",
+      "resourceName": "stolencyclesdataaccess",
+      "env": "main",
+      "version": "Always choose latest version",
+      "isLatestVersionSelected": true
+    }
+  ]
+}

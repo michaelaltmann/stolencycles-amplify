@@ -119,20 +119,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "matches": {
-                    "name": "matches",
-                    "isArray": true,
-                    "type": {
-                        "model": "Match"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "advertisement"
-                    }
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -163,6 +149,14 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "id"
+                        ]
+                    }
                 },
                 {
                     "type": "key",
@@ -210,7 +204,7 @@ export const schema = {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -293,6 +287,14 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "id"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -389,113 +391,6 @@ export const schema = {
                         "fields": [
                             "secondSellerId",
                             "firstSellerId"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "Match": {
-            "name": "Match",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "advertisement": {
-                    "name": "advertisement",
-                    "isArray": false,
-                    "type": {
-                        "model": "Advertisement"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "advertisementId"
-                    }
-                },
-                "theft": {
-                    "name": "theft",
-                    "isArray": false,
-                    "type": {
-                        "model": "Theft"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "theftId"
-                    }
-                },
-                "status": {
-                    "name": "status",
-                    "isArray": false,
-                    "type": {
-                        "enum": "MatchStatus"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Matches",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byAdvertisementIndex",
-                        "fields": [
-                            "advertisementId",
-                            "theftId"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byTheftIndex",
-                        "fields": [
-                            "theftId",
-                            "advertisementId"
                         ]
                     }
                 },
@@ -622,20 +517,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "matches": {
-                    "name": "matches",
-                    "isArray": true,
-                    "type": {
-                        "model": "Match"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "theft"
-                    }
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -659,6 +540,14 @@ export const schema = {
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "id"
+                        ]
+                    }
                 },
                 {
                     "type": "key",
@@ -765,7 +654,7 @@ export const schema = {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "ID",
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -823,6 +712,117 @@ export const schema = {
             },
             "syncable": true,
             "pluralName": "Accounts",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "fields": [
+                            "id"
+                        ]
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Match": {
+            "name": "Match",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "advertisement": {
+                    "name": "advertisement",
+                    "isArray": false,
+                    "type": {
+                        "model": "Advertisement"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
+                        "targetName": "matchAdvertisementId"
+                    }
+                },
+                "theft": {
+                    "name": "theft",
+                    "isArray": false,
+                    "type": {
+                        "model": "Theft"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": "id",
+                        "targetName": "matchTheftId"
+                    }
+                },
+                "status": {
+                    "name": "status",
+                    "isArray": false,
+                    "type": {
+                        "enum": "MatchStatus"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "matchAdvertisementId": {
+                    "name": "matchAdvertisementId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "matchTheftId": {
+                    "name": "matchTheftId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "Matches",
             "attributes": [
                 {
                     "type": "model",
@@ -899,5 +899,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.2.0",
-    "version": "8fe2581119955067d1db4f49263cb791"
+    "version": "1cdf084a659476fe0b36a52ae64dc462"
 };

@@ -40,16 +40,16 @@ const TheftPlatform = {
   "OTHER": "OTHER"
 };
 
-const { Advertisement, Seller, SellerAlias, Match, Theft, Brand, Account } = initSchema(schema);
+const { Advertisement, Seller, SellerAlias, Theft, Brand, Account, Match } = initSchema(schema);
 
 export {
   Advertisement,
   Seller,
   SellerAlias,
-  Match,
   Theft,
   Brand,
   Account,
+  Match,
   AdvertisementPlatform,
   AdvertisementStatus,
   TheftStatus,
