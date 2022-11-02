@@ -1,9 +1,7 @@
 {
-  "httpMethod": "POST",
-  "path": "/item",
-  "queryStringParameters": {
-    "limit": "10"
-  },
+  "httpMethod": "GET",
+  "path": "/checkAdvertisements",
+  "queryStringParameters": {},
   "headers": {
     "Content-Type": "application/json"
   },

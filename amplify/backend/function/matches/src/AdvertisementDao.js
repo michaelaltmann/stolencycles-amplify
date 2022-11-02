@@ -337,7 +337,7 @@ class AdvertisementDao {
             }
 
             const response = await this.docClient.query(query).promise()
-            console.log("Query returned " + response.Items.length)
+            console.log(`AdvertisementDao.listByBrandColor(${Brand},${Color}) returned ${response.Items.length}`)
             all.Items = all.Items.concat(response.Items)
             all.LastEvaluatedKey = response.LastEvaluatedKey
             ExclusiveStartKey = response.LastEvaluatedKey

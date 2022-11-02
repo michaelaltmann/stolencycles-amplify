@@ -1,4 +1,18 @@
-/*
+/* Amplify Params - DO NOT EDIT
+  API_STOLENCYCLES_ADVERTISEMENTTABLE_ARN
+  API_STOLENCYCLES_ADVERTISEMENTTABLE_NAME
+  API_STOLENCYCLES_BRANDTABLE_ARN
+  API_STOLENCYCLES_BRANDTABLE_NAME
+  API_STOLENCYCLES_GRAPHQLAPIENDPOINTOUTPUT
+  API_STOLENCYCLES_GRAPHQLAPIIDOUTPUT
+  API_STOLENCYCLES_GRAPHQLAPIKEYOUTPUT
+  API_STOLENCYCLES_MATCHTABLE_ARN
+  API_STOLENCYCLES_MATCHTABLE_NAME
+  API_STOLENCYCLES_THEFTTABLE_ARN
+  API_STOLENCYCLES_THEFTTABLE_NAME
+  ENV
+  REGION
+Amplify Params - DO NOT EDIT *//*
 Copyright 2017 - 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
     http://aws.amazon.com/apache2.0/
@@ -7,23 +21,10 @@ See the License for the specific language governing permissions and limitations 
 */
 
 
-/* Amplify Params - DO NOT EDIT
-  API_STOLENCYCLES_ADVERTISEMENTTABLE_ARN
-  API_STOLENCYCLES_ADVERTISEMENTTABLE_NAME
-  API_STOLENCYCLES_BRANDTABLE_ARN
-  API_STOLENCYCLES_BRANDTABLE_NAME
-  API_STOLENCYCLES_GRAPHQLAPIIDOUTPUT
-  API_STOLENCYCLES_MATCHTABLE_ARN
-  API_STOLENCYCLES_MATCHTABLE_NAME
-  API_STOLENCYCLES_THEFTTABLE_ARN
-  API_STOLENCYCLES_THEFTTABLE_NAME
-  ENV
-  REGION
-Amplify Params - DO NOT EDIT */
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const MatchDao = require('./MatchDao')
 
 // declare a new express app
 const app = express()
@@ -53,6 +54,12 @@ app.get('/check/theft/:id', function (req, res) {
   const { id } = req.params
   // Add your code here
   res.json({ success: 'Checked theft ' + id, url: req.url, items: [] });
+});
+
+app.get('/checkAdvertisements', async function (req, res) {
+  const matchDao = new MatchDao()
+  const matches = await matchDao.checkAdvertisements()
+  res.json({ success: "Checked all advertisements", url: req.url, items: matches });
 });
 
 

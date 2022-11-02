@@ -14,6 +14,20 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/checkAdvertisements": {
+      "name": "/checkAdvertisements",
+      "lambdaFunction": "matches",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/checkThefts": {
+      "name": "/checkThefts",
+      "lambdaFunction": "matches",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }

@@ -11,70 +11,23 @@ const MatchDao = require('./MatchDao')
 const dao = new MatchDao(AWS)
 
 
-beforeEach(async () => {
-    if (config.endpoint) {
-        dao.truncate().then(() => {
-            console.log("Done truncating")
-            done()
-        }
-        )
-    }
-})
-
-
-
-
-test('listAll', async () => {
-    let id = 0
-    let now = new Date().toISOString()
-
-    if (config.endpoint) {
-        await dao.insert({
-            advertisementId: '0c82f262-2bcb-44ff-ac10-3f1fee9a85f5',
-            theftId: '12eb9219-a75d-45ba-86b4-f45ffc33d131',
-            status: 'NeedsReview',
-            id: '' + id++,
-            postDate: now
-        })
-        await dao.insert({
-            advertisementId: '1056f057-97e9-432f-a793-6b20418c41b8',
-            theftId: '12eb9219-a75d-45ba-86b4-f45ffc33d131',
-            status: 'NeedsReview',
-            id: '' + id++,
-            postDate: now
-        })
-        await dao.insert({
-            advertisementId: '1056f057-97e9-432f-a793-6b20418c41b8',
-            theftId: '1fdbdb9f-2e3e-4540-96e4-50d411bbf05e',
-            status: 'NeedsReview',
-            id: '' + id++,
-            postDate: now
-        })
-    }
-
-    const { Items } = await dao.listAll({ Limit: 3 })
-    if (config.endpoint) {
-        expect(Items.length).toBe(3)
-    } else {
-        console.log(JSON.stringify(Items, null, 3))
-    }
-}
-)
-
-test('truncate', async () => {
-    // Too dangerous to do in production
-    if (config.endpoint) {
-        await dao.truncate()
-    }
-    const { Items } = await dao.listAll({ Limit: 3 })
-    expect(Items.length).toBe(0)
-}
-)
 /**
  * Check every active ad against every active theft
  */
-test.only('checkAll', async () => {
-    let newMatches = await dao.checkAll()
+test.only('checkAdvertisements', async () => {
+    let newMatches = await dao.checkAdvertisements()
+    console.log(JSON.stringify(newMatches, null, 3))
+    expect(newMatches.length > 0)
+    const { Items } = await dao.listAll({ Limit: 100 })
+    console.log(JSON.stringify(Items, null, 3))
+}
+)
+
+/**
+ * Check every active theft against every active ad
+ */
+test('checkThefts', async () => {
+    let newMatches = await dao.checkThefts()
     console.log(JSON.stringify(newMatches, null, 3))
     expect(newMatches.length > 0)
     const { Items } = await dao.listAll({ Limit: 100 })

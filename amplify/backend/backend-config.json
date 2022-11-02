@@ -71,7 +71,9 @@
           "category": "api",
           "resourceName": "stolencycles",
           "attributes": [
-            "GraphQLAPIIdOutput"
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
           ]
         }
       ]

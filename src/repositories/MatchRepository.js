@@ -1,43 +1,44 @@
 
 import API from '@aws-amplify/api';
-import { createTheft, updateTheft } from '../graphql/mutations'
-import { listThefts } from "../graphql/queries"
+import { createMatch, updateMatch } from '../graphql/mutations'
+import { listMatches } from "../graphql/queries"
 
 /**
  * 
- * @param {Theft} theft 
+ * @param {Match} match 
  * @returns Object with just the properties that can be mutated
  */
-function coreProperties(theft) {
+function coreProperties(match) {
   let {
     createdAt,
     updatedAt,
     _lastChangedAt,
     _deleted,
-    matches,
+    advertisement,
+    theft,
     ...rest
-  } = theft
+  } = match
   return rest
 }
 
-async function create(theft) {
+async function create(match) {
   const {
-    data: { createTheft: item },
+    data: { createMatch: item },
   } = await API.graphql({
-    query: createTheft,
+    query: createMatch,
     variables: {
-      input: coreProperties(theft),
+      input: coreProperties(match),
     },
   });
   return item
 }
-async function update(theft) {
+async function update(match) {
   const {
-    data: { updateTheft: item },
+    data: { updateMatch: item },
   } = await API.graphql({
-    query: updateTheft,
+    query: updateMatch,
     variables: {
-      input: coreProperties(theft),
+      input: coreProperties(match),
     },
   });
   return item
@@ -46,10 +47,10 @@ async function update(theft) {
 async function list(currentToken, limit = 1) {
   const {
     data: {
-      listThefts: { items: list, nextToken },
+      listMatches: { items: list, nextToken },
     },
   } = await API.graphql({
-    query: listThefts,
+    query: listMatches,
     variables: {
       limit: limit,
       nextToken: currentToken,
@@ -59,14 +60,14 @@ async function list(currentToken, limit = 1) {
   return { list, nextToken }
 }
 
-// TODO: Implement
+//TODO: Implement
 async function listByStatus(status, currentToken, limit = 1) {
   const {
     data: {
-      listThefts: { items: list, nextToken },
+      listMatches: { items: list, nextToken },
     },
   } = await API.graphql({
-    query: listThefts,
+    query: listMatches,
     variables: {
       limit: limit,
       nextToken: currentToken,

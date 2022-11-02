@@ -20,6 +20,14 @@ export enum AdvertisementStatus {
   JUNK = "JUNK"
 }
 
+export enum TheftPlatform {
+  FACEBOOK = "FACEBOOK",
+  BIKEINDEX = "BIKEINDEX",
+  PROJECT529 = "PROJECT529",
+  NCIC = "NCIC",
+  OTHER = "OTHER"
+}
+
 export enum TheftStatus {
   UNREVIEWED = "UNREVIEWED",
   REVIEWED = "REVIEWED",
@@ -30,14 +38,6 @@ export enum MatchStatus {
   UNREVIEWED = "UNREVIEWED",
   MATCHED = "MATCHED",
   MISMATCHED = "MISMATCHED"
-}
-
-export enum TheftPlatform {
-  FACEBOOK = "FACEBOOK",
-  BIKEINDEX = "BIKEINDEX",
-  PROJECT529 = "PROJECT529",
-  NCIC = "NCIC",
-  OTHER = "OTHER"
 }
 
 type AdvertisementMetaData = {
@@ -52,6 +52,10 @@ type SellerAliasMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
+type MatchMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
 type TheftMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
@@ -61,10 +65,6 @@ type BrandMetaData = {
 }
 
 type AccountMetaData = {
-  readOnlyFields: 'createdAt' | 'updatedAt';
-}
-
-type MatchMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
@@ -84,6 +84,7 @@ type EagerAdvertisement = {
   readonly status?: AdvertisementStatus | keyof typeof AdvertisementStatus | null;
   readonly postDate?: string | null;
   readonly sortOrder?: string | null;
+  readonly matches?: (Match | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly advertisementSellerId?: string | null;
@@ -105,6 +106,7 @@ type LazyAdvertisement = {
   readonly status?: AdvertisementStatus | keyof typeof AdvertisementStatus | null;
   readonly postDate?: string | null;
   readonly sortOrder?: string | null;
+  readonly matches: AsyncCollection<Match>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly advertisementSellerId?: string | null;
@@ -168,9 +170,33 @@ export declare const SellerAlias: (new (init: ModelInit<SellerAlias, SellerAlias
   copyOf(source: SellerAlias, mutator: (draft: MutableModel<SellerAlias, SellerAliasMetaData>) => MutableModel<SellerAlias, SellerAliasMetaData> | void): SellerAlias;
 }
 
+type EagerMatch = {
+  readonly id: string;
+  readonly advertisement?: Advertisement | null;
+  readonly theft?: Theft | null;
+  readonly status?: MatchStatus | keyof typeof MatchStatus | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyMatch = {
+  readonly id: string;
+  readonly advertisement: AsyncItem<Advertisement | undefined>;
+  readonly theft: AsyncItem<Theft | undefined>;
+  readonly status?: MatchStatus | keyof typeof MatchStatus | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Match = LazyLoading extends LazyLoadingDisabled ? EagerMatch : LazyMatch
+
+export declare const Match: (new (init: ModelInit<Match, MatchMetaData>) => Match) & {
+  copyOf(source: Match, mutator: (draft: MutableModel<Match, MatchMetaData>) => MutableModel<Match, MatchMetaData> | void): Match;
+}
+
 type EagerTheft = {
   readonly id: string;
-  readonly platformName?: AdvertisementPlatform | keyof typeof AdvertisementPlatform | null;
+  readonly platformName?: TheftPlatform | keyof typeof TheftPlatform | null;
   readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
@@ -183,13 +209,14 @@ type EagerTheft = {
   readonly location?: string | null;
   readonly postDate?: string | null;
   readonly sortOrder?: string | null;
+  readonly matches?: (Match | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
 type LazyTheft = {
   readonly id: string;
-  readonly platformName?: AdvertisementPlatform | keyof typeof AdvertisementPlatform | null;
+  readonly platformName?: TheftPlatform | keyof typeof TheftPlatform | null;
   readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
@@ -202,6 +229,7 @@ type LazyTheft = {
   readonly location?: string | null;
   readonly postDate?: string | null;
   readonly sortOrder?: string | null;
+  readonly matches: AsyncCollection<Match>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -256,32 +284,4 @@ export declare type Account = LazyLoading extends LazyLoadingDisabled ? EagerAcc
 
 export declare const Account: (new (init: ModelInit<Account, AccountMetaData>) => Account) & {
   copyOf(source: Account, mutator: (draft: MutableModel<Account, AccountMetaData>) => MutableModel<Account, AccountMetaData> | void): Account;
-}
-
-type EagerMatch = {
-  readonly id: string;
-  readonly advertisement?: Advertisement | null;
-  readonly theft?: Theft | null;
-  readonly status?: MatchStatus | keyof typeof MatchStatus | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly matchAdvertisementId?: string | null;
-  readonly matchTheftId?: string | null;
-}
-
-type LazyMatch = {
-  readonly id: string;
-  readonly advertisement: AsyncItem<Advertisement | undefined>;
-  readonly theft: AsyncItem<Theft | undefined>;
-  readonly status?: MatchStatus | keyof typeof MatchStatus | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly matchAdvertisementId?: string | null;
-  readonly matchTheftId?: string | null;
-}
-
-export declare type Match = LazyLoading extends LazyLoadingDisabled ? EagerMatch : LazyMatch
-
-export declare const Match: (new (init: ModelInit<Match, MatchMetaData>) => Match) & {
-  copyOf(source: Match, mutator: (draft: MutableModel<Match, MatchMetaData>) => MutableModel<Match, MatchMetaData> | void): Match;
 }

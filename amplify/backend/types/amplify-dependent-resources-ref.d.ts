@@ -23,9 +23,6 @@ export type AmplifyDependentResourcesAttributes = {
             "Region": "string",
             "LambdaExecutionRole": "string"
         },
-        "stolencyclesdataaccess": {
-            "Arn": "string"
-        },
         "matches": {
             "Name": "string",
             "Arn": "string",

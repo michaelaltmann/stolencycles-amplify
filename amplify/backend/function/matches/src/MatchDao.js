@@ -2,6 +2,13 @@ const AdvertisementDao = require('./AdvertisementDao')
 const TheftDao = require('./TheftDao')
 const { v4: UUID } = require('uuid');
 const { AdvertisementStatus, TheftStatus, MatchStatus } = require('./models');
+const GRAPHQL_ENDPOINT = process.env.API_STOLENCYCLES_GRAPHQLAPIENDPOINTOUTPUT;
+const GRAPHQL_API_KEY = process.env.API_STOLENCYCLES_GRAPHQLAPIKEYOUTPUT;
+
+const fetch = require('node-fetch-commonjs');
+const { createMatch } = require('./graphql/mutations');
+
+
 let tableName = "Match-tf5zgdee2fbdbjaop2f5bq4ffm";
 if (process.env.ENV && process.env.ENV !== "NONE") {
     tableName = tableName + '-' + process.env.ENV;
@@ -70,14 +77,19 @@ class MatchDao {
     }
 
     async insert(item) {
-        if (!item.sortOrder) item.sortOrder = "" + item.postDate + "/" + item.id
-        if (!item.id) { item.id = UUID() }
-        const putItemParams = {
-            TableName: tableName,
-            Item: this.removeBlanks(item)
-        }
-        const response = await this.docClient.put(putItemParams).promise()
-        return item
+        const variables = { input: item }
+        const options = {
+            method: 'POST',
+            headers: {
+                'x-api-key': GRAPHQL_API_KEY
+            },
+            body: JSON.stringify({ query: createMatch, variables })
+        };
+        const request = new fetch.Request(GRAPHQL_ENDPOINT, options);
+        const response = await fetch(request);
+        body = await response.json();
+        console.log("GraphQL responded with " + JSON.stringify(body))
+        return body.data.createMatch
     }
 
     async update(item) {
@@ -120,7 +132,7 @@ class MatchDao {
         const defaults = {
             Limit: 10,
             LastEvaluatedKey: null,
-            status: 'NeedsReview',
+            status: MatchStatus.UNREVIEWED,
             expandItems: true
         }
         config = { ...defaults, ...config }
@@ -173,7 +185,7 @@ class MatchDao {
         const defaults = {
             Limit: 1,
             LastEvaluatedKey: null,
-            status: 'NeedsReview'
+            status: MatchStatus.UNREVIEWED
         }
         config = { ...defaults, ...config }
         const { status, LastEvaluatedKey, Limit } = config
@@ -413,10 +425,17 @@ class MatchDao {
         }
     }
 
-    async checkAll() {
+    async checkAdvertisements() {
         const advertisements = await this.getAdvertisements()
         return await Promise.all(advertisements.map(async advertisement => {
             return await this.checkAdvertisement(advertisement)
+        }))
+    }
+
+    async checkThefts() {
+        const thefts = await this.getThefts()
+        return await Promise.all(thefts.map(async theft => {
+            return await this.checkTheft(theft)
         }))
     }
 
@@ -510,7 +529,6 @@ class MatchDao {
                 if (similarity > 0) {
                     if (!existing) {
                         const newMatch = {
-                            id: UUID(),
                             advertisementId: advertisement.id,
                             theftId: theft.id,
                             // postDate: now,
@@ -567,7 +585,6 @@ class MatchDao {
                     if (!existing) {
 
                         const newMatch = {
-                            id: UUID(),
                             advertisementId: advertisement.id,
                             theftId: theft.id,
                             //postDate: now,

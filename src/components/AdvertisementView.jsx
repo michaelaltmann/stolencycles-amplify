@@ -19,13 +19,13 @@ import AdvertisementRepository from "../repositories/AdvertisementRepository";
 import { ColorSelector } from "./ColorSelector";
 const classes = {
   card: {
-    maxWidth: 325,
+    maxWidth: 290,
     margin: 5,
     position: "relative",
     height: 550,
   },
   reviewed: {
-    maxWidth: 325,
+    maxWidth: 290,
     margin: 3,
     position: "relative",
     height: 550,
@@ -161,18 +161,20 @@ export function AdvertisementView(props) {
   /* Changes */
 
   function checkReviewStatus(draft) {
-    if (draft.status === AdvertisementStatus.UNREVIEWED) {
+    if (draft.status === AdvertisementStatus.UNREVIEWED || !draft.status) {
       if (draft.brand && draft.color) {
         return { ...draft, status: AdvertisementStatus.REVIEWED };
       } else {
-        return draft;
+        return { ...draft, status: AdvertisementStatus.UNREVIEWED };
       }
-    } else if (draft.status === AdvertisementStatus.REVIEWED) {
+    } else if (draft.status === AdvertisementStatus.REVIEWED || !draft.status) {
       if (draft.brand && draft.color) {
-        return draft;
+        return { ...draft, status: AdvertisementStatus.REVIEWED };
       } else {
         return { ...draft, status: AdvertisementStatus.UNREVIEWED };
       }
+    } else {
+      return draft;
     }
   }
 

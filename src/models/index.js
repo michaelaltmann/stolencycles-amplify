@@ -20,6 +20,14 @@ const AdvertisementStatus = {
   "JUNK": "JUNK"
 };
 
+const TheftPlatform = {
+  "FACEBOOK": "FACEBOOK",
+  "BIKEINDEX": "BIKEINDEX",
+  "PROJECT529": "PROJECT529",
+  "NCIC": "NCIC",
+  "OTHER": "OTHER"
+};
+
 const TheftStatus = {
   "UNREVIEWED": "UNREVIEWED",
   "REVIEWED": "REVIEWED",
@@ -30,14 +38,6 @@ const MatchStatus = {
   "UNREVIEWED": "UNREVIEWED",
   "MATCHED": "MATCHED",
   "MISMATCHED": "MISMATCHED"
-};
-
-const TheftPlatform = {
-  "FACEBOOK": "FACEBOOK",
-  "BIKEINDEX": "BIKEINDEX",
-  "PROJECT529": "PROJECT529",
-  "NCIC": "NCIC",
-  "OTHER": "OTHER"
 };
 
 const { Advertisement, Seller, SellerAlias, Match, Theft, Brand, Account } = initSchema(schema);
@@ -52,7 +52,7 @@ export {
   Account,
   AdvertisementPlatform,
   AdvertisementStatus,
+  TheftPlatform,
   TheftStatus,
-  MatchStatus,
-  TheftPlatform
+  MatchStatus
 };

@@ -583,50 +583,8 @@ export const listMatches = /* GraphQL */ `
     listMatches(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        advertisement {
-        id
-        platformName
-        platformId
-        title
-        url
-        price
-        description
-        model
-        brand
-        color
-        images
-        status
-        postDate
-        sortOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        advertisementSellerId
-      }
-      theftId
-      theft {
-        id
-        platformName
-        platformId
-        title
-        url
-        description
-        model
-        brand
-        color
-        images
-        status
-        location
-        postDate
-        sortOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+        advertisementId
+        theftId
         status
         createdAt
         updatedAt

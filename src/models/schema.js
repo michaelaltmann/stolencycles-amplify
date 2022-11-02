@@ -551,7 +551,7 @@ export const schema = {
                     "name": "platformName",
                     "isArray": false,
                     "type": {
-                        "enum": "AdvertisementPlatform"
+                        "enum": "TheftPlatform"
                     },
                     "isRequired": false,
                     "attributes": []
@@ -900,6 +900,16 @@ export const schema = {
                 "JUNK"
             ]
         },
+        "TheftPlatform": {
+            "name": "TheftPlatform",
+            "values": [
+                "FACEBOOK",
+                "BIKEINDEX",
+                "PROJECT529",
+                "NCIC",
+                "OTHER"
+            ]
+        },
         "TheftStatus": {
             "name": "TheftStatus",
             "values": [
@@ -915,19 +925,9 @@ export const schema = {
                 "MATCHED",
                 "MISMATCHED"
             ]
-        },
-        "TheftPlatform": {
-            "name": "TheftPlatform",
-            "values": [
-                "FACEBOOK",
-                "BIKEINDEX",
-                "PROJECT529",
-                "NCIC",
-                "OTHER"
-            ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.2.0",
-    "version": "8fe2581119955067d1db4f49263cb791"
+    "version": "72c3448a105824a8fbce041ae015f961"
 };

@@ -19,14 +19,14 @@ import TheftRepository from "../repositories/TheftRepository";
 import { ColorSelector } from "./ColorSelector";
 const classes = {
   card: {
-    maxWidth: 325,
-    margin: 5,
+    width: 290,
+    margin: 3,
     position: "relative",
     height: 550,
   },
   reviewed: {
-    maxWidth: 325,
-    margin: 3,
+    width: 290,
+    margin: 1,
     position: "relative",
     height: 550,
     borderStyle: "solid",
@@ -159,17 +159,37 @@ export function TheftView(props) {
     window.open(listingUrl, "_blank", "width=800,height=600");
   }
 
+  // Changes
+  function checkReviewStatus(draft) {
+    if (draft.status === TheftStatus.UNREVIEWED || !draft.status) {
+      if (draft.brand && draft.color) {
+        return { ...draft, status: TheftStatus.REVIEWED };
+      } else {
+        return { ...draft, status: TheftStatus.UNREVIEWED };
+      }
+    } else if (draft.status === TheftStatus.REVIEWED || !draft.status) {
+      if (draft.brand && draft.color) {
+        return { ...draft, status: TheftStatus.REVIEWED };
+      } else {
+        return { ...draft, status: TheftStatus.UNREVIEWED };
+      }
+    } else {
+      return draft;
+    }
+  }
+
   function handleChange(e) {
     var { name, value } = e.target;
     let draft = { ...theft };
     draft[name] = value;
-    setTheft(draft);
+    const update = checkReviewStatus(draft);
+    setTheft(update);
     setModified(true);
   }
   function handleAutoCompleteChange(name, value) {
     let draft = { ...theft };
     draft[name] = value;
-    setTheft(draft);
+    setTheft(checkReviewStatus(draft));
     setModified(true);
   }
 

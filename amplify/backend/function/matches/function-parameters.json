@@ -1,5 +1,11 @@
 {
   "permissions": {
+    "api": {
+      "stolencycles": [
+        "Query",
+        "Mutation"
+      ]
+    },
     "storage": {
       "Advertisement:@model(appsync)": [
         "read"
@@ -18,13 +24,5 @@
       ]
     }
   },
-  "lambdaLayers": [
-    {
-      "type": "ProjectLayer",
-      "resourceName": "stolencyclesdataaccess",
-      "env": "main",
-      "version": "Always choose latest version",
-      "isLatestVersionSelected": true
-    }
-  ]
+  "lambdaLayers": []
 }
