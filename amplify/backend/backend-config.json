@@ -62,11 +62,6 @@
         }
       ]
     },
-    "stolencyclesdataaccess": {
-      "providerPlugin": "awscloudformation",
-      "service": "LambdaLayer",
-      "build": true
-    },
     "matches": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -77,13 +72,6 @@
           "resourceName": "stolencycles",
           "attributes": [
             "GraphQLAPIIdOutput"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "stolencyclesdataaccess",
-          "attributes": [
-            "Arn"
           ]
         }
       ]

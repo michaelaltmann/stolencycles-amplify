@@ -73,7 +73,7 @@ test('truncate', async () => {
 /**
  * Check every active ad against every active theft
  */
-test('checkAll', async () => {
+test.only('checkAll', async () => {
     let newMatches = await dao.checkAll()
     console.log(JSON.stringify(newMatches, null, 3))
     expect(newMatches.length > 0)

@@ -177,6 +177,16 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
+                        "name": "advertisementsByBrandColor",
+                        "fields": [
+                            "brand",
+                            "color"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
                         "name": "advertisementsByStatusPostDateId",
                         "queryField": "advertisementsByStatusPostDateId",
                         "fields": [
@@ -500,6 +510,16 @@ export const schema = {
                     }
                 },
                 {
+                    "type": "key",
+                    "properties": {
+                        "name": "matchesByStatusAdvertisementId",
+                        "fields": [
+                            "status",
+                            "advertisementId"
+                        ]
+                    }
+                },
+                {
                     "type": "auth",
                     "properties": {
                         "rules": [
@@ -667,6 +687,16 @@ export const schema = {
                         "fields": [
                             "platformId",
                             "platformName"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "theftsByBrandColor",
+                        "fields": [
+                            "brand",
+                            "color"
                         ]
                     }
                 },

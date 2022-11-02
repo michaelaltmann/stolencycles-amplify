@@ -1,5 +1,6 @@
 const { v4: UUID } = require('uuid');
-const deepIs = require('deep-is')
+const deepIs = require('deep-is');
+const { AdvertisementStatus } = require('./models');
 
 let tableName = "Advertisement-tf5zgdee2fbdbjaop2f5bq4ffm";
 if (process.env.ENV && process.env.ENV !== "NONE") {
@@ -98,7 +99,7 @@ class AdvertisementDao {
         process.stdout.write(`Purging ads with status ${status} before ${maxDateString}\n`)
         var query = {
             TableName: tableName,
-            IndexName: 'status-sortOrder-index',
+            IndexName: 'advertisementsByStatusPostDateId',
             KeyConditionExpression: '#status = :status',
             ExpressionAttributeNames: {
                 "#status": "status"
@@ -118,9 +119,9 @@ class AdvertisementDao {
             process.stdout.write(`\nReceived ${response.Items.length}\n`)
             ExclusiveStartKey = response.LastEvaluatedKey
             response.Items.forEach(async item => {
-                if (item.sortOrder < maxDateString) {
+                if (item['postDate#id'] < maxDateString) {
                     purgeCount = purgeCount + 1
-                    process.stdout.write(`${item.sortOrder} ${item.status}`)
+                    process.stdout.write(`${item['postDate#id']} ${item.status}`)
                     if (!dryRun) {
                         const deleteItemParams = {
                             TableName: tableName,
@@ -241,7 +242,6 @@ class AdvertisementDao {
 
     async listByStatus(config) {
         const start = new Date()
-
         config = config || {}
         const defaults = {
             Limit: 20,
@@ -279,8 +279,75 @@ class AdvertisementDao {
         return response
     }
 
+    async listByBrandColor(config) {
+        const dynamoQueryLimit = 500;
+        config = config || {}
+        const defaults = {
+            Limit: 20,
+            LastEvaluatedKey: null,
+            Brand: null,
+            ScanIndexForward: false,
+            Color: null
+        }
+        config = { ...defaults, ...config }
+        var ExclusiveStartKey = config.LastEvaluatedKey
+        const { Brand, Color, Limit, ScanIndexForward } = config
+        var all = {
+            LastEvaluatedKey: null,
+            Items: []
+        }
+        const batchLimit = Limit > 0 ? Math.min(Limit, dynamoQueryLimit) : dynamoQueryLimit
+
+        do {
+            let query
+            if (Color) {
+                query = {
+                    TableName: tableName,
+                    Limit: batchLimit,
+                    IndexName: 'advertisementsByBrandColor',
+                    KeyConditionExpression: '#brand = :brand and #color = :color',
+                    ExpressionAttributeNames: {
+                        "#brand": "brand",
+                        "#color": "color",
+
+                    },
+                    ExpressionAttributeValues: {
+                        ':brand': Brand,
+                        ':color': Color,
+                    },
+                    ScanIndexForward: ScanIndexForward,
+                    ExclusiveStartKey: ExclusiveStartKey
+                }
+            } else {
+                query = {
+                    TableName: tableName,
+                    Limit: batchLimit,
+                    IndexName: 'theftsByBrandColor',
+                    KeyConditionExpression: '#brand = :brand',
+                    ExpressionAttributeNames: {
+                        "#brand": "brand",
+
+                    },
+                    ExpressionAttributeValues: {
+                        ':brand': Brand,
+                    },
+                    ScanIndexForward: ScanIndexForward,
+                    ExclusiveStartKey: ExclusiveStartKey
+                }
+            }
+
+            const response = await this.docClient.query(query).promise()
+            console.log("Query returned " + response.Items.length)
+            all.Items = all.Items.concat(response.Items)
+            all.LastEvaluatedKey = response.LastEvaluatedKey
+            ExclusiveStartKey = response.LastEvaluatedKey
+        } while ((config.Limit == 0 || all.Items.length < Limit) && all.LastEvaluatedKey)
+        return all
+    }
+
+
     async listForReview() {
-        return await this.listByStatus({ Status: 'NeedsReview', ScanIndexForward: false })
+        return await this.listByStatus({ Status: AdvertisementStatus.UNREVIEWED, ScanIndexForward: false })
     }
 
     async setStatus(newStatus) {
@@ -317,9 +384,9 @@ class AdvertisementDao {
             process.stdout.write("\nReceived " + response.Items.length)
             ExclusiveStartKey = response.LastEvaluatedKey
             response.Items.forEach(async item => {
-                if (item.status == 'NeedsReview' && item.brand && item.color) {
+                if (item.status == AdvertisementStatus.UNREVIEWED && item.brand && item.color) {
                     process.stdout.write("updating " + item.id)
-                    item.status = 'Reviewed'
+                    item.status = AdvertisementStatus.REVIEWED
                     delete item.needsReview
                     const putItemParams = {
                         TableName: tableName,

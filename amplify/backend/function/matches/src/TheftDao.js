@@ -1,6 +1,7 @@
 const { v4: UUID } = require('uuid');
-const deepIs = require('deep-is')
-let tableName = "Theft";
+const deepIs = require('deep-is');
+const { TheftStatus } = require('./models');
+let tableName = "Theft-tf5zgdee2fbdbjaop2f5bq4ffm";
 if (process.env.ENV && process.env.ENV !== "NONE") {
     tableName = tableName + '-' + process.env.ENV;
 }
@@ -111,9 +112,8 @@ class TheftDao {
         const defaults = {
             Limit: 1,
             LastEvaluatedKey: null,
-            Status: 'Stolen',
+            Status: TheftStatus.REVIEWED,
             ScanIndexForward: false,
-            Brand: null
         }
         config = { ...defaults, ...config }
         var ExclusiveStartKey = config.LastEvaluatedKey
@@ -128,7 +128,7 @@ class TheftDao {
             let query = {
                 TableName: tableName,
                 Limit: batchLimit,
-                IndexName: 'status-sortOrder-index',
+                IndexName: 'matchesByStatusAdvertisementId',
                 KeyConditionExpression: '#status = :status',
                 ExpressionAttributeNames: {
                     "#status": "status"
@@ -139,10 +139,71 @@ class TheftDao {
                 ScanIndexForward: ScanIndexForward,
                 ExclusiveStartKey: ExclusiveStartKey
             }
-            if (Brand) {
-                query.ExpressionAttributeNames["#brand"] = "brand"
-                query.FilterExpression = '#brand = :brand'
-                query.ExpressionAttributeValues[':brand'] = Brand
+
+            const response = await this.docClient.query(query).promise()
+            console.log("Query returned " + response.Items.length)
+            all.Items = all.Items.concat(response.Items)
+            all.LastEvaluatedKey = response.LastEvaluatedKey
+            ExclusiveStartKey = response.LastEvaluatedKey
+        } while ((config.Limit == 0 || all.Items.length < Limit) && all.LastEvaluatedKey)
+        return all
+    }
+
+    async listByBrandColor(config) {
+        const dynamoQueryLimit = 500;
+        config = config || {}
+        const defaults = {
+            Limit: 20,
+            LastEvaluatedKey: null,
+            Brand: null,
+            ScanIndexForward: false,
+            Color: null
+        }
+        config = { ...defaults, ...config }
+        var ExclusiveStartKey = config.LastEvaluatedKey
+        const { Brand, Limit, ScanIndexForward, Color } = config
+        var all = {
+            LastEvaluatedKey: null,
+            Items: []
+        }
+        const batchLimit = Limit > 0 ? Math.min(Limit, dynamoQueryLimit) : dynamoQueryLimit
+
+        do {
+            let query
+            if (Color) {
+                query = {
+                    TableName: tableName,
+                    Limit: batchLimit,
+                    IndexName: 'theftsByBrandColor',
+                    KeyConditionExpression: '#brand = :brand and #color = :color',
+                    ExpressionAttributeNames: {
+                        "#brand": "brand",
+                        "#color": "color",
+
+                    },
+                    ExpressionAttributeValues: {
+                        ':brand': Brand,
+                        ':color': Color,
+                    },
+                    ScanIndexForward: ScanIndexForward,
+                    ExclusiveStartKey: ExclusiveStartKey
+                }
+            } else {
+                query = {
+                    TableName: tableName,
+                    Limit: batchLimit,
+                    IndexName: 'theftsByBrandColor',
+                    KeyConditionExpression: '#brand = :brand',
+                    ExpressionAttributeNames: {
+                        "#brand": "brand",
+
+                    },
+                    ExpressionAttributeValues: {
+                        ':brand': Brand,
+                    },
+                    ScanIndexForward: ScanIndexForward,
+                    ExclusiveStartKey: ExclusiveStartKey
+                }
             }
 
             const response = await this.docClient.query(query).promise()
@@ -185,7 +246,10 @@ class TheftDao {
         return all
     }
 
-    async setStatusToStolen() {
+    /**
+     * Backfill status to UNREVIEWED if it is null
+     */
+    async backfillStatus() {
         const query = {
             TableName: tableName
         }
@@ -194,14 +258,15 @@ class TheftDao {
         response.Items.forEach(async item => {
             const putItemParams = {
                 TableName: tableName,
-                Item: { status: 'Stolen', ...item }
+                Item: { status: TheftStatus.UNREVIEWED, ...item }
             }
             const response = await this.docClient.put(putItemParams).promise()
             process.stdout.write("." + item.id)
         });
         process.stdout.write("done\n")
     }
-    async setSortOrder() {
+
+    async backfillSortOrder() {
         const query = {
             TableName: tableName
         }
@@ -210,7 +275,7 @@ class TheftDao {
         response.Items.forEach(async item => {
             const putItemParams = {
                 TableName: tableName,
-                Item: { ...item, sortOrder: "" + item.postDate + "/" + item.id }
+                Item: { ...item, sortOrder: "" + item.postDate + "#" + item.id }
             }
             const response = await this.docClient.put(putItemParams).promise()
             process.stdout.write("." + item.id)

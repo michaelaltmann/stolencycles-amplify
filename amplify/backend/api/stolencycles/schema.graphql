@@ -9,6 +9,7 @@ type Advertisement @model @auth(rules: [{ allow: public }]) {
   description: String
   model: String
   brand: String
+    @index(name: "advertisementsByBrandColor", sortKeyFields: ["color"])
   color: String
   images: AWSJSON
   seller: Seller @hasOne
@@ -32,7 +33,7 @@ type Theft @model @auth(rules: [{ allow: public }]) {
   url: String
   description: String
   model: String
-  brand: String
+  brand: String @index(name: "theftsByBrandColor", sortKeyFields: ["color"])
   color: String
   images: AWSJSON
   status: TheftStatus
@@ -89,6 +90,10 @@ type Match @model @auth(rules: [{ allow: public }]) {
   theftId: ID! @index(name: "byTheftIndex", sortKeyFields: ["advertisementId"])
   theft: Theft @belongsTo(fields: ["theftId"])
   status: MatchStatus
+    @index(
+      name: "matchesByStatusAdvertisementId"
+      sortKeyFields: ["advertisementId"]
+    )
 }
 
 enum AdvertisementPlatform {

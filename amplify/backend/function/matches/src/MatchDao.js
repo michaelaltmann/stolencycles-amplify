@@ -213,21 +213,32 @@ class MatchDao {
         const response = await advertisementDao.listByStatus(config)
         return response.Items
     }
-
+    /**
+     * 
+     * @param {Theft} theft 
+     * @returns List of advertisements that might be matches.
+     */
     async getPossibleAdvertisements(theft) {
-        const statuses = [AdvertisementStatus.REVIEWED, AdvertisementStatus.REVIEWED]
+        const statuses = [AdvertisementStatus.REVIEWED, AdvertisementStatus.FLAGGED]
         const brand = theft.brand
         const colors = [theft.color] // perhaps include similar colors
 
         let possibleAdvertisements = []
         for (const status of statuses) {
             for (const color of colors) {
-                const ads = AdvertisementDao.listByStatusBrandColor(status, brand, color)
+                const { Items } = await advertisementDao.listByBrandColor({ Limit: 0, Brand: brand, Color: color })
+                const ads = Items.filter(ad => ad.status === status)
                 possibleAdvertisements = possibleAdvertisements.concat(ads)
             }
         }
         return possibleAdvertisements
     }
+
+    /**
+     * 
+     * @param {Advertisement} advertisement 
+     * @returns List of thefts that might be matches.
+     */
     async getPossibleThefts(advertisement) {
         const statuses = [TheftStatus.REVIEWED]
         const brand = advertisement.brand
@@ -236,7 +247,8 @@ class MatchDao {
         let possibleThefts = []
         for (const status of statuses) {
             for (const color of colors) {
-                const thefts = TheftDao.listByStatusBrandColor(status, brand, color)
+                const { Items } = await theftDao.listByBrandColor({ Limit: 0, Brand: brand, Color: color })
+                const thefts = Items.filter(theft => theft.status === status)
                 possibleThefts = possibleThefts.concat(thefts)
             }
         }
@@ -404,7 +416,7 @@ class MatchDao {
     async checkAll() {
         const advertisements = await this.getAdvertisements()
         return await Promise.all(advertisements.map(async advertisement => {
-            await this.checkAdvertisement(advertisement)
+            return await this.checkAdvertisement(advertisement)
         }))
     }
 
@@ -528,7 +540,7 @@ class MatchDao {
      * @param {*} advertisement 
      */
     async checkAdvertisement(advertisement) {
-        const newMatches = []
+        let newMatches = []
         if (!advertisement) return newMatches
         if (advertisement.status == AdvertisementStatus.JUNK ||
             advertisement.status == AdvertisementStatus.SOLD

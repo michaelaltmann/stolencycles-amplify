@@ -17,10 +17,6 @@
           "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
           "s3Key": "amplify-builds/scrape-39394c30696978694b6a-build.zip"
         },
-        "stolencyclesdataaccess": {
-          "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
-          "s3Key": "amplify-builds/stolencyclesdataaccess-LambdaLayerVersion1ffc5a9f-build.zip"
-        },
         "matches": {
           "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
           "s3Key": "amplify-builds/matches-6752533737366f646f37-build.zip"
