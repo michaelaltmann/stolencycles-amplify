@@ -1,6 +1,5 @@
 const AdvertisementDao = require('./AdvertisementDao')
 const TheftDao = require('./TheftDao')
-const { v4: UUID } = require('uuid');
 const { AdvertisementStatus, TheftStatus, MatchStatus } = require('./models');
 const GRAPHQL_ENDPOINT = process.env.API_STOLENCYCLES_GRAPHQLAPIENDPOINTOUTPUT;
 const GRAPHQL_API_KEY = process.env.API_STOLENCYCLES_GRAPHQLAPIKEYOUTPUT;
@@ -87,8 +86,7 @@ class MatchDao {
         };
         const request = new fetch.Request(GRAPHQL_ENDPOINT, options);
         const response = await fetch(request);
-        body = await response.json();
-        console.log("GraphQL responded with " + JSON.stringify(body))
+        const body = await response.json();
         return body.data.createMatch
     }
 
@@ -119,7 +117,7 @@ class MatchDao {
             }
         } else {
             const now = new Date().toISOString()
-            const newItem = { ...defaults, ...item, scrapeDate: now, id: UUID() }
+            const newItem = { ...defaults, ...item, scrapeDate: now }
             console.log("Inserting " + JSON.stringify(newItem))
             const created = await this.insert(newItem)
             return { item: created, status: 'Created' }
@@ -236,13 +234,12 @@ class MatchDao {
         const colors = [theft.color] // perhaps include similar colors
 
         let possibleAdvertisements = []
-        for (const status of statuses) {
-            for (const color of colors) {
-                const { Items } = await advertisementDao.listByBrandColor({ Limit: 0, Brand: brand, Color: color })
-                const ads = Items.filter(ad => ad.status === status)
-                possibleAdvertisements = possibleAdvertisements.concat(ads)
-            }
+        for (const color of colors) {
+            const { Items } = await advertisementDao.listByBrandColor({ Limit: 0, Brand: brand, Color: color })
+            const ads = Items.filter(ad => statuses.includes(ad.status))
+            possibleAdvertisements = possibleAdvertisements.concat(ads)
         }
+
         return possibleAdvertisements
     }
 
@@ -257,13 +254,12 @@ class MatchDao {
         const colors = [advertisement.color] // perhaps include similar colors
 
         let possibleThefts = []
-        for (const status of statuses) {
-            for (const color of colors) {
-                const { Items } = await theftDao.listByBrandColor({ Limit: 0, Brand: brand, Color: color })
-                const thefts = Items.filter(theft => theft.status === status)
-                possibleThefts = possibleThefts.concat(thefts)
-            }
+        for (const color of colors) {
+            const { Items } = await theftDao.listByBrandColor({ Limit: 0, Brand: brand, Color: color })
+            const thefts = Items.filter(theft => statuses.includes(theft.status))
+            possibleThefts = possibleThefts.concat(thefts)
         }
+
         return possibleThefts
     }
     /**  
@@ -535,9 +531,9 @@ class MatchDao {
                             status: MatchStatus.UNREVIEWED,
                             //similarity: similarity
                         }
-                        console.log("Inserting " + newMatch.id + ' ' +
-                            advertisement.id + ':' + advertisement.brand + ' ' +
-                            theft.id + ':' + theft.brand
+                        console.log("Inserting match between " +
+                            advertisement.id + ':' + advertisement.brand + ':' + advertisement.color + ':' + advertisement.model + ' and ' +
+                            theft.id + ':' + theft.brand + ':' + theft.color + ':' + theft.model
                         )
 
                         await this.insert(newMatch)

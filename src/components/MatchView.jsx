@@ -1,5 +1,6 @@
 import { Flag, ThumbDown, ThumbUp } from "@mui/icons-material";
 import { Button, IconButton, Stack, Tooltip } from "@mui/material";
+import { borderColor } from "@mui/system";
 import { useState } from "react";
 import { MatchStatus } from "../models";
 import { AdvertisementView } from "./AdvertisementView";
@@ -34,12 +35,15 @@ export function MatchView(props) {
     },
   };
   return (
-    <Stack>
+    <Stack sx={{ border: "2px", borderColor: "black", borderStyle: "solid" }}>
       <Stack direction={"row"}>
         <AdvertisementView item={match.advertisement} />
         <TheftView item={match.theft} />
       </Stack>
-      <Stack direction={"row"}>
+      <Stack
+        direction={"row"}
+        sx={{ alignItems: "center", justifyContent: "center" }}
+      >
         <Tooltip title="A Match!">
           <IconButton
             sx={styles.downButton}

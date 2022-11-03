@@ -25,6 +25,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const MatchDao = require('./MatchDao')
+const AdvertisementDao = require('./AdvertisementDao')
+const TheftDao = require('./TheftDao')
 
 // declare a new express app
 const app = express()
@@ -43,17 +45,23 @@ app.use(function (req, res, next) {
  * Example get method *
  **********************/
 
-app.get('/check/advertisement/:id', function (req, res) {
+app.get('/check/advertisement/:id', async function (req, res) {
   const { id } = req.params
-  // Add your code here
-  res.json({ success: 'Checked advertisement ' + id, url: req.url, items: [{ name: "Fake match" }] });
+  const matchDao = new MatchDao()
+  const advertisementDao = new AdvertisementDao()
+  const advertisement = await advertisementDao.get(id)
+  const matches = await matchDao.checkAdvertisement(advertisement)
+  res.json({ success: 'Checked advertisement ' + id, items: matches });
 });
 
 
-app.get('/check/theft/:id', function (req, res) {
+app.get('/check/theft/:id', async function (req, res) {
   const { id } = req.params
-  // Add your code here
-  res.json({ success: 'Checked theft ' + id, url: req.url, items: [] });
+  const matchDao = new MatchDao()
+  const theftDao = new TheftDao()
+  const theft = await theftDao.get(id)
+  const matches = await matchDao.checkTheft(theft)
+  res.json({ success: 'Checked theft ' + id, items: matches });
 });
 
 app.get('/checkAdvertisements', async function (req, res) {

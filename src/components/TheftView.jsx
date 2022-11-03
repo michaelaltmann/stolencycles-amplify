@@ -17,16 +17,18 @@ import { TheftPlatform, TheftStatus } from "../models";
 import { colors } from "../Colors";
 import TheftRepository from "../repositories/TheftRepository";
 import { ColorSelector } from "./ColorSelector";
+import API from "@aws-amplify/api";
+
 const classes = {
   card: {
     width: 290,
-    margin: 3,
+    margin: "5px",
     position: "relative",
     height: 550,
   },
   reviewed: {
     width: 290,
-    margin: 1,
+    margin: "3px",
     position: "relative",
     height: 550,
     borderStyle: "solid",
@@ -262,6 +264,7 @@ export function TheftView(props) {
       };
       item = await TheftRepository.create(rest);
     }
+    await API.get("matches", "/check/theft/" + item.id);
     setTheft(item);
     setModified(false);
   }
@@ -302,6 +305,7 @@ export function TheftView(props) {
       <CardContent
         sx={{
           alignSelf: "end",
+          padding: "6px",
         }}
       >
         <Box

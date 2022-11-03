@@ -19,14 +19,14 @@ import AdvertisementRepository from "../repositories/AdvertisementRepository";
 import { ColorSelector } from "./ColorSelector";
 const classes = {
   card: {
-    maxWidth: 290,
-    margin: 5,
+    width: 290,
+    margin: "5px",
     position: "relative",
     height: 550,
   },
   reviewed: {
-    maxWidth: 290,
-    margin: 3,
+    width: 290,
+    margin: "3px",
     position: "relative",
     height: 550,
     borderStyle: "solid",
@@ -300,6 +300,7 @@ export function AdvertisementView(props) {
       <CardContent
         sx={{
           alignSelf: "end",
+          padding: "6px",
         }}
       >
         <Box

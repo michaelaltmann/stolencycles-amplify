@@ -19,7 +19,7 @@
         },
         "matches": {
           "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
-          "s3Key": "amplify-builds/matches-53414d746b6d794a474c-build.zip"
+          "s3Key": "amplify-builds/matches-702f48434c6a79354c6f-build.zip"
         }
       },
       "hosting": {

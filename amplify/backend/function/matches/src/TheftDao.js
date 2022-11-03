@@ -1,6 +1,5 @@
-const { v4: UUID } = require('uuid');
-const deepIs = require('deep-is');
 const { TheftStatus } = require('./models');
+const deepIs = require('deep-is');
 let tableName = "Theft-tf5zgdee2fbdbjaop2f5bq4ffm";
 if (process.env.ENV && process.env.ENV !== "NONE") {
     tableName = tableName + '-' + process.env.ENV;
@@ -56,7 +55,6 @@ class TheftDao {
         return items
     }
     async insert(item) {
-        if (!item.id) { item.id = UUID() }
         item.sortOrder = "" + item.postDate + "/" + item.id
         const putItemParams = {
             TableName: tableName,

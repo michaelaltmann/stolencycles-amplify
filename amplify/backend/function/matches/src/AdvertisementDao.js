@@ -1,4 +1,3 @@
-const { v4: UUID } = require('uuid');
 const deepIs = require('deep-is');
 const { AdvertisementStatus } = require('./models');
 
@@ -155,7 +154,6 @@ class AdvertisementDao {
     }
 
     async insert(item) {
-        if (!item.id) { item.id = UUID() }
         if (!item.postDate) { item.postDate = new Date(Date.parse(dateText)).toISOString() }
         item.sortOrder = "" + item.postDate + "/" + item.id
         const cleaned = this.removeBlanks(item)

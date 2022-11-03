@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { MatchStatus } from "../models";
-import { Button, Grid, Stack } from "@mui/material";
+import { Button, Divider, Grid, Stack } from "@mui/material";
 import API, { graphqlOperation } from "@aws-amplify/api";
 
-import { onCreateMatch } from "../graphql/subscriptions";
+import { onCreateMatch, onDeleteMatch } from "../graphql/subscriptions";
 import MatchRepository from "../repositories/MatchRepository";
 import { MatchView } from "../components/MatchView";
 export default function Matchs() {
@@ -18,19 +18,37 @@ export default function Matchs() {
     };
     if (!matchs) getData();
 
-    const subscription = API.graphql(graphqlOperation(onCreateMatch)).subscribe(
-      {
-        next: ({ provider, value }) => {
-          const newMatch = value.data.onCreateMatch;
-          setMatchs((list) => {
-            return [newMatch].concat(list || []);
-          });
-        },
-        error: (error) => console.warn(error),
-      }
-    );
+    const createSubscription = API.graphql(
+      graphqlOperation(onCreateMatch)
+    ).subscribe({
+      next: ({ provider, value }) => {
+        const newMatch = value.data.onCreateMatch;
+        setMatchs((list) => {
+          return [newMatch].concat(list || []);
+        });
+      },
+      error: (error) => console.warn(error),
+    });
+    const deleteSubscription = API.graphql(
+      graphqlOperation(onDeleteMatch)
+    ).subscribe({
+      next: ({ provider, value }) => {
+        const item = value.data.onDeleteMatch;
+        setMatchs((list) => {
+          const array = list || [];
+          var index = array.indexOf(item);
+          if (index !== -1) {
+            return array.splice(index, 1);
+          } else {
+            return array;
+          }
+        });
+      },
+      error: (error) => console.warn(error),
+    });
     return () => {
-      if (subscription) subscription.unsubscribe();
+      if (createSubscription) createSubscription.unsubscribe();
+      if (deleteSubscription) deleteSubscription.unsubscribe();
     };
   }, []);
 
@@ -42,7 +60,7 @@ export default function Matchs() {
     }
   }
   async function fetchAll() {
-    const { list, nextToken } = await MatchRepository.list(currentToken);
+    const { list, nextToken } = await MatchRepository.list(currentToken, 1);
     setCurrentToken(nextToken);
     setMatchs((matchs || []).concat(list));
   }
@@ -50,7 +68,8 @@ export default function Matchs() {
   async function fetchByStatus(status) {
     const { list, nextToken } = await MatchRepository.listByStatus(
       status,
-      currentToken
+      currentToken,
+      1
     );
     setCurrentToken(nextToken);
     setMatchs((matchs || []).concat(list));
@@ -61,7 +80,11 @@ export default function Matchs() {
       <Grid container direction="row">
         {matchs &&
           matchs.map((match) => {
-            return <MatchView item={match} key={match.id} />;
+            return (
+              <Grid item>
+                <MatchView item={match} key={match.id} />{" "}
+              </Grid>
+            );
           })}
       </Grid>
       <Stack direction="row">
