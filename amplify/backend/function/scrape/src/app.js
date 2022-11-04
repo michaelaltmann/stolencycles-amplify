@@ -69,6 +69,11 @@ const titles = [
   "Moving. Must go tonight!"
 ]
 
+const images = ["https://surlybikes.com/uploads/bikes/_medium_image/Lowside_BK0534_Background-2000x1333.jpg",
+  "https://www.transitionbikes.com/images/2022_PatrolCarbon_Gallery1.jpg",
+  "https://www.government.nl/binaries/large/content/gallery/rijksoverheid/content-afbeeldingen/onderwerpen/bijzondere-voertuigen/bbf_7507-rdw.jpg",
+  "https://electrek.co/wp-content/uploads/sites/3/2021/08/new-electric-bird-bike-high-tech-eco-conscious-fun-you-can-own-6.jpeg?quality=82&strip=all"]
+
 function select(list) {
   const i = Math.floor(Math.random() * list.length)
   return list[i]
@@ -91,20 +96,28 @@ app.get('/ping', function (req, res) {
 
 
 app.get('/marketplace', async function (req, res) {
-  const now = new Date()
-  const advertisement = {
-    platformName: "MARKETPLACE",
-    platformId: Math.round(10000 * Math.random()).toString(),
-    brand: select(brands),
-    status: "UNREVIEWED",
-    title: select(titles),
-    color: select(colors).name,
-    description: "This ad was scraped at " + now.toLocaleString(),
-    postDate: now.toISOString()
-  }
-  const item = AdvertisementRepository.create(advertisement)
+  const params = req.query
+  const limit = params.limit ? parseInt(params.limit) : 50
+  const nums = [...Array(limit).keys()].map(i => i + 1)
+  let items = await Promise.all(nums.map(async i => {
+    const now = new Date()
+    const advertisement = {
+      url: "https://www.facebook.com/marketplace",
+      platformName: "MARKETPLACE",
+      platformId: Math.round(10000 * Math.random()).toString(),
+      brand: select(brands),
+      status: "UNREVIEWED",
+      title: select(titles),
+      color: select(colors).name,
+      images: JSON.stringify([select(images)]),
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      postDate: now.toISOString()
+    }
+    const item = await AdvertisementRepository.create(advertisement)
+    return item
+  }))
   res.status(200)
-  return res.json(item)
+  return res.json(items)
 });
 
 app.post('/offerup', function (req, res) {
