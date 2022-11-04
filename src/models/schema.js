@@ -168,6 +168,7 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "advertisementsByPlatformId",
+                        "queryField": "advertisementsByPlatformId",
                         "fields": [
                             "platformId",
                             "platformName"
@@ -178,6 +179,7 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "advertisementsByBrandColor",
+                        "queryField": "advertisementsByBrandColor",
                         "fields": [
                             "brand",
                             "color"
@@ -386,6 +388,7 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "byFirstSellerIndex",
+                        "queryField": "byFirstSeller",
                         "fields": [
                             "firstSellerId",
                             "secondSellerId"
@@ -396,6 +399,7 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "bySecondSellerIndex",
+                        "queryField": "bySecondSeller",
                         "fields": [
                             "secondSellerId",
                             "firstSellerId"
@@ -513,6 +517,7 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "matchesByStatusAdvertisementId",
+                        "queryField": "matchesByStatusAdvertisementId",
                         "fields": [
                             "status",
                             "advertisementId"
@@ -684,6 +689,7 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "theftsByPlatformId",
+                        "queryField": "theftsByPlatformId",
                         "fields": [
                             "platformId",
                             "platformName"
@@ -694,6 +700,7 @@ export const schema = {
                     "type": "key",
                     "properties": {
                         "name": "theftsByBrandColor",
+                        "queryField": "theftsByBrandColor",
                         "fields": [
                             "brand",
                             "color"

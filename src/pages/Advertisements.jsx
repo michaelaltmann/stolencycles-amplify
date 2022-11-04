@@ -44,20 +44,22 @@ export default function Advertisements() {
     }
   }
   async function fetchAll() {
-    const { list, nextToken } = await AdvertisementRepository.list(
-      currentToken
+    const { items, nextToken } = await AdvertisementRepository.list(
+      currentToken,
+      3
     );
     setCurrentToken(nextToken);
-    setAdvertisements((advertisements || []).concat(list));
+    setAdvertisements((advertisements || []).concat(items));
   }
 
   async function fetchByStatus(status) {
-    const { list, nextToken } = await AdvertisementRepository.listByStatus(
+    const { items, nextToken } = await AdvertisementRepository.listByStatus(
       status,
-      currentToken
+      currentToken,
+      3
     );
     setCurrentToken(nextToken);
-    setAdvertisements((advertisements || []).concat(list));
+    setAdvertisements((advertisements || []).concat(items));
   }
 
   async function scrape() {

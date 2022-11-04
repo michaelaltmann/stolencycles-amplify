@@ -1,6 +1,6 @@
-import API from '@aws-amplify/api';
-import { createAdvertisement, updateAdvertisement } from '../graphql/mutations'
-import { advertisementsByStatusPostDateId, listAdvertisements } from "../graphql/queries"
+const API = require('./API');
+const { createAdvertisement, updateAdvertisement } = require('../graphql/mutations')
+const { advertisementsByStatusPostDateId, listAdvertisements } = require("../graphql/queries")
 
 /**
  * 
@@ -77,7 +77,8 @@ async function listByStatus(status, currentToken, limit = 1) {
       sortDirection: "DESC"
     },
   });
+  console.log(`listByStatus(${platformName},${platformId}) found ${items.length}`)
   return { items, nextToken }
 }
 
-export default { create, update, list, listByStatus }
+module.exports = { create, update, list, listByStatus }

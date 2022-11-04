@@ -60,19 +60,19 @@ export default function Matchs() {
     }
   }
   async function fetchAll() {
-    const { list, nextToken } = await MatchRepository.list(currentToken, 1);
+    const { items, nextToken } = await MatchRepository.list(currentToken, 1);
     setCurrentToken(nextToken);
-    setMatchs((matchs || []).concat(list));
+    setMatchs((matchs || []).concat(items));
   }
 
   async function fetchByStatus(status) {
-    const { list, nextToken } = await MatchRepository.listByStatus(
+    const { items, nextToken } = await MatchRepository.listByStatus(
       status,
       currentToken,
       1
     );
     setCurrentToken(nextToken);
-    setMatchs((matchs || []).concat(list));
+    setMatchs((matchs || []).concat(items));
   }
 
   return (

@@ -1,7 +1,9 @@
+"use strict";
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
-
-export const getAdvertisement = /* GraphQL */ `
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.matchesByStatusAdvertisementId = exports.bySecondSeller = exports.byFirstSeller = exports.theftsByStatusPostDateId = exports.theftsByBrandColor = exports.theftsByPlatformId = exports.advertisementsByStatusPostDateId = exports.advertisementsByBrandColor = exports.advertisementsByPlatformId = exports.syncMatches = exports.listMatches = exports.getMatch = exports.syncAccounts = exports.listAccounts = exports.getAccount = exports.syncBrands = exports.listBrands = exports.getBrand = exports.syncSellerAliases = exports.listSellerAliases = exports.getSellerAlias = exports.syncSellers = exports.listSellers = exports.getSeller = exports.syncThefts = exports.listThefts = exports.getTheft = exports.syncAdvertisements = exports.listAdvertisements = exports.getAdvertisement = void 0;
+exports.getAdvertisement = `
   query GetAdvertisement($id: ID!) {
     getAdvertisement(id: $id) {
       id
@@ -43,7 +45,7 @@ export const getAdvertisement = /* GraphQL */ `
     }
   }
 `;
-export const listAdvertisements = /* GraphQL */ `
+exports.listAdvertisements = `
   query ListAdvertisements(
     $filter: ModelAdvertisementFilterInput
     $limit: Int
@@ -77,7 +79,7 @@ export const listAdvertisements = /* GraphQL */ `
     }
   }
 `;
-export const syncAdvertisements = /* GraphQL */ `
+exports.syncAdvertisements = `
   query SyncAdvertisements(
     $filter: ModelAdvertisementFilterInput
     $limit: Int
@@ -117,7 +119,7 @@ export const syncAdvertisements = /* GraphQL */ `
     }
   }
 `;
-export const getTheft = /* GraphQL */ `
+exports.getTheft = `
   query GetTheft($id: ID!) {
     getTheft(id: $id) {
       id
@@ -146,7 +148,7 @@ export const getTheft = /* GraphQL */ `
     }
   }
 `;
-export const listThefts = /* GraphQL */ `
+exports.listThefts = `
   query ListThefts(
     $filter: ModelTheftFilterInput
     $limit: Int
@@ -179,7 +181,7 @@ export const listThefts = /* GraphQL */ `
     }
   }
 `;
-export const syncThefts = /* GraphQL */ `
+exports.syncThefts = `
   query SyncThefts(
     $filter: ModelTheftFilterInput
     $limit: Int
@@ -218,7 +220,7 @@ export const syncThefts = /* GraphQL */ `
     }
   }
 `;
-export const getSeller = /* GraphQL */ `
+exports.getSeller = `
   query GetSeller($id: ID!) {
     getSeller(id: $id) {
       id
@@ -242,7 +244,7 @@ export const getSeller = /* GraphQL */ `
     }
   }
 `;
-export const listSellers = /* GraphQL */ `
+exports.listSellers = `
   query ListSellers(
     $filter: ModelSellerFilterInput
     $limit: Int
@@ -266,7 +268,7 @@ export const listSellers = /* GraphQL */ `
     }
   }
 `;
-export const syncSellers = /* GraphQL */ `
+exports.syncSellers = `
   query SyncSellers(
     $filter: ModelSellerFilterInput
     $limit: Int
@@ -296,7 +298,7 @@ export const syncSellers = /* GraphQL */ `
     }
   }
 `;
-export const getSellerAlias = /* GraphQL */ `
+exports.getSellerAlias = `
   query GetSellerAlias($id: ID!) {
     getSellerAlias(id: $id) {
       id
@@ -334,7 +336,7 @@ export const getSellerAlias = /* GraphQL */ `
     }
   }
 `;
-export const listSellerAliases = /* GraphQL */ `
+exports.listSellerAliases = `
   query ListSellerAliases(
     $filter: ModelSellerAliasFilterInput
     $limit: Int
@@ -356,7 +358,7 @@ export const listSellerAliases = /* GraphQL */ `
     }
   }
 `;
-export const syncSellerAliases = /* GraphQL */ `
+exports.syncSellerAliases = `
   query SyncSellerAliases(
     $filter: ModelSellerAliasFilterInput
     $limit: Int
@@ -384,7 +386,7 @@ export const syncSellerAliases = /* GraphQL */ `
     }
   }
 `;
-export const getBrand = /* GraphQL */ `
+exports.getBrand = `
   query GetBrand($id: ID!) {
     getBrand(id: $id) {
       id
@@ -397,7 +399,7 @@ export const getBrand = /* GraphQL */ `
     }
   }
 `;
-export const listBrands = /* GraphQL */ `
+exports.listBrands = `
   query ListBrands(
     $filter: ModelBrandFilterInput
     $limit: Int
@@ -418,7 +420,7 @@ export const listBrands = /* GraphQL */ `
     }
   }
 `;
-export const syncBrands = /* GraphQL */ `
+exports.syncBrands = `
   query SyncBrands(
     $filter: ModelBrandFilterInput
     $limit: Int
@@ -445,7 +447,7 @@ export const syncBrands = /* GraphQL */ `
     }
   }
 `;
-export const getAccount = /* GraphQL */ `
+exports.getAccount = `
   query GetAccount($id: ID!) {
     getAccount(id: $id) {
       id
@@ -464,7 +466,7 @@ export const getAccount = /* GraphQL */ `
     }
   }
 `;
-export const listAccounts = /* GraphQL */ `
+exports.listAccounts = `
   query ListAccounts(
     $filter: ModelAccountFilterInput
     $limit: Int
@@ -487,7 +489,7 @@ export const listAccounts = /* GraphQL */ `
     }
   }
 `;
-export const syncAccounts = /* GraphQL */ `
+exports.syncAccounts = `
   query SyncAccounts(
     $filter: ModelAccountFilterInput
     $limit: Int
@@ -516,7 +518,7 @@ export const syncAccounts = /* GraphQL */ `
     }
   }
 `;
-export const getMatch = /* GraphQL */ `
+exports.getMatch = `
   query GetMatch($id: ID!) {
     getMatch(id: $id) {
       id
@@ -574,7 +576,7 @@ export const getMatch = /* GraphQL */ `
     }
   }
 `;
-export const listMatches = /* GraphQL */ `
+exports.listMatches = `
   query ListMatches(
     $filter: ModelMatchFilterInput
     $limit: Int
@@ -597,7 +599,7 @@ export const listMatches = /* GraphQL */ `
     }
   }
 `;
-export const syncMatches = /* GraphQL */ `
+exports.syncMatches = `
   query SyncMatches(
     $filter: ModelMatchFilterInput
     $limit: Int
@@ -626,7 +628,7 @@ export const syncMatches = /* GraphQL */ `
     }
   }
 `;
-export const advertisementsByPlatformId = /* GraphQL */ `
+exports.advertisementsByPlatformId = `
   query AdvertisementsByPlatformId(
     $platformId: String!
     $platformName: ModelStringKeyConditionInput
@@ -670,7 +672,7 @@ export const advertisementsByPlatformId = /* GraphQL */ `
     }
   }
 `;
-export const advertisementsByBrandColor = /* GraphQL */ `
+exports.advertisementsByBrandColor = `
   query AdvertisementsByBrandColor(
     $brand: String!
     $color: ModelStringKeyConditionInput
@@ -714,7 +716,7 @@ export const advertisementsByBrandColor = /* GraphQL */ `
     }
   }
 `;
-export const advertisementsByStatusPostDateId = /* GraphQL */ `
+exports.advertisementsByStatusPostDateId = `
   query AdvertisementsByStatusPostDateId(
     $status: AdvertisementStatus!
     $postDateId: ModelAdvertisementAdvertisementsByStatusPostDateIdCompositeKeyConditionInput
@@ -758,7 +760,7 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
     }
   }
 `;
-export const theftsByPlatformId = /* GraphQL */ `
+exports.theftsByPlatformId = `
   query TheftsByPlatformId(
     $platformId: String!
     $platformName: ModelStringKeyConditionInput
@@ -801,7 +803,7 @@ export const theftsByPlatformId = /* GraphQL */ `
     }
   }
 `;
-export const theftsByBrandColor = /* GraphQL */ `
+exports.theftsByBrandColor = `
   query TheftsByBrandColor(
     $brand: String!
     $color: ModelStringKeyConditionInput
@@ -844,7 +846,7 @@ export const theftsByBrandColor = /* GraphQL */ `
     }
   }
 `;
-export const theftsByStatusPostDateId = /* GraphQL */ `
+exports.theftsByStatusPostDateId = `
   query TheftsByStatusPostDateId(
     $status: TheftStatus!
     $postDateId: ModelTheftTheftsByStatusPostDateIdCompositeKeyConditionInput
@@ -887,7 +889,7 @@ export const theftsByStatusPostDateId = /* GraphQL */ `
     }
   }
 `;
-export const byFirstSeller = /* GraphQL */ `
+exports.byFirstSeller = `
   query ByFirstSeller(
     $firstSellerId: ID!
     $secondSellerId: ModelIDKeyConditionInput
@@ -919,7 +921,7 @@ export const byFirstSeller = /* GraphQL */ `
     }
   }
 `;
-export const bySecondSeller = /* GraphQL */ `
+exports.bySecondSeller = `
   query BySecondSeller(
     $secondSellerId: ID!
     $firstSellerId: ModelIDKeyConditionInput
@@ -951,7 +953,7 @@ export const bySecondSeller = /* GraphQL */ `
     }
   }
 `;
-export const matchesByStatusAdvertisementId = /* GraphQL */ `
+exports.matchesByStatusAdvertisementId = `
   query MatchesByStatusAdvertisementId(
     $status: MatchStatus!
     $advertisementId: ModelIDKeyConditionInput

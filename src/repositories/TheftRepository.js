@@ -46,7 +46,7 @@ async function update(theft) {
 async function list(currentToken, limit = 1) {
   const {
     data: {
-      listThefts: { items: list, nextToken },
+      listThefts: { items, nextToken },
     },
   } = await API.graphql({
     query: listThefts,
@@ -56,14 +56,14 @@ async function list(currentToken, limit = 1) {
       sortDirection: "DESC"
     },
   });
-  return { list, nextToken }
+  return { items, nextToken }
 }
 
 // TODO: Implement
 async function listByStatus(status, currentToken, limit = 1) {
   const {
     data: {
-      listThefts: { items: list, nextToken },
+      listThefts: { items, nextToken },
     },
   } = await API.graphql({
     query: listThefts,
@@ -72,7 +72,7 @@ async function listByStatus(status, currentToken, limit = 1) {
       nextToken: currentToken,
     },
   });
-  return { list, nextToken }
+  return { items, nextToken }
 }
 
 export default { create, update, list, listByStatus }

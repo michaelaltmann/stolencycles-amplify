@@ -250,19 +250,15 @@ export function TheftView(props) {
   async function handleSubmit() {
     let item;
     if (id) {
-      const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } = {
+      item = await TheftRepository.update({
         ...theft,
         postDate: new Date().toISOString(),
-      };
-
-      item = await TheftRepository.update(rest);
+      });
     } else {
-      const { createdAt, updatedAt, _lastChangedAt, _deleted, ...rest } = {
+      item = await TheftRepository.create({
         ...theft,
         postDate: new Date().toISOString(),
-        id: id,
-      };
-      item = await TheftRepository.create(rest);
+      });
     }
     await API.get("matches", "/check/theft/" + item.id);
     setTheft(item);

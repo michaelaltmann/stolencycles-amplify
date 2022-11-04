@@ -2,14 +2,22 @@ type Advertisement @model @auth(rules: [{ allow: public }]) {
   id: ID!
   platformName: AdvertisementPlatform
   platformId: String
-    @index(name: "advertisementsByPlatformId", sortKeyFields: ["platformName"])
+    @index(
+      name: "advertisementsByPlatformId"
+      sortKeyFields: ["platformName"]
+      queryField: "advertisementsByPlatformId"
+    )
   title: String!
   url: String
   price: Float
   description: String
   model: String
   brand: String
-    @index(name: "advertisementsByBrandColor", sortKeyFields: ["color"])
+    @index(
+      name: "advertisementsByBrandColor"
+      sortKeyFields: ["color"]
+      queryField: "advertisementsByBrandColor"
+    )
   color: String
   images: AWSJSON
   seller: Seller @hasOne
@@ -28,12 +36,21 @@ type Theft @model @auth(rules: [{ allow: public }]) {
   id: ID!
   platformName: TheftPlatform
   platformId: String
-    @index(name: "theftsByPlatformId", sortKeyFields: ["platformName"])
+    @index(
+      name: "theftsByPlatformId"
+      sortKeyFields: ["platformName"]
+      queryField: "theftsByPlatformId"
+    )
   title: String!
   url: String
   description: String
   model: String
-  brand: String @index(name: "theftsByBrandColor", sortKeyFields: ["color"])
+  brand: String
+    @index(
+      name: "theftsByBrandColor"
+      sortKeyFields: ["color"]
+      queryField: "theftsByBrandColor"
+    )
   color: String
   images: AWSJSON
   status: TheftStatus
@@ -63,10 +80,18 @@ type Seller @model @auth(rules: [{ allow: public }]) {
 type SellerAlias @model @auth(rules: [{ allow: public }]) {
   id: ID!
   firstSellerId: ID!
-    @index(name: "byFirstSellerIndex", sortKeyFields: ["secondSellerId"])
+    @index(
+      name: "byFirstSellerIndex"
+      sortKeyFields: ["secondSellerId"]
+      queryField: "byFirstSeller"
+    )
   firstSeller: Seller @belongsTo(fields: ["firstSellerId"])
   secondSellerId: ID!
-    @index(name: "bySecondSellerIndex", sortKeyFields: ["firstSellerId"])
+    @index(
+      name: "bySecondSellerIndex"
+      sortKeyFields: ["firstSellerId"]
+      queryField: "bySecondSeller"
+    )
   secondSeller: Seller @belongsTo(fields: ["secondSellerId"])
 }
 
@@ -93,6 +118,7 @@ type Match @model @auth(rules: [{ allow: public }]) {
     @index(
       name: "matchesByStatusAdvertisementId"
       sortKeyFields: ["advertisementId"]
+      queryField: "matchesByStatusAdvertisementId"
     )
 }
 

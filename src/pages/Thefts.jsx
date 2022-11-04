@@ -42,20 +42,24 @@ export default function Thefts() {
     }
   }
   async function fetchAll() {
-    const { list, nextToken } = await TheftRepository.list(currentToken);
+    const { items, nextToken } = await TheftRepository.list(currentToken, 3);
     setCurrentToken(nextToken);
-    setThefts((thefts || []).concat(list));
+    setThefts((thefts || []).concat(items));
   }
 
   async function fetchByStatus(status) {
-    const { list, nextToken } = await TheftRepository.listByStatus(
+    const { items, nextToken } = await TheftRepository.listByStatus(
       status,
-      currentToken
+      currentToken,
+      3
     );
     setCurrentToken(nextToken);
-    setThefts((thefts || []).concat(list));
+    setThefts((thefts || []).concat(items));
   }
-
+  async function scrapeBikeIndex() {
+    const response = API.get("scrape", "/bikeindex");
+    console.log(response);
+  }
   return (
     <Stack spacing={2}>
       <Grid container direction="row">
@@ -68,6 +72,7 @@ export default function Thefts() {
         <Button onClick={() => setThefts([{}].concat(thefts || []))}>
           New
         </Button>
+        <Button onClick={scrapeBikeIndex}>BikeIndex</Button>
         <Button onClick={() => fetchThefts()} disabled={!currentToken}>
           More
         </Button>
