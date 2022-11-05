@@ -20,7 +20,6 @@ import TheftRepository from "../repositories/TheftRepository";
 import { TheftView } from "../components/TheftView";
 import { ExpandMore } from "@mui/icons-material";
 import { brands } from "../Brands";
-import { width } from "@mui/system";
 
 export default function Thefts() {
   const [filter, setFilter] = useState({
@@ -88,7 +87,6 @@ export default function Thefts() {
   }
   async function scrapeBikeIndex() {
     const response = API.get("scrape", "/bikeindex");
-    console.log(response);
   }
   function handleStatusFilterChanged(e) {
     setCurrentToken(null);
@@ -100,7 +98,6 @@ export default function Thefts() {
           ? TheftStatus.UNREVIEWED
           : TheftStatus.REVIEWED,
     });
-    console.log("Filter changed to " + JSON.stringify(filter));
   }
   function handleBrandFilterChanged(brand) {
     setCurrentToken(null);
@@ -109,7 +106,6 @@ export default function Thefts() {
       ...filter,
       brand: brand,
     });
-    console.log("Filter changed to " + JSON.stringify(filter));
   }
   const [expandFilter, setExpandFilter] = useState(false);
   return (
