@@ -1,7 +1,7 @@
 
 import API from '@aws-amplify/api';
 import { createTheft, updateTheft } from '../graphql/mutations'
-import { listThefts, theftsByStatusPostDateId } from "../graphql/queries"
+import { listThefts, theftsByBrandColor, theftsByStatusPostDateId } from "../graphql/queries"
 
 /**
  * 
@@ -59,7 +59,6 @@ async function list(currentToken, limit = 1) {
   return { items, nextToken }
 }
 
-// TODO: Implement
 async function listByStatus(status, currentToken, limit = 1) {
   const {
     data: {
@@ -76,6 +75,22 @@ async function listByStatus(status, currentToken, limit = 1) {
   });
   return { items, nextToken }
 }
+async function listByBrandColor(brand, color, currentToken, limit = 1) {
+  const {
+    data: {
+      theftsByBrandColor: { items, nextToken },
+    },
+  } = await API.graphql({
+    query: theftsByBrandColor,
+    variables: {
+      brand: brand,
+      limit: limit,
+      nextToken: currentToken,
+      sortDirection: "DESC"
+    },
+  });
+  return { items, nextToken }
+}
 
-export default { create, update, list, listByStatus }
+export default { create, update, list, listByStatus, listByBrandColor }
 

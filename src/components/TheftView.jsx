@@ -18,7 +18,7 @@ import { colors } from "../Colors";
 import TheftRepository from "../repositories/TheftRepository";
 import { ColorSelector } from "./ColorSelector";
 import API from "@aws-amplify/api";
-import { brands, brandMap, guessBrand } from "../Brands";
+import { brands, guessBrand } from "../Brands";
 
 const classes = {
   card: {
