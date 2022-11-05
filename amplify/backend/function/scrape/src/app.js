@@ -21,7 +21,8 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 
 const fetch = require('node-fetch-commonjs');
 const TheftRepository = require("./repositories/TheftRepository")
-const AdvertisementRepository = require("./repositories/AdvertisementRepository")
+const AdvertisementRepository = require("./repositories/AdvertisementRepository");
+const { JS } = require('@aws-amplify/core');
 // declare a new express app
 const app = express()
 app.use(bodyParser.json())
@@ -134,7 +135,7 @@ app.get('/bikeindex', async function (req, res) {
     'accept-language': 'en-US,en;q=0.9',
     'Content-type': 'application/json'
   }
-  const max_per_page = 50
+  const max_per_page = 100
   const url = baseHost + '/search'
   let query = {
     page: page,
@@ -150,10 +151,9 @@ app.get('/bikeindex', async function (req, res) {
     const options = {
       method: 'GET',
       headers: headers,
-      qs: query,
       json: true
     }
-    const request = new fetch.Request(url, options);
+    const request = new fetch.Request(url + "?" + new URLSearchParams(query), options);
     const response = await fetch(request);
     const body = await response.json()
     console.log("BikeIndex sent back " + body.bikes.length)

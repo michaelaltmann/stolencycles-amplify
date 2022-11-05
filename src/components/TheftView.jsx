@@ -18,6 +18,7 @@ import { colors } from "../Colors";
 import TheftRepository from "../repositories/TheftRepository";
 import { ColorSelector } from "./ColorSelector";
 import API from "@aws-amplify/api";
+import { brands, brandMap, guessBrand } from "../Brands";
 
 const classes = {
   card: {
@@ -61,28 +62,13 @@ export function TheftView(props) {
     status,
     aliasId,
   } = theft;
-  const brand = guessBrand();
+  const brand =
+    theft.brand || guessBrand((title || "") + " " + (description || " "));
   const imageUrl = getImageUrl(images);
   const postDateText = postDate
     ? new Date(Date.parse(postDate)).toDateString()
     : "";
-  const [brands, setBrands] = useState([
-    "Cannondale",
-    "Bianchi",
-    "Diamondback",
-    "Fuji",
-    "Giant",
-    "Jamis",
-    "Liv",
-    "Marin",
-    "Raleigh",
-    "Salsa",
-    "Schwinn",
-    "Specialized",
-    "Surly",
-    "Trek",
-    "Yuba",
-  ]);
+
   const cardClass =
     brand && color && !modified ? classes.reviewed : classes.card;
   const listingUrl = url ? url : platformUrl();
@@ -111,52 +97,6 @@ export function TheftView(props) {
     return null;
   }
 
-  function guessBrand() {
-    const brand = theft.brand;
-    if (brand) {
-      return brand;
-    } else {
-      var brandMap = {};
-      const brands = [
-        "Bianchi",
-        "Cannondale",
-        "Diamondback",
-        "Fuji",
-        "Giant",
-        "Jamis",
-        "Liv",
-        "Marin",
-        "Masi",
-        "Mongoose",
-        "RadPower",
-        "Raleigh",
-        "Salsa",
-        "Schwinn",
-        "Specialized",
-        "Surly",
-        "Trek",
-        "Yeti",
-        "Yuba",
-      ];
-      brands.forEach((b) => {
-        brandMap[b.toLowerCase().split(/s/)[0]] = b;
-      });
-      const words = (title || "")
-        .split(/\s/)
-        .concat((description || "").split(/\s/));
-      var matchingBrands = [];
-      words.forEach((word) => {
-        const b = brandMap[word.toLowerCase()];
-        if (b) {
-          matchingBrands.push(b);
-        }
-      });
-      if (matchingBrands.length === 1) {
-        return matchingBrands[0];
-      }
-    }
-    return null;
-  }
   function handleViewTheft() {
     window.open(listingUrl, "_blank", "width=800,height=600");
   }

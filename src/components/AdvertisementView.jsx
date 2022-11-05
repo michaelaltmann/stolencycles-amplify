@@ -15,6 +15,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import React, { useState } from "react";
 import { AdvertisementPlatform, AdvertisementStatus } from "../models";
 import { colors } from "../Colors";
+import { brands, brandMap, guessBrand } from "../Brands";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
 import { ColorSelector } from "./ColorSelector";
 const classes = {
@@ -59,28 +60,15 @@ export function AdvertisementView(props) {
     status,
     aliasId,
   } = advertisement;
-  const brand = guessBrand();
+  const brand =
+    advertisement.brand ||
+    guessBrand((title || "") + " " + (description || " "));
+
   const imageUrl = getImageUrl(images);
   const postDateText = postDate
     ? new Date(Date.parse(postDate)).toDateString()
     : "";
-  const [brands, setBrands] = useState([
-    "Cannondale",
-    "Bianchi",
-    "Diamondback",
-    "Fuji",
-    "Giant",
-    "Jamis",
-    "Liv",
-    "Marin",
-    "Raleigh",
-    "Salsa",
-    "Schwinn",
-    "Specialized",
-    "Surly",
-    "Trek",
-    "Yuba",
-  ]);
+
   const cardClass =
     status === AdvertisementStatus.UNREVIEWED || modified
       ? classes.card
@@ -113,31 +101,6 @@ export function AdvertisementView(props) {
     if (brand) {
       return brand;
     } else {
-      var brandMap = {};
-      const brands = [
-        "Bianchi",
-        "Cannondale",
-        "Diamondback",
-        "Fuji",
-        "Giant",
-        "Jamis",
-        "Liv",
-        "Marin",
-        "Masi",
-        "Mongoose",
-        "RadPower",
-        "Raleigh",
-        "Salsa",
-        "Schwinn",
-        "Specialized",
-        "Surly",
-        "Trek",
-        "Yeti",
-        "Yuba",
-      ];
-      brands.forEach((b) => {
-        brandMap[b.toLowerCase().split(/s/)[0]] = b;
-      });
       const words = (title || "")
         .split(/\s/)
         .concat((description || "").split(/\s/));
