@@ -3,6 +3,7 @@ import { AdvertisementStatus } from "../models";
 import { AdvertisementView } from "../components/AdvertisementView";
 import { Button, Grid, Stack } from "@mui/material";
 import API, { graphqlOperation } from "@aws-amplify/api";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import { onCreateAdvertisement } from "../graphql/subscriptions";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
@@ -46,7 +47,7 @@ export default function Advertisements() {
   async function fetchAll() {
     const { items, nextToken } = await AdvertisementRepository.list(
       currentToken,
-      3
+      20
     );
     setCurrentToken(nextToken);
     setAdvertisements((advertisements || []).concat(items));
@@ -56,7 +57,7 @@ export default function Advertisements() {
     const { items, nextToken } = await AdvertisementRepository.listByStatus(
       status,
       currentToken,
-      3
+      20
     );
     setCurrentToken(nextToken);
     setAdvertisements((advertisements || []).concat(items));
@@ -74,14 +75,25 @@ export default function Advertisements() {
         open={displayForm}
         onClose={() => setDisplayForm(false)}
       />
-      <Grid container direction="row">
-        {advertisements &&
-          advertisements.map((advertisement) => {
-            return (
-              <AdvertisementView item={advertisement} key={advertisement.id} />
-            );
-          })}
-      </Grid>
+
+      {advertisements && (
+        <InfiniteScroll
+          dataLength={advertisements ? advertisements.length : 0}
+          next={fetchAdvertisements}
+          hasMore={currentToken != null}
+        >
+          <Grid container direction="row">
+            {advertisements.map((advertisement) => {
+              return (
+                <Grid item key={advertisement.id}>
+                  {" "}
+                  <AdvertisementView item={advertisement} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </InfiniteScroll>
+      )}
       <Stack direction="row">
         <Button
           onClick={() => setAdvertisements([{}].concat(advertisements || []))}
@@ -89,9 +101,6 @@ export default function Advertisements() {
           New
         </Button>
         <Button onClick={() => scrape()}>Scrape</Button>
-        <Button onClick={() => fetchAdvertisements()} disabled={!currentToken}>
-          More
-        </Button>
       </Stack>
     </Stack>
   );

@@ -286,7 +286,7 @@ export function TheftView(props) {
         ></TextField>
         <ColorSelector color={color} handleColorChanged={handleColorChanged} />
         <Autocomplete
-          sx={{ marginTop: "6px", marginBottom: "2px" }}
+          sx={{ marginTop: "8px", marginBottom: "8px" }}
           freeSolo
           label="Brand"
           value={brand || ""}

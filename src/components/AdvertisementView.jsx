@@ -229,43 +229,7 @@ export function AdvertisementView(props) {
 
   return (
     <Card sx={cardClass} key={id}>
-      {url ? (
-        imageUrl && (
-          <CardActionArea onClick={handleViewAdvertisement}>
-            <CardMedia
-              sx={{
-                height: 200,
-              }}
-              image={imageUrl}
-            />
-          </CardActionArea>
-        )
-      ) : (
-        <>
-          <TextField
-            name="url"
-            variant="standard"
-            value={url || ""}
-            helperText="URL"
-            onChange={handleUrlChange}
-            fullWidth
-          />
-          <TextField
-            name="imageUrl"
-            variant="standard"
-            value={imageUrl || ""}
-            helperText="Image URL"
-            onChange={handleImageUrlChange}
-            fullWidth
-          />
-        </>
-      )}
-      <CardContent
-        sx={{
-          alignSelf: "end",
-          padding: "6px",
-        }}
-      >
+      <CardActionArea onClick={handleViewAdvertisement}>
         <Box
           sx={{
             fontSize: "1rem",
@@ -274,7 +238,44 @@ export function AdvertisementView(props) {
           }}
         >
           {platformName} {postDateText}
-        </Box>
+        </Box>{" "}
+        {url ? (
+          imageUrl && (
+            <CardMedia
+              sx={{
+                height: 200,
+              }}
+              image={imageUrl}
+            />
+          )
+        ) : (
+          <>
+            <TextField
+              name="url"
+              variant="standard"
+              value={url || ""}
+              helperText="URL"
+              onChange={handleUrlChange}
+              fullWidth
+            />
+            <TextField
+              name="imageUrl"
+              variant="standard"
+              value={imageUrl || ""}
+              helperText="Image URL"
+              onChange={handleImageUrlChange}
+              fullWidth
+            />
+          </>
+        )}
+      </CardActionArea>
+
+      <CardContent
+        sx={{
+          alignSelf: "end",
+          padding: "6px",
+        }}
+      >
         <Box
           sx={{
             alignContent: "space-between",
@@ -310,18 +311,16 @@ export function AdvertisementView(props) {
             fontSize: "1.2rem",
             textAlign: "left",
           }}
+          maxRows={3}
+          multiline={true}
           fullWidth
-          value={
-            description
-              ? description.substring(0, Math.min(description.length, 220))
-              : ""
-          }
+          value={description || ""}
           onChange={handleChange}
           variant="standard"
         ></TextField>
         <ColorSelector color={color} handleColorChanged={handleColorChanged} />
         <Autocomplete
-          sx={{ marginTop: "6px", marginBottom: "2px" }}
+          sx={{ marginTop: "8px", marginBottom: "8px" }}
           freeSolo
           label="Brand"
           value={brand || ""}
