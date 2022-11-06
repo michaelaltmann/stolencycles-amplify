@@ -207,43 +207,7 @@ export function TheftView(props) {
 
   return (
     <Card sx={cardClass} key={id}>
-      {url ? (
-        imageUrl && (
-          <CardActionArea onClick={handleViewTheft}>
-            <CardMedia
-              sx={{
-                height: 200,
-              }}
-              image={imageUrl}
-            />
-          </CardActionArea>
-        )
-      ) : (
-        <>
-          <TextField
-            name="url"
-            variant="standard"
-            value={url || ""}
-            helperText="URL"
-            onChange={handleUrlChange}
-            fullWidth
-          />
-          <TextField
-            name="imageUrl"
-            variant="standard"
-            value={imageUrl || ""}
-            helperText="Image URL"
-            onChange={handleImageUrlChange}
-            fullWidth
-          />
-        </>
-      )}
-      <CardContent
-        sx={{
-          alignSelf: "end",
-          padding: "6px",
-        }}
-      >
+      <CardActionArea onClick={handleViewTheft}>
         <Box
           sx={{
             fontSize: "1rem",
@@ -253,6 +217,43 @@ export function TheftView(props) {
         >
           {platformName} {postDateText}
         </Box>
+        {url ? (
+          imageUrl && (
+            <CardMedia
+              sx={{
+                height: 200,
+              }}
+              image={imageUrl}
+            />
+          )
+        ) : (
+          <>
+            <TextField
+              name="url"
+              variant="standard"
+              value={url || ""}
+              helperText="URL"
+              onChange={handleUrlChange}
+              fullWidth
+            />
+            <TextField
+              name="imageUrl"
+              variant="standard"
+              value={imageUrl || ""}
+              helperText="Image URL"
+              onChange={handleImageUrlChange}
+              fullWidth
+            />
+          </>
+        )}
+      </CardActionArea>
+
+      <CardContent
+        sx={{
+          alignSelf: "end",
+          padding: "6px",
+        }}
+      >
         <Box
           sx={{
             alignContent: "space-between",
@@ -263,6 +264,7 @@ export function TheftView(props) {
             sx={{
               fontSize: "1.2rem",
               textAlign: "left",
+              width: "100%",
             }}
             value={title ? title.substring(0, Math.min(title.length, 34)) : ""}
             variant="standard"
@@ -275,12 +277,10 @@ export function TheftView(props) {
             fontSize: "1.2rem",
             textAlign: "left",
           }}
+          maxRows={3}
+          multiline={true}
           fullWidth
-          value={
-            description
-              ? description.substring(0, Math.min(description.length, 220))
-              : ""
-          }
+          value={description || ""}
           onChange={handleChange}
           variant="standard"
         ></TextField>

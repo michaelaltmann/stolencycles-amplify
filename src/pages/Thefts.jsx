@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import API, { graphqlOperation } from "@aws-amplify/api";
-
+import InfiniteScroll from "react-infinite-scroll-component";
 import { onCreateTheft } from "../graphql/subscriptions";
 import TheftRepository from "../repositories/TheftRepository";
 import { TheftView } from "../components/TheftView";
@@ -61,7 +61,7 @@ export default function Thefts() {
     }
   }
   async function fetchAll() {
-    const { items, nextToken } = await TheftRepository.list(currentToken, 3);
+    const { items, nextToken } = await TheftRepository.list(currentToken, 20);
     setCurrentToken(nextToken);
     setThefts((thefts || []).concat(items));
   }
@@ -70,7 +70,7 @@ export default function Thefts() {
     const { items, nextToken } = await TheftRepository.listByStatus(
       status,
       currentToken,
-      3
+      20
     );
     setCurrentToken(nextToken);
     setThefts((thefts || []).concat(items));
@@ -140,20 +140,28 @@ export default function Thefts() {
           </Stack>
         </AccordionDetails>
       </Accordion>
-      <Grid container direction="row">
-        {thefts &&
-          thefts.map((theft) => {
-            return <TheftView item={theft} key={theft.id} />;
-          })}
-      </Grid>
+      {thefts && (
+        <InfiniteScroll
+          dataLength={thefts ? thefts.length : 0}
+          next={fetchThefts}
+          hasMore={currentToken != null}
+        >
+          <Grid container direction="row">
+            {thefts.map((theft) => {
+              return (
+                <Grid item key={theft.id}>
+                  <TheftView item={theft} key={theft.id} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </InfiniteScroll>
+      )}
       <Stack direction="row">
         <Button onClick={() => setThefts([{}].concat(thefts || []))}>
           New
         </Button>
         <Button onClick={scrapeBikeIndex}>BikeIndex</Button>
-        <Button onClick={() => fetchThefts()} disabled={!currentToken}>
-          More
-        </Button>
       </Stack>
     </Stack>
   );
