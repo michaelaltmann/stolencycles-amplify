@@ -13,11 +13,19 @@ import {
 } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import React, { useState } from "react";
-import { AdvertisementPlatform, AdvertisementStatus } from "../models";
+import {
+  AdvertisementPlatform,
+  AdvertisementStatus,
+  MatchStatus,
+} from "../models";
 import { colors } from "../Colors";
 import { brands, brandMap, guessBrand } from "../Brands";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
 import { ColorSelector } from "./ColorSelector";
+import { matchFilterAtom } from "../recoil/match";
+import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+
 const classes = {
   card: {
     width: 290,
@@ -43,6 +51,8 @@ const classes = {
 export function AdvertisementView(props) {
   const [advertisement, setAdvertisement] = useState(props.item);
   const [modified, setModified] = useState(false);
+  const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
+  const navigate = useNavigate();
 
   const {
     id,
@@ -205,7 +215,15 @@ export function AdvertisementView(props) {
     setAdvertisement(props.item);
     setModified(false);
   }
-  function handleSearch() {}
+  function handleSearch() {
+    setMatchFilter({
+      status: MatchStatus.UNREVIEWED,
+      advertisementId: advertisement.id,
+      theftId: null,
+      currentToken: null,
+    });
+    navigate("/matches");
+  }
 
   /**
    * Save to the server

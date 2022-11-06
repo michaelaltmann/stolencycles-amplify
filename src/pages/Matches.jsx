@@ -6,12 +6,12 @@ import API, { graphqlOperation } from "@aws-amplify/api";
 import { onCreateMatch, onDeleteMatch } from "../graphql/subscriptions";
 import MatchRepository from "../repositories/MatchRepository";
 import { MatchView } from "../components/MatchView";
+import { matchFilterAtom } from "../recoil/match";
+import { useRecoilState } from "recoil";
+
 export default function Matchs() {
-  const [filter, setFilter] = useState({
-    status: MatchStatus.UNREVIEWED,
-  });
-  const [currentToken, setCurrentToken] = useState(null);
   const [matchs, setMatchs] = useState(null);
+  const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
   useEffect(() => {
     const getData = async () => {
       await fetchMatchs();
@@ -53,25 +53,39 @@ export default function Matchs() {
   }, []);
 
   async function fetchMatchs() {
-    if (filter.status) {
-      await fetchByStatus(filter.status);
+    if (matchFilter.advertisementId) {
+      await listByStatusAdvertisement(
+        matchFilter.status,
+        matchFilter.advertisementId
+      );
+    } else if (matchFilter.theftId) {
+      await listByStatusTheft(matchFilter.status, matchFilter.theftId);
     } else {
-      await fetchAll();
+      await listByStatusAdvertisement(MatchStatus.UNREVIEWED, null);
     }
   }
-  async function fetchAll() {
-    const { items, nextToken } = await MatchRepository.list(currentToken, 1);
-    setCurrentToken(nextToken);
+
+  async function listByStatusAdvertisement(status, advertisementId) {
+    const { items, nextToken } =
+      await MatchRepository.listByStatusAdvertisement(
+        status,
+        advertisementId,
+        matchFilter.currentToken,
+        1
+      );
+    setMatchFilter({ ...matchFilter, currentToken: nextToken });
     setMatchs((matchs || []).concat(items));
   }
 
-  async function fetchByStatus(status) {
-    const { items, nextToken } = await MatchRepository.listByStatus(
-      status,
-      currentToken,
-      1
-    );
-    setCurrentToken(nextToken);
+  async function listByStatusTheft(status, theftId) {
+    const { items, nextToken } =
+      await MatchRepository.listByStatusAdvertisement(
+        status,
+        theftId,
+        matchFilter.currentToken,
+        1
+      );
+    setMatchFilter({ ...matchFilter, currentToken: nextToken });
     setMatchs((matchs || []).concat(items));
   }
 
@@ -88,7 +102,10 @@ export default function Matchs() {
           })}
       </Grid>
       <Stack direction="row">
-        <Button onClick={() => fetchMatchs()} disabled={!currentToken}>
+        <Button
+          onClick={() => fetchMatchs()}
+          disabled={!matchFilter.currentToken}
+        >
           More
         </Button>
       </Stack>

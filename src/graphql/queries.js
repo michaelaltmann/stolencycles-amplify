@@ -984,3 +984,36 @@ export const matchesByStatusAdvertisementId = /* GraphQL */ `
     }
   }
 `;
+export const matchesByStatusTheftId = /* GraphQL */ `
+  query MatchesByStatusTheftId(
+    $status: MatchStatus!
+    $theftId: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMatchFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    matchesByStatusTheftId(
+      status: $status
+      theftId: $theftId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        advertisementId
+        theftId
+        status
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;

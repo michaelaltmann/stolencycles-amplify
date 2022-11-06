@@ -13,12 +13,15 @@ import {
 } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import React, { useState } from "react";
-import { TheftPlatform, TheftStatus } from "../models";
+import { MatchStatus, TheftPlatform, TheftStatus } from "../models";
 import { colors } from "../Colors";
 import TheftRepository from "../repositories/TheftRepository";
 import { ColorSelector } from "./ColorSelector";
 import API from "@aws-amplify/api";
 import { brands, guessBrand } from "../Brands";
+import { matchFilterAtom } from "../recoil/match";
+import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 
 const classes = {
   card: {
@@ -45,6 +48,8 @@ const classes = {
 export function TheftView(props) {
   const [theft, setTheft] = useState(props.item);
   const [modified, setModified] = useState(false);
+  const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
+  const navigate = useNavigate();
 
   const {
     id,
@@ -170,7 +175,6 @@ export function TheftView(props) {
     setTheft(props.item);
     setModified(false);
   }
-  function handleSearch() {}
 
   function setStatus(status) {
     setTheft({ ...theft, status: status });
@@ -203,6 +207,16 @@ export function TheftView(props) {
     await API.get("matches", "/check/theft/" + item.id);
     setTheft(item);
     setModified(false);
+  }
+
+  function handleSearch() {
+    setMatchFilter({
+      status: MatchStatus.UNREVIEWED,
+      advertisementId: null,
+      theftId: theft.id,
+      currentToken: null,
+    });
+    navigate("/matches");
   }
 
   return (

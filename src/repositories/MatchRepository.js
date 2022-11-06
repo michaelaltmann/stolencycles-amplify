@@ -1,7 +1,7 @@
 
 import API from '@aws-amplify/api';
 import { createMatch, updateMatch } from '../graphql/mutations'
-import { listMatches } from "../graphql/queries"
+import { listMatches, matchesByStatusAdvertisementId, matchesByStatusTheftId } from "../graphql/queries"
 
 /**
  * 
@@ -60,15 +60,16 @@ async function list(currentToken, limit = 1) {
   return { items, nextToken }
 }
 
-//TODO: Implement
-async function listByStatus(status, currentToken, limit = 1) {
+async function listByStatusAdvertisement(status, advertisementId, currentToken, limit = 1) {
   const {
     data: {
-      listMatches: { items, nextToken },
+      matchesByStatusAdvertisementId: { items, nextToken },
     },
   } = await API.graphql({
-    query: listMatches,
+    query: matchesByStatusAdvertisementId,
     variables: {
+      status: status,
+      advertisementId: { eq: advertisementId },
       limit: limit,
       nextToken: currentToken,
     },
@@ -76,5 +77,23 @@ async function listByStatus(status, currentToken, limit = 1) {
   return { items, nextToken }
 }
 
-export default { create, update, list, listByStatus }
+async function listByStatusTheft(status, theftId, currentToken, limit = 1) {
+  const {
+    data: {
+      matchesByStatusTheftId: { items, nextToken },
+    },
+  } = await API.graphql({
+    query: matchesByStatusTheftId,
+    variables: {
+      status: status,
+      theftId: { eq: theftId },
+      limit: limit,
+      nextToken: currentToken,
+    },
+  });
+  return { items, nextToken }
+}
+
+
+export default { create, update, list, listByStatusAdvertisement, listByStatusTheft }
 

@@ -120,6 +120,11 @@ type Match @model @auth(rules: [{ allow: public }]) {
       sortKeyFields: ["advertisementId"]
       queryField: "matchesByStatusAdvertisementId"
     )
+    @index(
+      name: "matchesByStatusTheftId"
+      sortKeyFields: ["theftId"]
+      queryField: "matchesByStatusTheftId"
+    )
 }
 
 enum AdvertisementPlatform {

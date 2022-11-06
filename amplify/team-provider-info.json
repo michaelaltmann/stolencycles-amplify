@@ -15,7 +15,7 @@
       "function": {
         "scrape": {
           "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
-          "s3Key": "amplify-builds/scrape-52713945587167367056-build.zip"
+          "s3Key": "amplify-builds/scrape-6e4b64656b357a6e6266-build.zip"
         },
         "matches": {
           "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
