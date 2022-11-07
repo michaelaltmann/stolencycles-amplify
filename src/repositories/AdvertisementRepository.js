@@ -1,6 +1,6 @@
 import API from '@aws-amplify/api';
 import { createAdvertisement, updateAdvertisement } from '../graphql/mutations'
-import { advertisementsByStatusPostDateId, listAdvertisements } from "../graphql/queries"
+import { advertisementsByBrandColor, advertisementsByStatusPostDateId, listAdvertisements } from "../graphql/queries"
 
 /**
  * 
@@ -80,4 +80,22 @@ async function listByStatus(status, currentToken, limit = 1) {
   return { items, nextToken }
 }
 
-export default { create, update, list, listByStatus }
+async function listByBrandColor(brand, color, currentToken, limit = 1) {
+  const {
+    data: {
+      advertisementsByBrandColor: { items, nextToken },
+    },
+  } = await API.graphql({
+    query: advertisementsByBrandColor,
+    variables: {
+      brand: brand,
+      color: color,
+      limit: limit,
+      nextToken: currentToken,
+      sortDirection: "DESC"
+    },
+  });
+  return { items, nextToken }
+}
+
+export default { create, update, list, listByStatus, listByBrandColor }

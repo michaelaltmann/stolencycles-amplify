@@ -91,16 +91,10 @@ export default function Matchs() {
 
   return (
     <Stack spacing={2}>
-      <Grid container direction="row">
-        {matchs &&
-          matchs.map((match) => {
-            return (
-              <Grid item>
-                <MatchView item={match} key={match.id} />{" "}
-              </Grid>
-            );
-          })}
-      </Grid>
+      {matchs &&
+        matchs.map((match) => {
+          return <MatchView item={match} key={match.id} />;
+        })}
       <Stack direction="row">
         <Button
           onClick={() => fetchMatchs()}

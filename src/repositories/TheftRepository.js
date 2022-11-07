@@ -84,6 +84,7 @@ async function listByBrandColor(brand, color, currentToken, limit = 1) {
     query: theftsByBrandColor,
     variables: {
       brand: brand,
+      color: color,
       limit: limit,
       nextToken: currentToken,
       sortDirection: "DESC"
