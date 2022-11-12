@@ -1,7 +1,7 @@
 
 import API from '@aws-amplify/api';
 import { createMatch, updateMatch } from '../graphql/mutations'
-import { listMatches, matchesByStatusAdvertisementId, matchesByStatusTheftId } from "../graphql/queries"
+import { listMatches, matchesByStatusAdvertisementId, matchesByStatusTheftId } from "../graphql/queries-depth-3"
 
 /**
  * 
