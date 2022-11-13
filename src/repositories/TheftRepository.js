@@ -29,6 +29,8 @@ async function create(theft) {
       input: coreProperties(theft),
     },
   });
+  const { items: matches } = await API.get("scrape", "/check/theft/" + item.id)
+  console.log(matches)
   return item
 }
 async function update(theft) {
@@ -40,6 +42,8 @@ async function update(theft) {
       input: coreProperties(theft),
     },
   });
+  const { items: matches } = await API.get("scrape", "/check/theft/" + item.id)
+  console.log(matches)
   return item
 }
 

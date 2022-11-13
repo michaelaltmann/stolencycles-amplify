@@ -1,6 +1,6 @@
 {
   "httpMethod": "GET",
-  "path": "/scrape/marketplace",
+  "path": "/scrape/offerup",
   "queryStringParameters": {
     "limit": "3"
   },

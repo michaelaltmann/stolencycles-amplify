@@ -1,8 +1,36 @@
 {
   "version": 1,
   "paths": {
-    "/marketplace": {
-      "name": "/marketplace",
+    "/check/advertisement/{id}": {
+      "name": "/check/advertisement/{id}",
+      "lambdaFunction": "scrape",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/check/theft/{id}": {
+      "name": "/check/theft/{id}",
+      "lambdaFunction": "scrape",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/scrape/marketplace": {
+      "name": "/scrape/marketplace",
+      "lambdaFunction": "scrape",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/scrape/offerup": {
+      "name": "/scrape/offerup",
+      "lambdaFunction": "scrape",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/scrape/bikeindex": {
+      "name": "/scrape/bikeindex",
       "lambdaFunction": "scrape",
       "permissions": {
         "setting": "open"

@@ -1,6 +1,6 @@
 {
   "httpMethod": "GET",
-  "path": "/bikeindex",
+  "path": "/scrape/bikeindex",
   "queryStringParameters": {
     "limit": "500"
   },
