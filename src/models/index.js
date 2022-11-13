@@ -40,16 +40,14 @@ const MatchStatus = {
   "MISMATCHED": "MISMATCHED"
 };
 
-const { Advertisement, Seller, SellerAlias, Match, Theft, Brand, Account } = initSchema(schema);
+const { Advertisement, Match, Theft, Seller, SellerAlias } = initSchema(schema);
 
 export {
   Advertisement,
-  Seller,
-  SellerAlias,
   Match,
   Theft,
-  Brand,
-  Account,
+  Seller,
+  SellerAlias,
   AdvertisementPlatform,
   AdvertisementStatus,
   TheftPlatform,

@@ -18,18 +18,9 @@ export const createAdvertisement = /* GraphQL */ `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -42,7 +33,6 @@ export const createAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -63,18 +53,9 @@ export const updateAdvertisement = /* GraphQL */ `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -87,7 +68,6 @@ export const updateAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -108,18 +88,9 @@ export const deleteAdvertisement = /* GraphQL */ `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -132,7 +103,6 @@ export const deleteAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -239,9 +209,6 @@ export const createSeller = /* GraphQL */ `
   ) {
     createSeller(input: $input, condition: $condition) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -266,9 +233,6 @@ export const updateSeller = /* GraphQL */ `
   ) {
     updateSeller(input: $input, condition: $condition) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -293,9 +257,6 @@ export const deleteSeller = /* GraphQL */ `
   ) {
     deleteSeller(input: $input, condition: $condition) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -323,9 +284,6 @@ export const createSellerAlias = /* GraphQL */ `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -336,9 +294,6 @@ export const createSellerAlias = /* GraphQL */ `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -364,9 +319,6 @@ export const updateSellerAlias = /* GraphQL */ `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -377,9 +329,6 @@ export const updateSellerAlias = /* GraphQL */ `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -405,9 +354,6 @@ export const deleteSellerAlias = /* GraphQL */ `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -418,9 +364,6 @@ export const deleteSellerAlias = /* GraphQL */ `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -433,120 +376,6 @@ export const deleteSellerAlias = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-    }
-  }
-`;
-export const createBrand = /* GraphQL */ `
-  mutation CreateBrand(
-    $input: CreateBrandInput!
-    $condition: ModelBrandConditionInput
-  ) {
-    createBrand(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateBrand = /* GraphQL */ `
-  mutation UpdateBrand(
-    $input: UpdateBrandInput!
-    $condition: ModelBrandConditionInput
-  ) {
-    updateBrand(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteBrand = /* GraphQL */ `
-  mutation DeleteBrand(
-    $input: DeleteBrandInput!
-    $condition: ModelBrandConditionInput
-  ) {
-    deleteBrand(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createAccount = /* GraphQL */ `
-  mutation CreateAccount(
-    $input: CreateAccountInput!
-    $condition: ModelAccountConditionInput
-  ) {
-    createAccount(input: $input, condition: $condition) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-export const updateAccount = /* GraphQL */ `
-  mutation UpdateAccount(
-    $input: UpdateAccountInput!
-    $condition: ModelAccountConditionInput
-  ) {
-    updateAccount(input: $input, condition: $condition) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-export const deleteAccount = /* GraphQL */ `
-  mutation DeleteAccount(
-    $input: DeleteAccountInput!
-    $condition: ModelAccountConditionInput
-  ) {
-    deleteAccount(input: $input, condition: $condition) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
     }
   }
 `;
@@ -570,6 +399,9 @@ export const createMatch = /* GraphQL */ `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -578,7 +410,6 @@ export const createMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -631,6 +462,9 @@ export const updateMatch = /* GraphQL */ `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -639,7 +473,6 @@ export const updateMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -692,6 +525,9 @@ export const deleteMatch = /* GraphQL */ `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -700,7 +536,6 @@ export const deleteMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {

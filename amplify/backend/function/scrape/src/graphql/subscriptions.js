@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onDeleteMatch = exports.onUpdateMatch = exports.onCreateMatch = exports.onDeleteAccount = exports.onUpdateAccount = exports.onCreateAccount = exports.onDeleteBrand = exports.onUpdateBrand = exports.onCreateBrand = exports.onDeleteSellerAlias = exports.onUpdateSellerAlias = exports.onCreateSellerAlias = exports.onDeleteSeller = exports.onUpdateSeller = exports.onCreateSeller = exports.onDeleteTheft = exports.onUpdateTheft = exports.onCreateTheft = exports.onDeleteAdvertisement = exports.onUpdateAdvertisement = exports.onCreateAdvertisement = void 0;
+exports.onDeleteMatch = exports.onUpdateMatch = exports.onCreateMatch = exports.onDeleteSellerAlias = exports.onUpdateSellerAlias = exports.onCreateSellerAlias = exports.onDeleteSeller = exports.onUpdateSeller = exports.onCreateSeller = exports.onDeleteTheft = exports.onUpdateTheft = exports.onCreateTheft = exports.onDeleteAdvertisement = exports.onUpdateAdvertisement = exports.onCreateAdvertisement = void 0;
 exports.onCreateAdvertisement = `
   subscription OnCreateAdvertisement(
     $filter: ModelSubscriptionAdvertisementFilterInput
@@ -19,18 +19,9 @@ exports.onCreateAdvertisement = `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -43,7 +34,6 @@ exports.onCreateAdvertisement = `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -63,18 +53,9 @@ exports.onUpdateAdvertisement = `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -87,7 +68,6 @@ exports.onUpdateAdvertisement = `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -107,18 +87,9 @@ exports.onDeleteAdvertisement = `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -131,7 +102,6 @@ exports.onDeleteAdvertisement = `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -226,9 +196,6 @@ exports.onCreateSeller = `
   subscription OnCreateSeller($filter: ModelSubscriptionSellerFilterInput) {
     onCreateSeller(filter: $filter) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -250,9 +217,6 @@ exports.onUpdateSeller = `
   subscription OnUpdateSeller($filter: ModelSubscriptionSellerFilterInput) {
     onUpdateSeller(filter: $filter) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -274,9 +238,6 @@ exports.onDeleteSeller = `
   subscription OnDeleteSeller($filter: ModelSubscriptionSellerFilterInput) {
     onDeleteSeller(filter: $filter) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -303,9 +264,6 @@ exports.onCreateSellerAlias = `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -316,9 +274,6 @@ exports.onCreateSellerAlias = `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -343,9 +298,6 @@ exports.onUpdateSellerAlias = `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -356,9 +308,6 @@ exports.onUpdateSellerAlias = `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -383,9 +332,6 @@ exports.onDeleteSellerAlias = `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -396,9 +342,6 @@ exports.onDeleteSellerAlias = `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -411,102 +354,6 @@ exports.onDeleteSellerAlias = `
       _version
       _deleted
       _lastChangedAt
-    }
-  }
-`;
-exports.onCreateBrand = `
-  subscription OnCreateBrand($filter: ModelSubscriptionBrandFilterInput) {
-    onCreateBrand(filter: $filter) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-exports.onUpdateBrand = `
-  subscription OnUpdateBrand($filter: ModelSubscriptionBrandFilterInput) {
-    onUpdateBrand(filter: $filter) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-exports.onDeleteBrand = `
-  subscription OnDeleteBrand($filter: ModelSubscriptionBrandFilterInput) {
-    onDeleteBrand(filter: $filter) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-exports.onCreateAccount = `
-  subscription OnCreateAccount($filter: ModelSubscriptionAccountFilterInput) {
-    onCreateAccount(filter: $filter) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-exports.onUpdateAccount = `
-  subscription OnUpdateAccount($filter: ModelSubscriptionAccountFilterInput) {
-    onUpdateAccount(filter: $filter) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-exports.onDeleteAccount = `
-  subscription OnDeleteAccount($filter: ModelSubscriptionAccountFilterInput) {
-    onDeleteAccount(filter: $filter) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
     }
   }
 `;
@@ -527,6 +374,9 @@ exports.onCreateMatch = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -535,7 +385,6 @@ exports.onCreateMatch = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -585,6 +434,9 @@ exports.onUpdateMatch = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -593,7 +445,6 @@ exports.onUpdateMatch = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -643,6 +494,9 @@ exports.onDeleteMatch = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -651,7 +505,6 @@ exports.onDeleteMatch = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {

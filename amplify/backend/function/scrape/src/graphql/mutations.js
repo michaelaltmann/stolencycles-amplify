@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMatch = exports.updateMatch = exports.createMatch = exports.deleteAccount = exports.updateAccount = exports.createAccount = exports.deleteBrand = exports.updateBrand = exports.createBrand = exports.deleteSellerAlias = exports.updateSellerAlias = exports.createSellerAlias = exports.deleteSeller = exports.updateSeller = exports.createSeller = exports.deleteTheft = exports.updateTheft = exports.createTheft = exports.deleteAdvertisement = exports.updateAdvertisement = exports.createAdvertisement = void 0;
+exports.deleteMatch = exports.updateMatch = exports.createMatch = exports.deleteSellerAlias = exports.updateSellerAlias = exports.createSellerAlias = exports.deleteSeller = exports.updateSeller = exports.createSeller = exports.deleteTheft = exports.updateTheft = exports.createTheft = exports.deleteAdvertisement = exports.updateAdvertisement = exports.createAdvertisement = void 0;
 exports.createAdvertisement = `
   mutation CreateAdvertisement(
     $input: CreateAdvertisementInput!
@@ -20,18 +20,9 @@ exports.createAdvertisement = `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -44,7 +35,6 @@ exports.createAdvertisement = `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -65,18 +55,9 @@ exports.updateAdvertisement = `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -89,7 +70,6 @@ exports.updateAdvertisement = `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -110,18 +90,9 @@ exports.deleteAdvertisement = `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -134,7 +105,6 @@ exports.deleteAdvertisement = `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -241,9 +211,6 @@ exports.createSeller = `
   ) {
     createSeller(input: $input, condition: $condition) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -268,9 +235,6 @@ exports.updateSeller = `
   ) {
     updateSeller(input: $input, condition: $condition) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -295,9 +259,6 @@ exports.deleteSeller = `
   ) {
     deleteSeller(input: $input, condition: $condition) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -325,9 +286,6 @@ exports.createSellerAlias = `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -338,9 +296,6 @@ exports.createSellerAlias = `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -366,9 +321,6 @@ exports.updateSellerAlias = `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -379,9 +331,6 @@ exports.updateSellerAlias = `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -407,9 +356,6 @@ exports.deleteSellerAlias = `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -420,9 +366,6 @@ exports.deleteSellerAlias = `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -435,120 +378,6 @@ exports.deleteSellerAlias = `
       _version
       _deleted
       _lastChangedAt
-    }
-  }
-`;
-exports.createBrand = `
-  mutation CreateBrand(
-    $input: CreateBrandInput!
-    $condition: ModelBrandConditionInput
-  ) {
-    createBrand(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-exports.updateBrand = `
-  mutation UpdateBrand(
-    $input: UpdateBrandInput!
-    $condition: ModelBrandConditionInput
-  ) {
-    updateBrand(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-exports.deleteBrand = `
-  mutation DeleteBrand(
-    $input: DeleteBrandInput!
-    $condition: ModelBrandConditionInput
-  ) {
-    deleteBrand(input: $input, condition: $condition) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-exports.createAccount = `
-  mutation CreateAccount(
-    $input: CreateAccountInput!
-    $condition: ModelAccountConditionInput
-  ) {
-    createAccount(input: $input, condition: $condition) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-exports.updateAccount = `
-  mutation UpdateAccount(
-    $input: UpdateAccountInput!
-    $condition: ModelAccountConditionInput
-  ) {
-    updateAccount(input: $input, condition: $condition) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-exports.deleteAccount = `
-  mutation DeleteAccount(
-    $input: DeleteAccountInput!
-    $condition: ModelAccountConditionInput
-  ) {
-    deleteAccount(input: $input, condition: $condition) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
     }
   }
 `;
@@ -572,6 +401,9 @@ exports.createMatch = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -580,7 +412,6 @@ exports.createMatch = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -633,6 +464,9 @@ exports.updateMatch = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -641,7 +475,6 @@ exports.updateMatch = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -694,6 +527,9 @@ exports.deleteMatch = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -702,7 +538,6 @@ exports.deleteMatch = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {

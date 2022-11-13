@@ -19,7 +19,7 @@ import {
   MatchStatus,
 } from "../models";
 import { colors } from "../Colors";
-import { brands, brandMap, guessBrand } from "../Brands";
+import { brands, brandMap } from "../Brands";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
 import { ColorSelector } from "./ColorSelector";
 import { matchFilterAtom } from "../recoil/match";
@@ -66,7 +66,9 @@ export function AdvertisementView(props) {
     color,
     images,
     postDate,
-    seller,
+    sellerId,
+    sellerName,
+    sellerImage,
     status,
     aliasId,
   } = advertisement;
@@ -395,24 +397,20 @@ export function AdvertisementView(props) {
         </Tooltip>
         {aliasId ? (
           <Tooltip
-            title={
-              seller
-                ? (seller.firstName || "") + " " + (seller.lastName || "")
-                : "Seller"
-            }
+            title={sellerId ? sellerName || "" : "Seller"}
             sx={classes.button}
           >
             <Button
-              href={"/sellerByAlias/" + aliasId}
+              href={"/seller/" + sellerId}
               target="_seller"
               sx={classes.button}
               size="small"
             >
               {" "}
-              {seller && seller.images && seller.images[0].sourceUrl ? (
+              {sellerImage ? (
                 <img
-                  alt={(seller.firstName || "") + " " + (seller.lastName || "")}
-                  src={seller.images[0].sourceUrl}
+                  alt={sellerName || ""}
+                  src={sellerImage}
                   style={{ width: 24, height: 24 }}
                 />
               ) : (
@@ -433,7 +431,7 @@ export function AdvertisementView(props) {
               style={{
                 color: status === AdvertisementStatus.FLAGGED ? "gray" : "red",
                 borderStyle: "solid",
-                borderWidth: status === "Dirty" ? 1 : 0,
+                borderWidth: status === AdvertisementStatus.FLAGGED ? 1 : 0,
               }}
             >
               flag_icon

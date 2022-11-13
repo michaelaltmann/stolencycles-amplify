@@ -17,18 +17,9 @@ export const onCreateAdvertisement = /* GraphQL */ `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -41,7 +32,6 @@ export const onCreateAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -61,18 +51,9 @@ export const onUpdateAdvertisement = /* GraphQL */ `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -85,7 +66,6 @@ export const onUpdateAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -105,18 +85,9 @@ export const onDeleteAdvertisement = /* GraphQL */ `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -129,7 +100,6 @@ export const onDeleteAdvertisement = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -224,9 +194,6 @@ export const onCreateSeller = /* GraphQL */ `
   subscription OnCreateSeller($filter: ModelSubscriptionSellerFilterInput) {
     onCreateSeller(filter: $filter) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -248,9 +215,6 @@ export const onUpdateSeller = /* GraphQL */ `
   subscription OnUpdateSeller($filter: ModelSubscriptionSellerFilterInput) {
     onUpdateSeller(filter: $filter) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -272,9 +236,6 @@ export const onDeleteSeller = /* GraphQL */ `
   subscription OnDeleteSeller($filter: ModelSubscriptionSellerFilterInput) {
     onDeleteSeller(filter: $filter) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -301,9 +262,6 @@ export const onCreateSellerAlias = /* GraphQL */ `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -314,9 +272,6 @@ export const onCreateSellerAlias = /* GraphQL */ `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -341,9 +296,6 @@ export const onUpdateSellerAlias = /* GraphQL */ `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -354,9 +306,6 @@ export const onUpdateSellerAlias = /* GraphQL */ `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -381,9 +330,6 @@ export const onDeleteSellerAlias = /* GraphQL */ `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -394,9 +340,6 @@ export const onDeleteSellerAlias = /* GraphQL */ `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -409,102 +352,6 @@ export const onDeleteSellerAlias = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-    }
-  }
-`;
-export const onCreateBrand = /* GraphQL */ `
-  subscription OnCreateBrand($filter: ModelSubscriptionBrandFilterInput) {
-    onCreateBrand(filter: $filter) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onUpdateBrand = /* GraphQL */ `
-  subscription OnUpdateBrand($filter: ModelSubscriptionBrandFilterInput) {
-    onUpdateBrand(filter: $filter) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onDeleteBrand = /* GraphQL */ `
-  subscription OnDeleteBrand($filter: ModelSubscriptionBrandFilterInput) {
-    onDeleteBrand(filter: $filter) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const onCreateAccount = /* GraphQL */ `
-  subscription OnCreateAccount($filter: ModelSubscriptionAccountFilterInput) {
-    onCreateAccount(filter: $filter) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-export const onUpdateAccount = /* GraphQL */ `
-  subscription OnUpdateAccount($filter: ModelSubscriptionAccountFilterInput) {
-    onUpdateAccount(filter: $filter) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-export const onDeleteAccount = /* GraphQL */ `
-  subscription OnDeleteAccount($filter: ModelSubscriptionAccountFilterInput) {
-    onDeleteAccount(filter: $filter) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
     }
   }
 `;
@@ -525,6 +372,9 @@ export const onCreateMatch = /* GraphQL */ `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -533,7 +383,6 @@ export const onCreateMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -583,6 +432,9 @@ export const onUpdateMatch = /* GraphQL */ `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -591,7 +443,6 @@ export const onUpdateMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -641,6 +492,9 @@ export const onDeleteMatch = /* GraphQL */ `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -649,7 +503,6 @@ export const onDeleteMatch = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {

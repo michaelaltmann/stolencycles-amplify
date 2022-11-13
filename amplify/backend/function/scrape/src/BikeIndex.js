@@ -1,4 +1,5 @@
 const fetch = require('node-fetch-commonjs');
+const TheftDao = require('./dao/TheftDao')
 
 async function scrape(limit, page) {
   const baseHost = 'https://bikeindex.org/api/v3';
@@ -34,7 +35,7 @@ async function scrape(limit, page) {
   }
   return await Promise.all(bikesForQuery.map(async bike => {
     const theft = bikeIndexToTheft(bike)
-    await TheftRepository.upsert(theft)
+    await TheftDao.upsert(theft)
   }))
 }
 

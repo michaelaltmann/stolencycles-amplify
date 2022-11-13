@@ -1,4 +1,20 @@
 /* Amplify Params - DO NOT EDIT
+	API_STOLENCYCLES_ADVERTISEMENTTABLE_ARN
+	API_STOLENCYCLES_ADVERTISEMENTTABLE_NAME
+	API_STOLENCYCLES_GRAPHQLAPIENDPOINTOUTPUT
+	API_STOLENCYCLES_GRAPHQLAPIIDOUTPUT
+	API_STOLENCYCLES_GRAPHQLAPIKEYOUTPUT
+	API_STOLENCYCLES_MATCHTABLE_ARN
+	API_STOLENCYCLES_MATCHTABLE_NAME
+	API_STOLENCYCLES_SELLERALIASTABLE_ARN
+	API_STOLENCYCLES_SELLERALIASTABLE_NAME
+	API_STOLENCYCLES_SELLERTABLE_ARN
+	API_STOLENCYCLES_SELLERTABLE_NAME
+	API_STOLENCYCLES_THEFTTABLE_ARN
+	API_STOLENCYCLES_THEFTTABLE_NAME
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
   API_STOLENCYCLES_ACCOUNTTABLE_ARN
   API_STOLENCYCLES_ACCOUNTTABLE_NAME
   API_STOLENCYCLES_ADVERTISEMENTTABLE_ARN
@@ -33,7 +49,7 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 const TheftDao = require("./dao/TheftDao")
 const AdvertisementDao = require("./dao/AdvertisementDao")
 const MatchDao = require("./dao/MatchDao")
-const Scraper = require('./BrightData');
+const BrightData = require('./BrightData');
 
 // declare a new express app
 const app = express()
@@ -66,7 +82,7 @@ app.get('/check/advertisement/:id', async function (req, res) {
   const { id } = req.params
   const advertisement = await AdvertisementDao.get(id)
   const matches = await MatchDao.checkAdvertisement(advertisement)
-  res.json({ success: 'Checked advertisement ' + id, items: matches });
+  return res.json({ success: 'Checked advertisement ' + id, items: matches });
 });
 
 
@@ -74,22 +90,22 @@ app.get('/check/theft/:id', async function (req, res) {
   const { id } = req.params
   const theft = await TheftDao.get(id)
   const matches = await MatchDao.checkTheft(theft)
-  res.json({ success: 'Checked theft ' + id, items: matches });
+  return res.json({ success: 'Checked theft ' + id, items: matches });
 });
 
 
 app.get('/scrape/marketplace', async function (req, res) {
   const params = req.query
   const limit = params.limit ? parseInt(params.limit) : 50
-  const items = Scraper.scrapeMarketplace(limit)
+  const items = await BrightData.scrapeMarketplace(limit)
   res.status(200)
   return res.json(items)
 });
 
-app.get('/scrape/offerup', function (req, res) {
+app.get('/scrape/offerup', async function (req, res) {
   const params = req.query
   const limit = params.limit ? parseInt(params.limit) : 50
-  const items = Scraper.scrapeOfferUp(limit)
+  const items = await BrightData.scrapeOfferUp(limit)
   res.status(200)
   return res.json(items)
 });

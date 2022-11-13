@@ -82,19 +82,26 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "seller": {
-                    "name": "seller",
+                "sellerId": {
+                    "name": "sellerId",
                     "isArray": false,
-                    "type": {
-                        "model": "Seller"
-                    },
+                    "type": "String",
                     "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "HAS_ONE",
-                        "associatedWith": "id",
-                        "targetName": "advertisementSellerId"
-                    }
+                    "attributes": []
+                },
+                "sellerName": {
+                    "name": "sellerName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "sellerImage": {
+                    "name": "sellerImage",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "status": {
                     "name": "status",
@@ -148,13 +155,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "advertisementSellerId": {
-                    "name": "advertisementSellerId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -189,220 +189,22 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
+                        "name": "advertisementsBySellerId",
+                        "queryField": "advertisementsBySellerId",
+                        "fields": [
+                            "sellerId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
                         "name": "advertisementsByStatusPostDateId",
                         "queryField": "advertisementsByStatusPostDateId",
                         "fields": [
                             "status",
                             "postDate",
                             "id"
-                        ]
-                    }
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "Seller": {
-            "name": "Seller",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "url": {
-                    "name": "url",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "images": {
-                    "name": "images",
-                    "isArray": false,
-                    "type": "AWSJSON",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "notes": {
-                    "name": "notes",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "aliasesAsFirstSeller": {
-                    "name": "aliasesAsFirstSeller",
-                    "isArray": true,
-                    "type": {
-                        "model": "SellerAlias"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "firstSeller"
-                    }
-                },
-                "aliasesAsSecondSeller": {
-                    "name": "aliasesAsSecondSeller",
-                    "isArray": true,
-                    "type": {
-                        "model": "SellerAlias"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true,
-                    "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "firstSeller"
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "Sellers",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "allow": "public",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "SellerAlias": {
-            "name": "SellerAlias",
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "firstSeller": {
-                    "name": "firstSeller",
-                    "isArray": false,
-                    "type": {
-                        "model": "Seller"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "firstSellerId"
-                    }
-                },
-                "secondSeller": {
-                    "name": "secondSeller",
-                    "isArray": false,
-                    "type": {
-                        "model": "Seller"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "association": {
-                        "connectionType": "BELONGS_TO",
-                        "targetName": "secondSellerId"
-                    }
-                },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
-                "updatedAt": {
-                    "name": "updatedAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                }
-            },
-            "syncable": true,
-            "pluralName": "SellerAliases",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "byFirstSellerIndex",
-                        "queryField": "byFirstSeller",
-                        "fields": [
-                            "firstSellerId",
-                            "secondSellerId"
-                        ]
-                    }
-                },
-                {
-                    "type": "key",
-                    "properties": {
-                        "name": "bySecondSellerIndex",
-                        "queryField": "bySecondSeller",
-                        "fields": [
-                            "secondSellerId",
-                            "firstSellerId"
                         ]
                     }
                 },
@@ -737,22 +539,50 @@ export const schema = {
                 }
             ]
         },
-        "Brand": {
-            "name": "Brand",
+        "Seller": {
+            "name": "Seller",
             "fields": {
                 "id": {
                     "name": "id",
                     "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
                     "type": "String",
                     "isRequired": true,
                     "attributes": []
+                },
+                "notes": {
+                    "name": "notes",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "aliasesAsFirstSeller": {
+                    "name": "aliasesAsFirstSeller",
+                    "isArray": true,
+                    "type": {
+                        "model": "SellerAlias"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "firstSeller"
+                    }
+                },
+                "aliasesAsSecondSeller": {
+                    "name": "aliasesAsSecondSeller",
+                    "isArray": true,
+                    "type": {
+                        "model": "SellerAlias"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "firstSeller"
+                    }
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -772,7 +602,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "Brands",
+            "pluralName": "Sellers",
             "attributes": [
                 {
                     "type": "model",
@@ -796,8 +626,8 @@ export const schema = {
                 }
             ]
         },
-        "Account": {
-            "name": "Account",
+        "SellerAlias": {
+            "name": "SellerAlias",
             "fields": {
                 "id": {
                     "name": "id",
@@ -806,32 +636,30 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "images": {
-                    "name": "images",
+                "firstSeller": {
+                    "name": "firstSeller",
                     "isArray": false,
-                    "type": "AWSJSON",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "name": {
-                    "name": "name",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                },
-                "aliases": {
-                    "name": "aliases",
-                    "isArray": true,
                     "type": {
-                        "model": "Account"
+                        "model": "Seller"
                     },
                     "isRequired": false,
                     "attributes": [],
-                    "isArrayNullable": true,
                     "association": {
-                        "connectionType": "HAS_MANY",
-                        "associatedWith": "accountAliasesId"
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "firstSellerId"
+                    }
+                },
+                "secondSeller": {
+                    "name": "secondSeller",
+                    "isArray": false,
+                    "type": {
+                        "model": "Seller"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "BELONGS_TO",
+                        "targetName": "secondSellerId"
                     }
                 },
                 "createdAt": {
@@ -849,21 +677,36 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "accountAliasesId": {
-                    "name": "accountAliasesId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
-            "pluralName": "Accounts",
+            "pluralName": "SellerAliases",
             "attributes": [
                 {
                     "type": "model",
                     "properties": {}
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byFirstSellerIndex",
+                        "queryField": "byFirstSeller",
+                        "fields": [
+                            "firstSellerId",
+                            "secondSellerId"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "bySecondSellerIndex",
+                        "queryField": "bySecondSeller",
+                        "fields": [
+                            "secondSellerId",
+                            "firstSellerId"
+                        ]
+                    }
                 },
                 {
                     "type": "auth",
@@ -936,5 +779,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.2.0",
-    "version": "72c3448a105824a8fbce041ae015f961"
+    "version": "0c36df48222b30a1d22987704ef1126b"
 };

@@ -32,18 +32,6 @@
         "update",
         "delete"
       ],
-      "Brand:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
-      ],
-      "Account:@model(appsync)": [
-        "create",
-        "read",
-        "update",
-        "delete"
-      ],
       "Match:@model(appsync)": [
         "create",
         "read",

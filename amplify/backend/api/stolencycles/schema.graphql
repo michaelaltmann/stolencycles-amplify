@@ -20,7 +20,13 @@ type Advertisement @model @auth(rules: [{ allow: public }]) {
     )
   color: String
   images: AWSJSON
-  seller: Seller @hasOne
+  sellerId: String
+    @index(
+      name: "advertisementsBySellerId"
+      queryField: "advertisementsBySellerId"
+    )
+  sellerName: String
+  sellerImage: String
   status: AdvertisementStatus
     @index(
       name: "advertisementsByStatusPostDateId"
@@ -66,10 +72,7 @@ type Theft @model @auth(rules: [{ allow: public }]) {
 }
 
 type Seller @model @auth(rules: [{ allow: public }]) {
-  id: ID!
-  url: String
-  name: String
-  images: AWSJSON
+  id: String!
   notes: String
   aliasesAsFirstSeller: [SellerAlias]
     @hasMany(indexName: "byFirstSellerIndex", fields: ["id"])
@@ -79,32 +82,20 @@ type Seller @model @auth(rules: [{ allow: public }]) {
 
 type SellerAlias @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  firstSellerId: ID!
+  firstSellerId: String!
     @index(
       name: "byFirstSellerIndex"
       sortKeyFields: ["secondSellerId"]
       queryField: "byFirstSeller"
     )
   firstSeller: Seller @belongsTo(fields: ["firstSellerId"])
-  secondSellerId: ID!
+  secondSellerId: String!
     @index(
       name: "bySecondSellerIndex"
       sortKeyFields: ["firstSellerId"]
       queryField: "bySecondSeller"
     )
   secondSeller: Seller @belongsTo(fields: ["secondSellerId"])
-}
-
-type Brand @model @auth(rules: [{ allow: public }]) {
-  id: ID!
-  name: String!
-}
-
-type Account @model @auth(rules: [{ allow: public }]) {
-  id: ID!
-  images: AWSJSON
-  name: String
-  aliases: [Account] @hasMany
 }
 
 type Match @model @auth(rules: [{ allow: public }]) {

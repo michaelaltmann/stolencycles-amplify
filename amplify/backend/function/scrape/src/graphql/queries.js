@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.matchesByStatusAdvertisementId = exports.bySecondSeller = exports.byFirstSeller = exports.theftsByStatusPostDateId = exports.theftsByBrandColor = exports.theftsByPlatformId = exports.advertisementsByStatusPostDateId = exports.advertisementsByBrandColor = exports.advertisementsByPlatformId = exports.syncMatches = exports.listMatches = exports.getMatch = exports.syncAccounts = exports.listAccounts = exports.getAccount = exports.syncBrands = exports.listBrands = exports.getBrand = exports.syncSellerAliases = exports.listSellerAliases = exports.getSellerAlias = exports.syncSellers = exports.listSellers = exports.getSeller = exports.syncThefts = exports.listThefts = exports.getTheft = exports.syncAdvertisements = exports.listAdvertisements = exports.getAdvertisement = void 0;
+exports.matchesByStatusTheftId = exports.matchesByStatusAdvertisementId = exports.bySecondSeller = exports.byFirstSeller = exports.theftsByStatusPostDateId = exports.theftsByBrandColor = exports.theftsByPlatformId = exports.advertisementsByStatusPostDateId = exports.advertisementsBySellerId = exports.advertisementsByBrandColor = exports.advertisementsByPlatformId = exports.syncMatches = exports.listMatches = exports.getMatch = exports.syncSellerAliases = exports.listSellerAliases = exports.getSellerAlias = exports.syncSellers = exports.listSellers = exports.getSeller = exports.syncThefts = exports.listThefts = exports.getTheft = exports.syncAdvertisements = exports.listAdvertisements = exports.getAdvertisement = void 0;
 exports.getAdvertisement = `
   query GetAdvertisement($id: ID!) {
     getAdvertisement(id: $id) {
@@ -17,18 +17,9 @@ exports.getAdvertisement = `
       brand
       color
       images
-      seller {
-        id
-        url
-        name
-        images
-        notes
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
+      sellerId
+      sellerName
+      sellerImage
       status
       postDate
       sortOrder
@@ -41,7 +32,6 @@ exports.getAdvertisement = `
       _version
       _deleted
       _lastChangedAt
-      advertisementSellerId
     }
   }
 `;
@@ -64,6 +54,9 @@ exports.listAdvertisements = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -72,7 +65,6 @@ exports.listAdvertisements = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       nextToken
       startedAt
@@ -104,6 +96,9 @@ exports.syncAdvertisements = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -112,7 +107,6 @@ exports.syncAdvertisements = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       nextToken
       startedAt
@@ -224,9 +218,6 @@ exports.getSeller = `
   query GetSeller($id: ID!) {
     getSeller(id: $id) {
       id
-      url
-      name
-      images
       notes
       aliasesAsFirstSeller {
         nextToken
@@ -253,9 +244,6 @@ exports.listSellers = `
     listSellers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -283,9 +271,6 @@ exports.syncSellers = `
     ) {
       items {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -305,9 +290,6 @@ exports.getSellerAlias = `
       firstSellerId
       firstSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -318,9 +300,6 @@ exports.getSellerAlias = `
       secondSellerId
       secondSeller {
         id
-        url
-        name
-        images
         notes
         createdAt
         updatedAt
@@ -386,138 +365,6 @@ exports.syncSellerAliases = `
     }
   }
 `;
-exports.getBrand = `
-  query GetBrand($id: ID!) {
-    getBrand(id: $id) {
-      id
-      name
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-exports.listBrands = `
-  query ListBrands(
-    $filter: ModelBrandFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listBrands(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-exports.syncBrands = `
-  query SyncBrands(
-    $filter: ModelBrandFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncBrands(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        name
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-exports.getAccount = `
-  query GetAccount($id: ID!) {
-    getAccount(id: $id) {
-      id
-      images
-      name
-      aliases {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      accountAliasesId
-    }
-  }
-`;
-exports.listAccounts = `
-  query ListAccounts(
-    $filter: ModelAccountFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listAccounts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        images
-        name
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        accountAliasesId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-exports.syncAccounts = `
-  query SyncAccounts(
-    $filter: ModelAccountFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncAccounts(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        images
-        name
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-        accountAliasesId
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 exports.getMatch = `
   query GetMatch($id: ID!) {
     getMatch(id: $id) {
@@ -535,6 +382,9 @@ exports.getMatch = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -543,7 +393,6 @@ exports.getMatch = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       theftId
       theft {
@@ -657,6 +506,9 @@ exports.advertisementsByPlatformId = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -665,7 +517,6 @@ exports.advertisementsByPlatformId = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       nextToken
       startedAt
@@ -701,6 +552,9 @@ exports.advertisementsByBrandColor = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -709,7 +563,50 @@ exports.advertisementsByBrandColor = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+exports.advertisementsBySellerId = `
+  query AdvertisementsBySellerId(
+    $sellerId: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAdvertisementFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    advertisementsBySellerId(
+      sellerId: $sellerId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        platformName
+        platformId
+        title
+        url
+        price
+        description
+        model
+        brand
+        color
+        images
+        sellerId
+        sellerName
+        sellerImage
+        status
+        postDate
+        sortOrder
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
       }
       nextToken
       startedAt
@@ -745,6 +642,9 @@ exports.advertisementsByStatusPostDateId = `
         brand
         color
         images
+        sellerId
+        sellerName
+        sellerImage
         status
         postDate
         sortOrder
@@ -753,7 +653,6 @@ exports.advertisementsByStatusPostDateId = `
         _version
         _deleted
         _lastChangedAt
-        advertisementSellerId
       }
       nextToken
       startedAt
@@ -891,8 +790,8 @@ exports.theftsByStatusPostDateId = `
 `;
 exports.byFirstSeller = `
   query ByFirstSeller(
-    $firstSellerId: ID!
-    $secondSellerId: ModelIDKeyConditionInput
+    $firstSellerId: String!
+    $secondSellerId: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelSellerAliasFilterInput
     $limit: Int
@@ -923,8 +822,8 @@ exports.byFirstSeller = `
 `;
 exports.bySecondSeller = `
   query BySecondSeller(
-    $secondSellerId: ID!
-    $firstSellerId: ModelIDKeyConditionInput
+    $secondSellerId: String!
+    $firstSellerId: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelSellerAliasFilterInput
     $limit: Int
@@ -965,6 +864,39 @@ exports.matchesByStatusAdvertisementId = `
     matchesByStatusAdvertisementId(
       status: $status
       advertisementId: $advertisementId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        advertisementId
+        theftId
+        status
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+exports.matchesByStatusTheftId = `
+  query MatchesByStatusTheftId(
+    $status: MatchStatus!
+    $theftId: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMatchFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    matchesByStatusTheftId(
+      status: $status
+      theftId: $theftId
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit

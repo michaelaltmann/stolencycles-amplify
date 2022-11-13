@@ -2,7 +2,7 @@ const API = require('./API');
 const { createAdvertisement, updateAdvertisement } = require('../graphql/mutations')
 const { advertisementsByStatusPostDateId, advertisementsByPlatformId, listAdvertisements } = require("../graphql/queries")
 const { AdvertisementStatus } = require('../models')
-const { docClient, advertisementTableName } = require("./Tables")
+const { docClient, advertisementTableName } = require("./Tables");
 
 /**
  * 
@@ -19,9 +19,6 @@ function coreProperties(advertisement) {
     matches,
     ...rest
   } = advertisement
-  if (advertisement.seller) {
-    rest.advertisementSellerId = advertisement.seller.id
-  }
   return rest
 }
 
@@ -121,6 +118,7 @@ async function listByPlatformId(platformName, platformId) {
       platformId: platformId,
     },
   });
+  console.log(JSON.stringify(response))
   const {
     data: { advertisementsByPlatformId: { items, nextToken } },
   } = response
@@ -129,7 +127,7 @@ async function listByPlatformId(platformName, platformId) {
 }
 
 function mergeStatus(status, existingStatus) {
-  if (status != AdvertisementStatus.UNREVIEWED) {
+  if (status != AdvertisementStatus.UNREVIEWED && existingStatus != AdvertisementStatus.FLAGGED) {
     return status
   } else {
     return existingStatus
@@ -157,8 +155,9 @@ async function upsert(advertisement) {
       await update(merged)
     }))
   } else {
-    await insert(advertisement)
+    await create(advertisement)
   }
+  return advertisement
 }
 
 module.exports = { get, create, update, list, upsert, listByStatus }

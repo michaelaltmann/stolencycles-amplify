@@ -6,6 +6,8 @@ import NavBar from './components/NavBar';
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import Matches from './pages/Matches';
 import Thefts from './pages/Thefts';
+import Sellers from './pages/Sellers';
+import Seller from './pages/Seller';
 
 Amplify.configure(awsconfig);
 
@@ -35,6 +37,8 @@ function App() {
           <Route path="/ads" element={<Advertisements />} />
           <Route path="/thefts" element={<Thefts />} />
           <Route path="/matches" element={<Matches />} />
+          <Route path="/seller" element={<Sellers />} />
+          <Route path="/seller:sellerId" element={<Seller />} />
         </Route>
       </Routes>
     </div>
