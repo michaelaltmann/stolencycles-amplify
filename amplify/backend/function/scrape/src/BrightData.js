@@ -44,16 +44,16 @@ const images = ["https://surlybikes.com/uploads/bikes/_medium_image/Lowside_BK05
 
 const sellers = [
   {
-    id: "MARKETPLACE#1",
+    id: "MARKETPLACE~1",
     name: "Vincent"
   },
   {
-    id: "MARKETPLACE#2",
+    id: "MARKETPLACE~2",
     name: "Jessie"
   },
   ,
   {
-    id: "MARKETPLACE#3",
+    id: "MARKETPLACE~3",
     name: "Trenton"
   }
 ]

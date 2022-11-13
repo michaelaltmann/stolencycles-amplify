@@ -1,6 +1,6 @@
 import API from '@aws-amplify/api';
 import { createAdvertisement, updateAdvertisement } from '../graphql/mutations'
-import { advertisementsByBrandColor, advertisementsByStatusPostDateId, advertisementsBySellerId } from "../graphql/queries"
+import { listAdvertisements, advertisementsByBrandColor, advertisementsByStatusPostDateId, advertisementsBySellerId } from "../graphql/queries"
 
 /**
  * 
@@ -107,7 +107,6 @@ async function listBySellerId(sellerId, currentToken, limit = 100) {
       sellerId: sellerId,
       limit: limit,
       nextToken: currentToken,
-      sortDirection: "DESC"
     },
   });
   return { items, nextToken }

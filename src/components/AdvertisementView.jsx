@@ -7,6 +7,7 @@ import {
   CardContent,
   CardMedia,
   Icon,
+  Link,
   Snackbar,
   TextField,
   Tooltip,
@@ -226,6 +227,10 @@ export function AdvertisementView(props) {
     });
     navigate("/matches");
   }
+  function handleSeller() {
+    console.log("Navigating to " + "/seller/" + sellerId);
+    navigate("/seller/" + sellerId);
+  }
 
   /**
    * Save to the server
@@ -395,17 +400,12 @@ export function AdvertisementView(props) {
             </Button>
           </div>
         </Tooltip>
-        {aliasId ? (
+        {sellerId ? (
           <Tooltip
             title={sellerId ? sellerName || "" : "Seller"}
             sx={classes.button}
           >
-            <Button
-              href={"/seller/" + sellerId}
-              target="_seller"
-              sx={classes.button}
-              size="small"
-            >
+            <Button onClick={handleSeller} sx={classes.button} size="small">
               {" "}
               {sellerImage ? (
                 <img
