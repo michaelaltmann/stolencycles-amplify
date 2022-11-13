@@ -86,7 +86,7 @@ export default function Thefts() {
     setThefts((thefts || []).concat(items));
   }
   async function scrapeBikeIndex() {
-    const response = API.get("scrape", "/bikeindex");
+    const response = API.get("scrape", "/scrape/bikeindex");
   }
   function handleStatusFilterChanged(e) {
     setCurrentToken(null);
