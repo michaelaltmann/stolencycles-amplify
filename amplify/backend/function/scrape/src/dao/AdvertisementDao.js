@@ -1,6 +1,6 @@
 const API = require('./API');
 const { createAdvertisement, updateAdvertisement } = require('../graphql/mutations')
-const { advertisementsByStatusPostDateId, listAdvertisements } = require("../graphql/queries")
+const { advertisementsByStatusPostDateId, listAdvertisements, advertisementsByBrandColor } = require("../graphql/queries")
 const { AdvertisementStatus } = require('../models')
 const { docClient, advertisementTableName } = require("./Tables");
 
@@ -142,4 +142,26 @@ async function upsert(advertisement) {
   return advertisement
 }
 
-module.exports = { get, create, update, list, upsert, listByStatus }
+async function listByBrandColor(brand, color, currentToken, limit = 1) {
+  const response = await API.graphql({
+    query: advertisementsByBrandColor,
+    variables: {
+      brand: brand,
+      color: { eq: color },
+      limit: limit,
+      nextToken: currentToken,
+    },
+  });
+  if (response?.errors?.length) {
+    throw Error(response.errors.map(e => e.message).join('; '))
+  }
+  const {
+    data: {
+      advertisementsByBrandColor: { items, nextToken },
+    },
+  } = response
+  console.log(`listByBrandColor(${brand},${color},${currentToken}, ${limit}): ${items.length}`)
+  return { items, nextToken }
+}
+
+module.exports = { get, create, update, list, upsert, listByStatus, listByBrandColor }

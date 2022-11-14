@@ -69,7 +69,7 @@ async function listByStatusAdvertisement(status, advertisementId, currentToken, 
     query: matchesByStatusAdvertisementId,
     variables: {
       status: status,
-      advertisementId: { eq: advertisementId },
+      advertisementId: advertisementId ? { eq: advertisementId } : null,
       limit: limit,
       nextToken: currentToken,
     },
@@ -86,7 +86,7 @@ async function listByStatusTheft(status, theftId, currentToken, limit = 1) {
     query: matchesByStatusTheftId,
     variables: {
       status: status,
-      theftId: { eq: theftId },
+      theftId: theftId ? { eq: theftId } : null,
       limit: limit,
       nextToken: currentToken,
     },

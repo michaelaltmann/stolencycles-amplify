@@ -1,9 +1,8 @@
 {
   "httpMethod": "GET",
-  "path": "/check/advertisement/MARKETPLACE#190",
+  "path": "/check/advertisement/MARKETPLACE~6611",
   "queryStringParameters": {},
   "headers": {
     "Content-Type": "application/json"
-  },
-  "body": "{\"msg\":\"Hello from the event.json body\"}"
+  }
 }

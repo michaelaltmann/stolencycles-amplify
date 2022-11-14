@@ -1,9 +1,8 @@
 {
   "httpMethod": "GET",
-  "path": "/check/theft/5ebc7b10-8641-463c-a58f-cd7e46be15e9",
+  "path": "/check/theft/BIKEINDEX~1436658",
   "queryStringParameters": {},
   "headers": {
     "Content-Type": "application/json"
-  },
-  "body": "{\"msg\":\"Hello from the event.json body\"}"
+  }
 }

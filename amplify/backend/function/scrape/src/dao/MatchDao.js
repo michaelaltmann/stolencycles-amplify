@@ -117,15 +117,20 @@ async function getAdvertisements() {
  * @returns List of advertisements that might be matches.
  */
 async function getPossibleAdvertisements(theft) {
-    const statuses = [AdvertisementStatus.REVIEWED]
+    const statuses = [AdvertisementStatus.REVIEWED, AdvertisementStatus.REVIEWED]
     const brand = theft.brand
     const colors = [theft.color] // perhaps include similar colors
+    const limit = 100
 
     let possibleAdvertisements = []
     for (const color of colors) {
-        const { Items } = await AdvertisementDao.listByBrandColor({ Limit: 0, Brand: brand, Color: color })
-        const ads = Items.filter(ad => statuses.includes(ad.status))
-        possibleAdvertisements = possibleAdvertisements.concat(ads)
+        let currentToken = null
+        do {
+            const { items, nextToken } = await AdvertisementDao.listByBrandColor(brand, color, currentToken, limit)
+            const ads = items.filter(ad => statuses.includes(ad.status))
+            possibleAdvertisements = possibleAdvertisements.concat(ads)
+            currentToken = nextToken
+        } while (currentToken)
     }
 
     return possibleAdvertisements
@@ -137,15 +142,19 @@ async function getPossibleAdvertisements(theft) {
  * @returns List of thefts that might be matches.
  */
 async function getPossibleThefts(advertisement) {
-    const statuses = [TheftStatus.REVIEWED]
+    const statuses = [TheftStatus.UNREVIEWED, TheftStatus.REVIEWED]
     const brand = advertisement.brand
     const colors = [advertisement.color] // perhaps include similar colors
-
+    const limit = 100
     let possibleThefts = []
     for (const color of colors) {
-        const { Items } = await TheftDao.listByBrandColor({ Limit: 0, Brand: brand, Color: color })
-        const thefts = Items.filter(theft => statuses.includes(theft.status))
-        possibleThefts = possibleThefts.concat(thefts)
+        let currentToken = null
+        do {
+            const { items, nextToken } = await TheftDao.listByBrandColor(brand, color, currentToken, limit)
+            const thefts = items.filter(theft => statuses.includes(theft.status))
+            possibleThefts = possibleThefts.concat(thefts)
+            currentToken = nextToken
+        } while (currentToken)
     }
 
     return possibleThefts
@@ -396,7 +405,7 @@ async function checkTheft(theft) {
         const now = new Date().toISOString()
         if (DEBUG) console.log('Checking ' + theft.id + ' against ' + advertisements.length + ' advertisements')
         await Promise.all(advertisements.map(async advertisement => {
-            const similarity = similarity(advertisement, theft)
+            const sim = similarity(advertisement, theft)
 
             if (DEBUG) console.log('ad:' + advertisement.id +
                 " " + advertisement.brand +
@@ -404,20 +413,20 @@ async function checkTheft(theft) {
                 '  theft:' + theft.id +
                 " " + theft.brand +
                 "/" + theft.color +
-                ' similarity:' + similarity)
+                ' similarity:' + sim)
 
             const existing = await getByAdvertisementIdTheftId(
                 advertisement.id,
                 theft.id
             )
-            if (similarity > 0) {
+            if (sim > 0) {
                 if (!existing) {
                     const newMatch = {
                         advertisementId: advertisement.id,
                         theftId: theft.id,
                         // postDate: now,
                         status: MatchStatus.UNREVIEWED,
-                        //similarity: similarity
+                        //similarity: sim
                     }
                     console.log("Inserting match between " +
                         advertisement.id + ':' + advertisement.brand + ':' + advertisement.color + ':' + advertisement.model + ' and ' +
@@ -456,16 +465,16 @@ async function checkAdvertisement(advertisement) {
         const now = new Date().toISOString()
         if (DEBUG) console.log('Checking ' + advertisement.id + ' against ' + thefts.length + ' thefts')
         await Promise.all(thefts.map(async theft => {
-            const similarity = similarity(advertisement, theft)
+            const sim = similarity(advertisement, theft)
             if (DEBUG) console.log('Checking ad ' + advertisement.id + ':' + advertisement.brand
                 + ' and theft '
                 + theft.id + ':' + theft.brand +
-                ' similarity:' + similarity)
+                ' similarity:' + sim)
             const existing = await getByAdvertisementIdTheftId(
                 advertisement.id,
                 theft.id
             )
-            if (similarity > 0) {
+            if (sim > 0) {
                 if (!existing) {
 
                     const newMatch = {
@@ -473,7 +482,7 @@ async function checkAdvertisement(advertisement) {
                         theftId: theft.id,
                         //postDate: now,
                         status: MatchStatus.UNREVIEWED,
-                        //similarity: similarity
+                        //similarity: sim
                     }
                     console.log("Inserting " + newMatch.id + ' ' +
                         advertisement.id + ':' + advertisement.brand + ' ' +

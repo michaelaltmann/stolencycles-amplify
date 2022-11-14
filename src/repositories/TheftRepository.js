@@ -91,7 +91,6 @@ async function listByBrandColor(brand, color, currentToken, limit = 1) {
       color: color,
       limit: limit,
       nextToken: currentToken,
-      sortDirection: "DESC"
     },
   });
   return { items, nextToken }

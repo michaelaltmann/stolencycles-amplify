@@ -73,6 +73,7 @@ export default function Matchs() {
         matchFilter.currentToken,
         1
       );
+
     setMatchFilter({ ...matchFilter, currentToken: nextToken });
     setMatchs((matchs || []).concat(items));
   }
@@ -96,10 +97,7 @@ export default function Matchs() {
           return <MatchView item={match} key={match.id} />;
         })}
       <Stack direction="row">
-        <Button
-          onClick={() => fetchMatchs()}
-          disabled={!matchFilter.currentToken}
-        >
+        <Button onClick={fetchMatchs} disabled={!matchFilter.currentToken}>
           More
         </Button>
       </Stack>

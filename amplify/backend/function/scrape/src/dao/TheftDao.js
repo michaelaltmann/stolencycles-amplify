@@ -1,5 +1,6 @@
 const API = require("./API")
 const { createTheft, updateTheft } = require('../graphql/mutations');
+const { theftsByBrandColor } = require('../graphql/queries')
 const { docClient, theftTableName } = require("./Tables")
 
 function coreProperties(theft) {
@@ -72,4 +73,25 @@ async function upsert(theft) {
   }
 }
 
-module.exports = { get, update, upsert, insert }
+async function listByBrandColor(brand, color, currentToken, limit = 1) {
+
+
+  const response = await API.graphql({
+    query: theftsByBrandColor,
+    variables: {
+      brand: brand,
+      color: { eq: color },
+      limit: limit,
+      nextToken: currentToken,
+    },
+  });
+  const {
+    data: {
+      theftsByBrandColor: { items, nextToken },
+    },
+  } = response
+  console.log(`listByBrandColor(${brand},${color},${currentToken}, ${limit}): ${items.length}`)
+  return { items, nextToken }
+}
+
+module.exports = { get, update, upsert, insert, listByBrandColor }
