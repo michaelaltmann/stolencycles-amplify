@@ -5,7 +5,7 @@ import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@a
 export enum AdvertisementStatus {
   UNREVIEWED = "UNREVIEWED",
   REVIEWED = "REVIEWED",
-  FLAGGED = "FLAGGED",
+  RECOVERED = "RECOVERED",
   SOLD = "SOLD",
   JUNK = "JUNK"
 }
@@ -70,6 +70,7 @@ type EagerAdvertisement = {
   readonly brand?: string | null;
   readonly color?: string | null;
   readonly images?: string | null;
+  readonly flagged?: boolean | null;
   readonly sellerId?: string | null;
   readonly sellerName?: string | null;
   readonly sellerImage?: string | null;
@@ -91,6 +92,7 @@ type LazyAdvertisement = {
   readonly brand?: string | null;
   readonly color?: string | null;
   readonly images?: string | null;
+  readonly flagged?: boolean | null;
   readonly sellerId?: string | null;
   readonly sellerName?: string | null;
   readonly sellerImage?: string | null;
@@ -177,6 +179,8 @@ export declare const Theft: (new (init: ModelInit<Theft, TheftMetaData>) => Thef
 type EagerSeller = {
   readonly id: string;
   readonly notes?: string | null;
+  readonly flagged?: boolean | null;
+  readonly advertisements?: (Advertisement | null)[] | null;
   readonly aliasesAsFirstSeller?: (SellerAlias | null)[] | null;
   readonly aliasesAsSecondSeller?: (SellerAlias | null)[] | null;
   readonly createdAt?: string | null;
@@ -186,6 +190,8 @@ type EagerSeller = {
 type LazySeller = {
   readonly id: string;
   readonly notes?: string | null;
+  readonly flagged?: boolean | null;
+  readonly advertisements: AsyncCollection<Advertisement>;
   readonly aliasesAsFirstSeller: AsyncCollection<SellerAlias>;
   readonly aliasesAsSecondSeller: AsyncCollection<SellerAlias>;
   readonly createdAt?: string | null;

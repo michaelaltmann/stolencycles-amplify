@@ -66,6 +66,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "flagged": {
+                    "name": "flagged",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "sellerId": {
                     "name": "sellerId",
                     "isArray": false,
@@ -502,6 +509,27 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "flagged": {
+                    "name": "flagged",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "advertisements": {
+                    "name": "advertisements",
+                    "isArray": true,
+                    "type": {
+                        "model": "Advertisement"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true,
+                    "association": {
+                        "connectionType": "HAS_MANY",
+                        "associatedWith": "sellerId"
+                    }
+                },
                 "aliasesAsFirstSeller": {
                     "name": "aliasesAsFirstSeller",
                     "isArray": true,
@@ -679,7 +707,7 @@ export const schema = {
             "values": [
                 "UNREVIEWED",
                 "REVIEWED",
-                "FLAGGED",
+                "RECOVERED",
                 "SOLD",
                 "JUNK"
             ]
@@ -725,5 +753,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.2.0",
-    "version": "e0bf2eb9126bd7507ed9abbf755f9924"
+    "version": "d90b5b0555433e6cf95dbb964e0cce13"
 };

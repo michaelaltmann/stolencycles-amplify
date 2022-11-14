@@ -207,6 +207,11 @@ exports.getSeller = `
     getSeller(id: $id) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -233,6 +238,7 @@ exports.listSellers = `
       items {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -260,6 +266,7 @@ exports.syncSellers = `
       items {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -279,6 +286,7 @@ exports.getSellerAlias = `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -289,6 +297,7 @@ exports.getSellerAlias = `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version

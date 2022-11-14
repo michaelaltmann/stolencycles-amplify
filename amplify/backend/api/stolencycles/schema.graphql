@@ -13,6 +13,7 @@ type Advertisement @model @auth(rules: [{ allow: public }]) {
     )
   color: String
   images: AWSJSON
+  flagged: Boolean
   sellerId: String
     @index(
       name: "advertisementsBySellerId"
@@ -60,6 +61,9 @@ type Theft @model @auth(rules: [{ allow: public }]) {
 type Seller @model @auth(rules: [{ allow: public }]) {
   id: String!
   notes: String
+  flagged: Boolean
+  advertisements: [Advertisement]
+    @hasMany(indexName: "advertisementsBySellerId", fields: ["id"])
   aliasesAsFirstSeller: [SellerAlias]
     @hasMany(indexName: "byFirstSellerIndex", fields: ["id"])
   aliasesAsSecondSeller: [SellerAlias]
@@ -124,7 +128,7 @@ enum TheftPlatform {
 enum AdvertisementStatus {
   UNREVIEWED
   REVIEWED
-  FLAGGED
+  RECOVERED
   SOLD
   JUNK
 }

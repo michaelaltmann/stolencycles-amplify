@@ -198,6 +198,11 @@ export const createSeller = /* GraphQL */ `
     createSeller(input: $input, condition: $condition) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -222,6 +227,11 @@ export const updateSeller = /* GraphQL */ `
     updateSeller(input: $input, condition: $condition) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -246,6 +256,11 @@ export const deleteSeller = /* GraphQL */ `
     deleteSeller(input: $input, condition: $condition) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -273,6 +288,7 @@ export const createSellerAlias = /* GraphQL */ `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -283,6 +299,7 @@ export const createSellerAlias = /* GraphQL */ `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -308,6 +325,7 @@ export const updateSellerAlias = /* GraphQL */ `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -318,6 +336,7 @@ export const updateSellerAlias = /* GraphQL */ `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -343,6 +362,7 @@ export const deleteSellerAlias = /* GraphQL */ `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -353,6 +373,7 @@ export const deleteSellerAlias = /* GraphQL */ `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version

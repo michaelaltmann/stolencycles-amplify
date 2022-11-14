@@ -117,7 +117,7 @@ async function getAdvertisements() {
  * @returns List of advertisements that might be matches.
  */
 async function getPossibleAdvertisements(theft) {
-    const statuses = [AdvertisementStatus.REVIEWED, AdvertisementStatus.FLAGGED]
+    const statuses = [AdvertisementStatus.REVIEWED]
     const brand = theft.brand
     const colors = [theft.color] // perhaps include similar colors
 

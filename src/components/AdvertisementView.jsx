@@ -65,6 +65,7 @@ export function AdvertisementView(props) {
     model,
     color,
     images,
+    flagged,
     postDate,
     sellerId,
     sellerName,
@@ -167,7 +168,11 @@ export function AdvertisementView(props) {
     setAdvertisement(checkReviewStatus(draft));
     setModified(true);
   }
-
+  function toggleFlagged() {
+    const draft = { ...advertisement, flagged: !advertisement.flagged };
+    setAdvertisement(checkReviewStatus(draft));
+    setModified(true);
+  }
   function handleUrlChange(e) {
     const { value: url } = e.target;
     const marketplacePattern =
@@ -434,16 +439,10 @@ export function AdvertisementView(props) {
           <Icon style={{ color: "lightgray" }}>person_icon</Icon>
         )}
         <Tooltip title="Flagged" sx={classes.button}>
-          <Button
-            sx={classes.button}
-            size="small"
-            onClick={() => setStatus(AdvertisementStatus.FLAGGED)}
-          >
+          <Button sx={classes.button} size="small" onClick={toggleFlagged}>
             <Icon
               style={{
-                color: status === AdvertisementStatus.FLAGGED ? "gray" : "red",
-                borderStyle: "solid",
-                borderWidth: status === AdvertisementStatus.FLAGGED ? 1 : 0,
+                color: flagged ? "red" : "gray",
               }}
             >
               flag_icon

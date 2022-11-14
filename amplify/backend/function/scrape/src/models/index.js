@@ -7,7 +7,7 @@ const schema_1 = require("./schema");
 const AdvertisementStatus = {
     "UNREVIEWED": "UNREVIEWED",
     "REVIEWED": "REVIEWED",
-    "FLAGGED": "FLAGGED",
+    "RECOVERED": "RECOVERED",
     "SOLD": "SOLD",
     "JUNK": "JUNK"
 };

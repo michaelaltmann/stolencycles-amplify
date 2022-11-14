@@ -5,7 +5,7 @@ import { schema } from './schema';
 const AdvertisementStatus = {
   "UNREVIEWED": "UNREVIEWED",
   "REVIEWED": "REVIEWED",
-  "FLAGGED": "FLAGGED",
+  "RECOVERED": "RECOVERED",
   "SOLD": "SOLD",
   "JUNK": "JUNK"
 };

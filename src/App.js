@@ -37,7 +37,7 @@ function App() {
           <Route path="/ads" element={<Advertisements />} />
           <Route path="/thefts" element={<Thefts />} />
           <Route path="/matches" element={<Matches />} />
-          <Route path="/seller" element={<Sellers />} />
+          <Route path="/sellers" element={<Sellers />} />
           <Route path="/seller/:sellerId" element={<Seller />} />
         </Route>
       </Routes>

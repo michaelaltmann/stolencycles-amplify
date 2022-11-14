@@ -13,6 +13,7 @@ export const getAdvertisement = /* GraphQL */ `
       brand
       color
       images
+      flagged
       sellerId
       sellerName
       sellerImage
@@ -48,6 +49,7 @@ export const listAdvertisements = /* GraphQL */ `
         brand
         color
         images
+        flagged
         sellerId
         sellerName
         sellerImage
@@ -88,6 +90,7 @@ export const syncAdvertisements = /* GraphQL */ `
         brand
         color
         images
+        flagged
         sellerId
         sellerName
         sellerImage
@@ -205,6 +208,11 @@ export const getSeller = /* GraphQL */ `
     getSeller(id: $id) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -231,6 +239,7 @@ export const listSellers = /* GraphQL */ `
       items {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -258,6 +267,7 @@ export const syncSellers = /* GraphQL */ `
       items {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -277,6 +287,7 @@ export const getSellerAlias = /* GraphQL */ `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -287,6 +298,7 @@ export const getSellerAlias = /* GraphQL */ `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -366,6 +378,7 @@ export const getMatch = /* GraphQL */ `
         brand
         color
         images
+        flagged
         sellerId
         sellerName
         sellerImage
@@ -486,6 +499,7 @@ export const advertisementsByBrandColor = /* GraphQL */ `
         brand
         color
         images
+        flagged
         sellerId
         sellerName
         sellerImage
@@ -528,6 +542,7 @@ export const advertisementsBySellerId = /* GraphQL */ `
         brand
         color
         images
+        flagged
         sellerId
         sellerName
         sellerImage
@@ -572,6 +587,7 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
         brand
         color
         images
+        flagged
         sellerId
         sellerName
         sellerImage

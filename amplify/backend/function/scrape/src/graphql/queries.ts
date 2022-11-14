@@ -205,6 +205,11 @@ export const getSeller = /* GraphQL */ `
     getSeller(id: $id) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -231,6 +236,7 @@ export const listSellers = /* GraphQL */ `
       items {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -258,6 +264,7 @@ export const syncSellers = /* GraphQL */ `
       items {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -277,6 +284,7 @@ export const getSellerAlias = /* GraphQL */ `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -287,6 +295,7 @@ export const getSellerAlias = /* GraphQL */ `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version

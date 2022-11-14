@@ -111,7 +111,7 @@ async function listByStatus(status, currentToken, limit = 1) {
 }
 
 function mergeStatus(status, existingStatus) {
-  if (status != AdvertisementStatus.UNREVIEWED && existingStatus != AdvertisementStatus.FLAGGED) {
+  if (status != AdvertisementStatus.UNREVIEWED) {
     return status
   } else {
     return existingStatus
@@ -119,7 +119,7 @@ function mergeStatus(status, existingStatus) {
 }
 
 function merge(advertisement, existing) {
-  // Properties that we are willing to update
+  // Properties that we are willing to update from a fresh scrape
   const { title, description, images, price } = advertisement
   return {
     ...existing,

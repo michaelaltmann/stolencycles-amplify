@@ -200,6 +200,11 @@ exports.createSeller = `
     createSeller(input: $input, condition: $condition) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -224,6 +229,11 @@ exports.updateSeller = `
     updateSeller(input: $input, condition: $condition) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -248,6 +258,11 @@ exports.deleteSeller = `
     deleteSeller(input: $input, condition: $condition) {
       id
       notes
+      flagged
+      advertisements {
+        nextToken
+        startedAt
+      }
       aliasesAsFirstSeller {
         nextToken
         startedAt
@@ -275,6 +290,7 @@ exports.createSellerAlias = `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -285,6 +301,7 @@ exports.createSellerAlias = `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -310,6 +327,7 @@ exports.updateSellerAlias = `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -320,6 +338,7 @@ exports.updateSellerAlias = `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -345,6 +364,7 @@ exports.deleteSellerAlias = `
       firstSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
@@ -355,6 +375,7 @@ exports.deleteSellerAlias = `
       secondSeller {
         id
         notes
+        flagged
         createdAt
         updatedAt
         _version
