@@ -3,6 +3,7 @@ import { Button, Box, Stack, TextField } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import SellerRepository from "../repositories/SellerRepository";
+import SellerView from "../components/SellerView";
 export default function Sellers(props) {
   const [currentToken, setCurrentToken] = useState(null);
   const [sellers, setSellers] = useState(null);
@@ -28,7 +29,7 @@ export default function Sellers(props) {
         >
           {" "}
           {sellers.map((seller) => {
-            return <Box key={seller.id}>{seller.id}</Box>;
+            return <SellerView key={seller.id} seller={seller} />;
           })}
         </InfiniteScroll>
       )}

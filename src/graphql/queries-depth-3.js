@@ -207,6 +207,28 @@ export const getSeller = /* GraphQL */ `
       notes
       flagged
       advertisements {
+        items {
+        id
+        title
+        url
+        price
+        description
+        model
+        brand
+        color
+        images
+        sellerId
+        sellerName
+        sellerImage
+        status
+        postDate
+        sortOrder
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
         nextToken
         startedAt
       }
@@ -237,6 +259,32 @@ export const listSellers = /* GraphQL */ `
         id
         notes
         flagged
+        advertisements {
+        items {
+        id
+        title
+        url
+        price
+        description
+        model
+        brand
+        color
+        images
+        sellerId
+        sellerName
+        sellerImage
+        status
+        postDate
+        sortOrder
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+        nextToken
+        startedAt
+      }
         createdAt
         updatedAt
         _version
