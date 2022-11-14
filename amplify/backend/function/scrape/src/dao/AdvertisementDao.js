@@ -1,6 +1,6 @@
 const API = require('./API');
 const { createAdvertisement, updateAdvertisement } = require('../graphql/mutations')
-const { advertisementsByStatusPostDateId, advertisementsByPlatformId, listAdvertisements } = require("../graphql/queries")
+const { advertisementsByStatusPostDateId, listAdvertisements } = require("../graphql/queries")
 const { AdvertisementStatus } = require('../models')
 const { docClient, advertisementTableName } = require("./Tables");
 
@@ -110,22 +110,6 @@ async function listByStatus(status, currentToken, limit = 1) {
   return { items, nextToken }
 }
 
-async function listByPlatformId(platformName, platformId) {
-  const response = await API.graphql({
-    query: advertisementsByPlatformId,
-    variables: {
-      platformName: { eq: platformName },
-      platformId: platformId,
-    },
-  });
-  console.log(JSON.stringify(response))
-  const {
-    data: { advertisementsByPlatformId: { items, nextToken } },
-  } = response
-  console.log(`listByPlatformId(${platformName},${platformId}) found ${items.length}`)
-  return { items, nextToken }
-}
-
 function mergeStatus(status, existingStatus) {
   if (status != AdvertisementStatus.UNREVIEWED && existingStatus != AdvertisementStatus.FLAGGED) {
     return status
@@ -148,12 +132,10 @@ function merge(advertisement, existing) {
 }
 
 async function upsert(advertisement) {
-  const { items } = await listByPlatformId(advertisement.platformName, advertisement.platformId)
-  if (items.length > 0) {
-    await Promise.all(items.map(async existing => {
-      const merged = merge(advertisement, existing)
-      await update(merged)
-    }))
+  const existing = await get(advertisement.id)
+  if (existing) {
+    const merged = merge(advertisement, existing)
+    await update(merged)
   } else {
     await create(advertisement)
   }

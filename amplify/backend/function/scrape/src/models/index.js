@@ -1,41 +1,50 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MatchStatus = exports.TheftStatus = exports.TheftPlatform = exports.AdvertisementStatus = exports.AdvertisementPlatform = void 0;
-var AdvertisementPlatform;
-(function (AdvertisementPlatform) {
-    AdvertisementPlatform["MARKETPLACE"] = "MARKETPLACE";
-    AdvertisementPlatform["OFFERUP"] = "OFFERUP";
-    AdvertisementPlatform["CRAIGSLIST"] = "CRAIGSLIST";
-    AdvertisementPlatform["PROSCLOSET"] = "PROSCLOSET";
-    AdvertisementPlatform["NEXTDOOR"] = "NEXTDOOR";
-    AdvertisementPlatform["EBAY"] = "EBAY";
-    AdvertisementPlatform["OTHER"] = "OTHER";
-})(AdvertisementPlatform = exports.AdvertisementPlatform || (exports.AdvertisementPlatform = {}));
-var AdvertisementStatus;
-(function (AdvertisementStatus) {
-    AdvertisementStatus["UNREVIEWED"] = "UNREVIEWED";
-    AdvertisementStatus["REVIEWED"] = "REVIEWED";
-    AdvertisementStatus["FLAGGED"] = "FLAGGED";
-    AdvertisementStatus["SOLD"] = "SOLD";
-    AdvertisementStatus["JUNK"] = "JUNK";
-})(AdvertisementStatus = exports.AdvertisementStatus || (exports.AdvertisementStatus = {}));
-var TheftPlatform;
-(function (TheftPlatform) {
-    TheftPlatform["FACEBOOK"] = "FACEBOOK";
-    TheftPlatform["BIKEINDEX"] = "BIKEINDEX";
-    TheftPlatform["PROJECT529"] = "PROJECT529";
-    TheftPlatform["NCIC"] = "NCIC";
-    TheftPlatform["OTHER"] = "OTHER";
-})(TheftPlatform = exports.TheftPlatform || (exports.TheftPlatform = {}));
-var TheftStatus;
-(function (TheftStatus) {
-    TheftStatus["UNREVIEWED"] = "UNREVIEWED";
-    TheftStatus["REVIEWED"] = "REVIEWED";
-    TheftStatus["RECOVERED"] = "RECOVERED";
-})(TheftStatus = exports.TheftStatus || (exports.TheftStatus = {}));
-var MatchStatus;
-(function (MatchStatus) {
-    MatchStatus["UNREVIEWED"] = "UNREVIEWED";
-    MatchStatus["MATCHED"] = "MATCHED";
-    MatchStatus["MISMATCHED"] = "MISMATCHED";
-})(MatchStatus = exports.MatchStatus || (exports.MatchStatus = {}));
+exports.TheftPlatform = exports.AdvertisementPlatform = exports.MatchStatus = exports.TheftStatus = exports.AdvertisementStatus = exports.SellerAlias = exports.Seller = exports.Theft = exports.Match = exports.Advertisement = void 0;
+// @ts-check
+const datastore_1 = require("@aws-amplify/datastore");
+const schema_1 = require("./schema");
+const AdvertisementStatus = {
+    "UNREVIEWED": "UNREVIEWED",
+    "REVIEWED": "REVIEWED",
+    "FLAGGED": "FLAGGED",
+    "SOLD": "SOLD",
+    "JUNK": "JUNK"
+};
+exports.AdvertisementStatus = AdvertisementStatus;
+const TheftStatus = {
+    "UNREVIEWED": "UNREVIEWED",
+    "REVIEWED": "REVIEWED",
+    "RECOVERED": "RECOVERED"
+};
+exports.TheftStatus = TheftStatus;
+const MatchStatus = {
+    "UNREVIEWED": "UNREVIEWED",
+    "MATCHED": "MATCHED",
+    "MISMATCHED": "MISMATCHED"
+};
+exports.MatchStatus = MatchStatus;
+const AdvertisementPlatform = {
+    "MARKETPLACE": "MARKETPLACE",
+    "OFFERUP": "OFFERUP",
+    "CRAIGSLIST": "CRAIGSLIST",
+    "PROSCLOSET": "PROSCLOSET",
+    "NEXTDOOR": "NEXTDOOR",
+    "EBAY": "EBAY",
+    "OTHER": "OTHER"
+};
+exports.AdvertisementPlatform = AdvertisementPlatform;
+const TheftPlatform = {
+    "FACEBOOK": "FACEBOOK",
+    "BIKEINDEX": "BIKEINDEX",
+    "PROJECT529": "PROJECT529",
+    "NCIC": "NCIC",
+    "OTHER": "OTHER"
+};
+exports.TheftPlatform = TheftPlatform;
+const { Advertisement, Match, Theft, Seller, SellerAlias } = (0, datastore_1.initSchema)(schema_1.schema);
+exports.Advertisement = Advertisement;
+exports.Match = Match;
+exports.Theft = Theft;
+exports.Seller = Seller;
+exports.SellerAlias = SellerAlias;

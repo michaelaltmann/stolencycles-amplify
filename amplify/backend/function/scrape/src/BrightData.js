@@ -69,9 +69,8 @@ async function scrapeMarketplace(limit) {
     const now = new Date()
     const seller = select(sellers)
     const advertisement = {
+      id: "MARKETPLACE~" + Math.round(10000 * Math.random()).toString(),
       url: "https://www.facebook.com/marketplace",
-      platformName: "MARKETPLACE",
-      platformId: Math.round(10000 * Math.random()).toString(),
       brand: select(brands),
       status: "UNREVIEWED",
       title: select(titles),
@@ -94,8 +93,7 @@ async function scrapeOfferUp(limit) {
     const now = new Date()
     const advertisement = {
       url: "https://www.offerup.com",
-      platformName: "OFFERUP",
-      platformId: Math.round(10000 * Math.random()).toString(),
+      id: "OFFERUP~" + Math.round(10000 * Math.random()).toString(),
       brand: select(brands),
       status: "UNREVIEWED",
       title: select(titles),

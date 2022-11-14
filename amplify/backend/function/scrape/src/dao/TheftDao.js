@@ -1,6 +1,5 @@
 const API = require("./API")
 const { createTheft, updateTheft } = require('../graphql/mutations');
-const { theftsByPlatformId } = require('../graphql/queries');
 const { docClient, theftTableName } = require("./Tables")
 
 function coreProperties(theft) {
@@ -40,7 +39,7 @@ async function update(theft) {
       input: coreProperties(theft),
     },
   });
-  console.log(`Updated ${theft.platformName}#${theft.platformId}`)
+  console.log(`Updated ${theft.id}`)
   return item
 }
 
@@ -53,7 +52,7 @@ async function insert(theft) {
       input: coreProperties(theft),
     },
   });
-  console.log(`Inserted ${theft.platformName}#${theft.platformId}`)
+  console.log(`Inserted ${theft.id}`)
   return item
 }
 
@@ -62,32 +61,15 @@ function merge(theft, existing) {
   const { title, description, images } = theft
   return { ...existing, title, description, images }
 }
-async function listByPlatformId(platformName, platformId) {
-
-  const response = await API.graphql({
-    query: theftsByPlatformId,
-    variables: {
-      platformName: { eq: platformName },
-      platformId: platformId,
-    },
-  });
-  const {
-    data: { theftsByPlatformId: { items, nextToken } },
-  } = response
-  console.log(`listByPlatformId(${platformName},${platformId}) found ${items.length}`)
-  return { items, nextToken }
-}
 
 async function upsert(theft) {
-  const { items: existingThefts } = await listByPlatformId(theft.platformName, theft.platformId)
-  if (existingThefts.length > 0) {
-    await Promise.all(existingThefts.map(async existing => {
-      const merged = merge(theft, existing)
-      await update(merged)
-    }))
+  const existing = await get(theft.id)
+  if (existing) {
+    const merged = merge(theft, existing)
+    await update(merged)
   } else {
     await insert(theft)
   }
 }
 
-module.exports = { get, update, upsert, insert, listByPlatformId }
+module.exports = { get, update, upsert, insert }

@@ -9,8 +9,6 @@ exports.onCreateAdvertisement = `
   ) {
     onCreateAdvertisement(filter: $filter) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -43,8 +41,6 @@ exports.onUpdateAdvertisement = `
   ) {
     onUpdateAdvertisement(filter: $filter) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -77,8 +73,6 @@ exports.onDeleteAdvertisement = `
   ) {
     onDeleteAdvertisement(filter: $filter) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -109,8 +103,6 @@ exports.onCreateTheft = `
   subscription OnCreateTheft($filter: ModelSubscriptionTheftFilterInput) {
     onCreateTheft(filter: $filter) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -138,8 +130,6 @@ exports.onUpdateTheft = `
   subscription OnUpdateTheft($filter: ModelSubscriptionTheftFilterInput) {
     onUpdateTheft(filter: $filter) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -167,8 +157,6 @@ exports.onDeleteTheft = `
   subscription OnDeleteTheft($filter: ModelSubscriptionTheftFilterInput) {
     onDeleteTheft(filter: $filter) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -364,8 +352,6 @@ exports.onCreateMatch = `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -389,8 +375,6 @@ exports.onCreateMatch = `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -424,8 +408,6 @@ exports.onUpdateMatch = `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -449,8 +431,6 @@ exports.onUpdateMatch = `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -484,8 +464,6 @@ exports.onDeleteMatch = `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -509,8 +487,6 @@ exports.onDeleteMatch = `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description

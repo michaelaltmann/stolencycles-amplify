@@ -10,8 +10,6 @@ exports.createAdvertisement = `
   ) {
     createAdvertisement(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -45,8 +43,6 @@ exports.updateAdvertisement = `
   ) {
     updateAdvertisement(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -80,8 +76,6 @@ exports.deleteAdvertisement = `
   ) {
     deleteAdvertisement(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -115,8 +109,6 @@ exports.createTheft = `
   ) {
     createTheft(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -147,8 +139,6 @@ exports.updateTheft = `
   ) {
     updateTheft(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -179,8 +169,6 @@ exports.deleteTheft = `
   ) {
     deleteTheft(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -391,8 +379,6 @@ exports.createMatch = `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -416,8 +402,6 @@ exports.createMatch = `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -454,8 +438,6 @@ exports.updateMatch = `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -479,8 +461,6 @@ exports.updateMatch = `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -517,8 +497,6 @@ exports.deleteMatch = `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -542,8 +520,6 @@ exports.deleteMatch = `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description

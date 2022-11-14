@@ -3,6 +3,7 @@ import { AdvertisementPlatform, AdvertisementStatus } from "../models";
 import { Button, Dialog, Stack, TextField } from "@mui/material";
 import { Container } from "@mui/system";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
+import { packId } from "../repositories/utils";
 
 export function AdvertisementForm(props) {
   const { item, open, onClose } = props;
@@ -14,9 +15,7 @@ export function AdvertisementForm(props) {
     setFormState(initialState);
     onClose();
   }
-  function packId(platformName, platformId) {
-    return platformName + "#" + platformId;
-  }
+
   function handleUrl(url) {
     const marketplacePattern =
       /https:\/\/www.facebook.com\/marketplace\/item\/(\d+).*/;

@@ -2,30 +2,12 @@ import { ModelInit, MutableModel } from "@aws-amplify/datastore";
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
-export enum AdvertisementPlatform {
-  MARKETPLACE = "MARKETPLACE",
-  OFFERUP = "OFFERUP",
-  CRAIGSLIST = "CRAIGSLIST",
-  PROSCLOSET = "PROSCLOSET",
-  NEXTDOOR = "NEXTDOOR",
-  EBAY = "EBAY",
-  OTHER = "OTHER"
-}
-
 export enum AdvertisementStatus {
   UNREVIEWED = "UNREVIEWED",
   REVIEWED = "REVIEWED",
   FLAGGED = "FLAGGED",
   SOLD = "SOLD",
   JUNK = "JUNK"
-}
-
-export enum TheftPlatform {
-  FACEBOOK = "FACEBOOK",
-  BIKEINDEX = "BIKEINDEX",
-  PROJECT529 = "PROJECT529",
-  NCIC = "NCIC",
-  OTHER = "OTHER"
 }
 
 export enum TheftStatus {
@@ -38,6 +20,24 @@ export enum MatchStatus {
   UNREVIEWED = "UNREVIEWED",
   MATCHED = "MATCHED",
   MISMATCHED = "MISMATCHED"
+}
+
+export enum AdvertisementPlatform {
+  MARKETPLACE = "MARKETPLACE",
+  OFFERUP = "OFFERUP",
+  CRAIGSLIST = "CRAIGSLIST",
+  PROSCLOSET = "PROSCLOSET",
+  NEXTDOOR = "NEXTDOOR",
+  EBAY = "EBAY",
+  OTHER = "OTHER"
+}
+
+export enum TheftPlatform {
+  FACEBOOK = "FACEBOOK",
+  BIKEINDEX = "BIKEINDEX",
+  PROJECT529 = "PROJECT529",
+  NCIC = "NCIC",
+  OTHER = "OTHER"
 }
 
 type AdvertisementMetaData = {
@@ -62,8 +62,6 @@ type SellerAliasMetaData = {
 
 type EagerAdvertisement = {
   readonly id: string;
-  readonly platformName?: AdvertisementPlatform | keyof typeof AdvertisementPlatform | null;
-  readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
   readonly price?: number | null;
@@ -85,8 +83,6 @@ type EagerAdvertisement = {
 
 type LazyAdvertisement = {
   readonly id: string;
-  readonly platformName?: AdvertisementPlatform | keyof typeof AdvertisementPlatform | null;
-  readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
   readonly price?: number | null;
@@ -138,8 +134,6 @@ export declare const Match: (new (init: ModelInit<Match, MatchMetaData>) => Matc
 
 type EagerTheft = {
   readonly id: string;
-  readonly platformName?: TheftPlatform | keyof typeof TheftPlatform | null;
-  readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
   readonly description?: string | null;
@@ -158,8 +152,6 @@ type EagerTheft = {
 
 type LazyTheft = {
   readonly id: string;
-  readonly platformName?: TheftPlatform | keyof typeof TheftPlatform | null;
-  readonly platformId?: string | null;
   readonly title: string;
   readonly url?: string | null;
   readonly description?: string | null;

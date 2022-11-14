@@ -22,6 +22,7 @@ import { brands, guessBrand } from "../Brands";
 import { matchFilterAtom } from "../recoil/match";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
+import { packId, unpackId } from "../repositories/utils";
 
 const classes = {
   card: {
@@ -46,7 +47,7 @@ const classes = {
 };
 
 export function TheftView(props) {
-  const [theft, setTheft] = useState(props.item);
+  const [theft, setTheft] = useState(props.item || {});
   const [modified, setModified] = useState(false);
   const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
   const navigate = useNavigate();
@@ -55,17 +56,12 @@ export function TheftView(props) {
     id,
     title,
     url,
-    platformName,
-    platformId,
     description,
-    price,
     model,
     color,
     images,
     postDate,
-    seller,
     status,
-    aliasId,
   } = theft;
   const brand =
     theft.brand || guessBrand((title || "") + " " + (description || " "));
@@ -73,6 +69,7 @@ export function TheftView(props) {
   const postDateText = postDate
     ? new Date(Date.parse(postDate)).toDateString()
     : "";
+  const [platformName, platformId] = unpackId(id);
 
   const cardClass =
     brand && color && !modified ? classes.reviewed : classes.card;
@@ -150,17 +147,17 @@ export function TheftView(props) {
     if (matches) {
       const platformName = TheftPlatform.FACEBOOK;
       const platformId = matches[1];
-      setTheft({ ...theft, url, platformName, platformId });
+      setTheft({ ...theft, url, id: packId(platformName, platformId) });
       setModified(true);
     } else {
       matches = bikeIndexPattern.exec(url);
       if (matches) {
         const platformName = TheftPlatform.BIKEINDEX;
         const platformId = matches[1];
-        setTheft({ ...theft, url, platformName, platformId });
+        setTheft({ ...theft, url, id: packId(platformName, platformId) });
         setModified(true);
       } else {
-        setTheft({ ...theft, url, platformName, platformId });
+        setTheft({ ...theft, url, id: packId(platformName, platformId) });
         setModified(true);
       }
     }
@@ -193,7 +190,7 @@ export function TheftView(props) {
    */
   async function handleSubmit() {
     let item;
-    if (id) {
+    if (props.item?.id) {
       item = await TheftRepository.update({
         ...theft,
         postDate: new Date().toISOString(),

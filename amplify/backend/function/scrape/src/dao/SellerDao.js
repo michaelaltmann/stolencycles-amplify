@@ -2,14 +2,6 @@ const API = require("./API")
 const { createSeller, updateSeller } = require('../graphql/mutations');
 const { docClient, sellerTableName } = require("./Tables")
 
-function packId(platformName, platformId) {
-  return platformName + "#" + platformId
-}
-
-function unpackId(id) {
-  return id.split("#")
-}
-
 function coreProperties(seller) {
   let {
     createdAt,
@@ -81,4 +73,4 @@ async function upsert(seller) {
   }
 }
 
-module.exports = { get, update, upsert, insert, packId, unpackId }
+module.exports = { get, update, upsert, insert }

@@ -5,8 +5,6 @@ export const getAdvertisement = /* GraphQL */ `
   query GetAdvertisement($id: ID!) {
     getAdvertisement(id: $id) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -42,8 +40,6 @@ export const listAdvertisements = /* GraphQL */ `
     listAdvertisements(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -84,8 +80,6 @@ export const syncAdvertisements = /* GraphQL */ `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -115,8 +109,6 @@ export const getTheft = /* GraphQL */ `
   query GetTheft($id: ID!) {
     getTheft(id: $id) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -149,8 +141,6 @@ export const listThefts = /* GraphQL */ `
     listThefts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -188,8 +178,6 @@ export const syncThefts = /* GraphQL */ `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -370,8 +358,6 @@ export const getMatch = /* GraphQL */ `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -395,8 +381,6 @@ export const getMatch = /* GraphQL */ `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -475,52 +459,6 @@ export const syncMatches = /* GraphQL */ `
     }
   }
 `;
-export const advertisementsByPlatformId = /* GraphQL */ `
-  query AdvertisementsByPlatformId(
-    $platformId: String!
-    $platformName: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelAdvertisementFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    advertisementsByPlatformId(
-      platformId: $platformId
-      platformName: $platformName
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        platformName
-        platformId
-        title
-        url
-        price
-        description
-        model
-        brand
-        color
-        images
-        sellerId
-        sellerName
-        sellerImage
-        status
-        postDate
-        sortOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 export const advertisementsByBrandColor = /* GraphQL */ `
   query AdvertisementsByBrandColor(
     $brand: String!
@@ -540,8 +478,6 @@ export const advertisementsByBrandColor = /* GraphQL */ `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -584,8 +520,6 @@ export const advertisementsBySellerId = /* GraphQL */ `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -630,8 +564,6 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -644,49 +576,6 @@ export const advertisementsByStatusPostDateId = /* GraphQL */ `
         sellerName
         sellerImage
         status
-        postDate
-        sortOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const theftsByPlatformId = /* GraphQL */ `
-  query TheftsByPlatformId(
-    $platformId: String!
-    $platformName: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelTheftFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    theftsByPlatformId(
-      platformId: $platformId
-      platformName: $platformName
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        platformName
-        platformId
-        title
-        url
-        description
-        model
-        brand
-        color
-        images
-        status
-        location
         postDate
         sortOrder
         createdAt
@@ -719,8 +608,6 @@ export const theftsByBrandColor = /* GraphQL */ `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -762,8 +649,6 @@ export const theftsByStatusPostDateId = /* GraphQL */ `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description

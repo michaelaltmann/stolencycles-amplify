@@ -16,8 +16,7 @@ async function remove(item) {
             id: item.id
         }
     }
-    const response = await docClient.delete(putItemParams).promise()
-    console.log("Deleted Match " + JSON.stringify(item))
+    await docClient.delete(putItemParams).promise()
     return true
 }
 
@@ -43,32 +42,6 @@ async function update(item) {
     }
     const response = await docClient.put(putItemParams).promise()
     return item
-}
-
-async function upsert(item, defaults) {
-    const existing = await findByPlatformId(item.platformName, item.platformId)
-    if (existing) {
-        delete item.id
-        delete item.postDate
-        delete item.sortOrder
-        const updatedItem = { ...existing, ...item }
-        if (existing == updatedItem) {
-            console.log("Nothing new to upsert")
-            return { item: existing, status: 'Read' }
-        } else {
-            const now = new Date().toISOString()
-            console.log("Updating " + JSON.stringify(item))
-            const updated = await update({ ...defaults, ...updatedItem, scrapeDate: now })
-            return { item: updated, status: 'Updated' }
-        }
-    } else {
-        const now = new Date().toISOString()
-        const newItem = { ...defaults, ...item, scrapeDate: now }
-        console.log("Inserting " + JSON.stringify(newItem))
-        const created = await insert(newItem)
-        return { item: created, status: 'Created' }
-
-    }
 }
 
 async function listAll(config) {
@@ -124,37 +97,6 @@ async function expand(match) {
     }
 }
 
-async function listByStatus(config) {
-    config = config || {}
-    const defaults = {
-        Limit: 1,
-        LastEvaluatedKey: null,
-        status: MatchStatus.UNREVIEWED
-    }
-    config = { ...defaults, ...config }
-    const { status, LastEvaluatedKey, Limit } = config
-    let query = {
-        TableName: matchTableName,
-        Limit: Limit,
-        IndexName: 'status-sortOrder-index',
-        KeyConditionExpression: '#status = :status',
-        ExpressionAttributeNames: {
-            "#status": "status"
-        },
-        ExpressionAttributeValues: {
-            ':status': status
-        },
-        ScanIndexForward: false
-    }
-    if (LastEvaluatedKey) query.ExclusiveStartKey = LastEvaluatedKey
-    const response = await docClient.query(query).promise()
-    console.log("MatchDao.listByStatus returned " + response.Items.length)
-    const expandedMatches = await Promise.all(response.Items.map(async (item) => {
-        return await expand(item)
-    })
-    )
-    return { ...response, Items: expandedMatches }
-}
 
 /**  
  * Get advertisements that need to be checked
@@ -167,7 +109,7 @@ async function getAdvertisements() {
         Status: AdvertisementStatus.REVIEWED
     }
     const response = await AdvertisementDao.listByStatus(config)
-    return response.Items
+    return response.items
 }
 /**
  * 

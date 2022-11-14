@@ -1,12 +1,5 @@
 type Advertisement @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  platformName: AdvertisementPlatform
-  platformId: String
-    @index(
-      name: "advertisementsByPlatformId"
-      sortKeyFields: ["platformName"]
-      queryField: "advertisementsByPlatformId"
-    )
   title: String!
   url: String
   price: Float
@@ -40,13 +33,6 @@ type Advertisement @model @auth(rules: [{ allow: public }]) {
 
 type Theft @model @auth(rules: [{ allow: public }]) {
   id: ID!
-  platformName: TheftPlatform
-  platformId: String
-    @index(
-      name: "theftsByPlatformId"
-      sortKeyFields: ["platformName"]
-      queryField: "theftsByPlatformId"
-    )
   title: String!
   url: String
   description: String

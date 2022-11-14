@@ -2,13 +2,11 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.matchesByStatusTheftId = exports.matchesByStatusAdvertisementId = exports.bySecondSeller = exports.byFirstSeller = exports.theftsByStatusPostDateId = exports.theftsByBrandColor = exports.theftsByPlatformId = exports.advertisementsByStatusPostDateId = exports.advertisementsBySellerId = exports.advertisementsByBrandColor = exports.advertisementsByPlatformId = exports.syncMatches = exports.listMatches = exports.getMatch = exports.syncSellerAliases = exports.listSellerAliases = exports.getSellerAlias = exports.syncSellers = exports.listSellers = exports.getSeller = exports.syncThefts = exports.listThefts = exports.getTheft = exports.syncAdvertisements = exports.listAdvertisements = exports.getAdvertisement = void 0;
+exports.matchesByStatusTheftId = exports.matchesByStatusAdvertisementId = exports.bySecondSeller = exports.byFirstSeller = exports.theftsByStatusPostDateId = exports.theftsByBrandColor = exports.advertisementsByStatusPostDateId = exports.advertisementsBySellerId = exports.advertisementsByBrandColor = exports.syncMatches = exports.listMatches = exports.getMatch = exports.syncSellerAliases = exports.listSellerAliases = exports.getSellerAlias = exports.syncSellers = exports.listSellers = exports.getSeller = exports.syncThefts = exports.listThefts = exports.getTheft = exports.syncAdvertisements = exports.listAdvertisements = exports.getAdvertisement = void 0;
 exports.getAdvertisement = `
   query GetAdvertisement($id: ID!) {
     getAdvertisement(id: $id) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -44,8 +42,6 @@ exports.listAdvertisements = `
     listAdvertisements(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -86,8 +82,6 @@ exports.syncAdvertisements = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -117,8 +111,6 @@ exports.getTheft = `
   query GetTheft($id: ID!) {
     getTheft(id: $id) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -151,8 +143,6 @@ exports.listThefts = `
     listThefts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -190,8 +180,6 @@ exports.syncThefts = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -372,8 +360,6 @@ exports.getMatch = `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -397,8 +383,6 @@ exports.getMatch = `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -477,52 +461,6 @@ exports.syncMatches = `
     }
   }
 `;
-exports.advertisementsByPlatformId = `
-  query AdvertisementsByPlatformId(
-    $platformId: String!
-    $platformName: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelAdvertisementFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    advertisementsByPlatformId(
-      platformId: $platformId
-      platformName: $platformName
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        platformName
-        platformId
-        title
-        url
-        price
-        description
-        model
-        brand
-        color
-        images
-        sellerId
-        sellerName
-        sellerImage
-        status
-        postDate
-        sortOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
 exports.advertisementsByBrandColor = `
   query AdvertisementsByBrandColor(
     $brand: String!
@@ -542,8 +480,6 @@ exports.advertisementsByBrandColor = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -586,8 +522,6 @@ exports.advertisementsBySellerId = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -632,8 +566,6 @@ exports.advertisementsByStatusPostDateId = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -646,49 +578,6 @@ exports.advertisementsByStatusPostDateId = `
         sellerName
         sellerImage
         status
-        postDate
-        sortOrder
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-exports.theftsByPlatformId = `
-  query TheftsByPlatformId(
-    $platformId: String!
-    $platformName: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelTheftFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    theftsByPlatformId(
-      platformId: $platformId
-      platformName: $platformName
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        platformName
-        platformId
-        title
-        url
-        description
-        model
-        brand
-        color
-        images
-        status
-        location
         postDate
         sortOrder
         createdAt
@@ -721,8 +610,6 @@ exports.theftsByBrandColor = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -764,8 +651,6 @@ exports.theftsByStatusPostDateId = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description

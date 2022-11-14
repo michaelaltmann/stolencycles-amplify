@@ -26,6 +26,7 @@ import { ColorSelector } from "./ColorSelector";
 import { matchFilterAtom } from "../recoil/match";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
+import { packId, unpackId } from "../repositories/utils";
 
 const classes = {
   card: {
@@ -50,7 +51,7 @@ const classes = {
 };
 
 export function AdvertisementView(props) {
-  const [advertisement, setAdvertisement] = useState(props.item);
+  const [advertisement, setAdvertisement] = useState(props.item || {});
   const [modified, setModified] = useState(false);
   const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
   const navigate = useNavigate();
@@ -59,8 +60,6 @@ export function AdvertisementView(props) {
     id,
     title,
     url,
-    platformName,
-    platformId,
     description,
     price,
     model,
@@ -71,8 +70,8 @@ export function AdvertisementView(props) {
     sellerName,
     sellerImage,
     status,
-    aliasId,
   } = advertisement;
+  const [platformName, platformId] = unpackId(id);
   const brand =
     advertisement.brand ||
     guessBrand((title || "") + " " + (description || " "));
@@ -105,8 +104,9 @@ export function AdvertisementView(props) {
         return "https://offerup.com/item/detail/" + platformId;
       case AdvertisementPlatform.MARKETPLACE:
         return "https://www.facebook.com/marketplace/item/" + platformId;
+      default:
+        return null;
     }
-    return null;
   }
 
   function guessBrand() {
@@ -179,17 +179,29 @@ export function AdvertisementView(props) {
     if (matches) {
       const platformName = AdvertisementPlatform.MARKETPLACE;
       const platformId = matches[1];
-      setAdvertisement({ ...advertisement, url, platformName, platformId });
+      setAdvertisement({
+        ...advertisement,
+        url,
+        id: packId(platformName, platformId),
+      });
       setModified(true);
     } else {
       matches = offerupPattern.exec(url);
       if (matches) {
         const platformName = AdvertisementPlatform.OFFERUP;
         const platformId = matches[1];
-        setAdvertisement({ ...advertisement, url, platformName, platformId });
+        setAdvertisement({
+          ...advertisement,
+          url,
+          id: packId(platformName, platformId),
+        });
         setModified(true);
       } else {
-        setAdvertisement({ ...advertisement, url, platformName, platformId });
+        setAdvertisement({
+          ...advertisement,
+          url,
+          id: packId(platformName, platformId),
+        });
         setModified(true);
       }
     }
@@ -237,7 +249,7 @@ export function AdvertisementView(props) {
    */
   async function handleSubmit() {
     let item;
-    if (id) {
+    if (props.item?.id) {
       item = await AdvertisementRepository.update({
         ...advertisement,
         postDate: new Date().toISOString(),

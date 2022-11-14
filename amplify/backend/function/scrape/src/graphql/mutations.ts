@@ -8,8 +8,6 @@ export const createAdvertisement = /* GraphQL */ `
   ) {
     createAdvertisement(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -43,8 +41,6 @@ export const updateAdvertisement = /* GraphQL */ `
   ) {
     updateAdvertisement(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -78,8 +74,6 @@ export const deleteAdvertisement = /* GraphQL */ `
   ) {
     deleteAdvertisement(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -113,8 +107,6 @@ export const createTheft = /* GraphQL */ `
   ) {
     createTheft(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -145,8 +137,6 @@ export const updateTheft = /* GraphQL */ `
   ) {
     updateTheft(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -177,8 +167,6 @@ export const deleteTheft = /* GraphQL */ `
   ) {
     deleteTheft(input: $input, condition: $condition) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -389,8 +377,6 @@ export const createMatch = /* GraphQL */ `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -414,8 +400,6 @@ export const createMatch = /* GraphQL */ `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -452,8 +436,6 @@ export const updateMatch = /* GraphQL */ `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -477,8 +459,6 @@ export const updateMatch = /* GraphQL */ `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -515,8 +495,6 @@ export const deleteMatch = /* GraphQL */ `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -540,8 +518,6 @@ export const deleteMatch = /* GraphQL */ `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description

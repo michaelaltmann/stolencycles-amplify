@@ -53,8 +53,7 @@ function bikeIndexToTheft(item) {
   const theft = {
     url: 'https://bikeindex.org/bikes/' + item.id,
     postDate: new Date(item.date_stolen * 1000).toISOString(),
-    platformId: item.id.toString(),
-    platformName: 'BIKEINDEX',
+    id: 'BIKEINDEX~' + item.id.toString(),
     title: item.title,
     brand: item.manufacturer_name,
     model: item.frame_model,

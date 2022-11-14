@@ -2,13 +2,11 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.matchesByStatusTheftId = exports.matchesByStatusAdvertisementId = exports.bySecondSeller = exports.byFirstSeller = exports.theftsByStatusPostDateId = exports.theftsByBrandColor = exports.theftsByPlatformId = exports.advertisementsByStatusPostDateId = exports.advertisementsBySellerId = exports.advertisementsByBrandColor = exports.advertisementsByPlatformId = exports.syncMatches = exports.listMatches = exports.getMatch = exports.syncSellerAliases = exports.listSellerAliases = exports.getSellerAlias = exports.syncSellers = exports.listSellers = exports.getSeller = exports.syncThefts = exports.listThefts = exports.getTheft = exports.syncAdvertisements = exports.listAdvertisements = exports.getAdvertisement = void 0;
+exports.matchesByStatusTheftId = exports.matchesByStatusAdvertisementId = exports.bySecondSeller = exports.byFirstSeller = exports.theftsByStatusPostDateId = exports.theftsByBrandColor = exports.advertisementsByStatusPostDateId = exports.advertisementsBySellerId = exports.advertisementsByBrandColor = exports.syncMatches = exports.listMatches = exports.getMatch = exports.syncSellerAliases = exports.listSellerAliases = exports.getSellerAlias = exports.syncSellers = exports.listSellers = exports.getSeller = exports.syncThefts = exports.listThefts = exports.getTheft = exports.syncAdvertisements = exports.listAdvertisements = exports.getAdvertisement = void 0;
 exports.getAdvertisement = `
   query GetAdvertisement($id: ID!) {
     getAdvertisement(id: $id) {
       id
-      platformName
-      platformId
       title
       url
       price
@@ -24,17 +22,6 @@ exports.getAdvertisement = `
       postDate
       sortOrder
       matches {
-        items {
-          id
-          advertisementId
-          theftId
-          status
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -55,8 +42,6 @@ exports.listAdvertisements = `
     listAdvertisements(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -71,10 +56,6 @@ exports.listAdvertisements = `
         status
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -101,8 +82,6 @@ exports.syncAdvertisements = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -117,10 +96,6 @@ exports.syncAdvertisements = `
         status
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -136,8 +111,6 @@ exports.getTheft = `
   query GetTheft($id: ID!) {
     getTheft(id: $id) {
       id
-      platformName
-      platformId
       title
       url
       description
@@ -150,17 +123,6 @@ exports.getTheft = `
       postDate
       sortOrder
       matches {
-        items {
-          id
-          advertisementId
-          theftId
-          status
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -181,8 +143,6 @@ exports.listThefts = `
     listThefts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -194,10 +154,6 @@ exports.listThefts = `
         location
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -224,8 +180,6 @@ exports.syncThefts = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -237,10 +191,6 @@ exports.syncThefts = `
         location
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -258,30 +208,10 @@ exports.getSeller = `
       id
       notes
       aliasesAsFirstSeller {
-        items {
-          id
-          firstSellerId
-          secondSellerId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
       aliasesAsSecondSeller {
-        items {
-          id
-          firstSellerId
-          secondSellerId
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         nextToken
         startedAt
       }
@@ -303,14 +233,6 @@ exports.listSellers = `
       items {
         id
         notes
-        aliasesAsFirstSeller {
-          nextToken
-          startedAt
-        }
-        aliasesAsSecondSeller {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -338,14 +260,6 @@ exports.syncSellers = `
       items {
         id
         notes
-        aliasesAsFirstSeller {
-          nextToken
-          startedAt
-        }
-        aliasesAsSecondSeller {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -365,14 +279,6 @@ exports.getSellerAlias = `
       firstSeller {
         id
         notes
-        aliasesAsFirstSeller {
-          nextToken
-          startedAt
-        }
-        aliasesAsSecondSeller {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -383,14 +289,6 @@ exports.getSellerAlias = `
       secondSeller {
         id
         notes
-        aliasesAsFirstSeller {
-          nextToken
-          startedAt
-        }
-        aliasesAsSecondSeller {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -415,25 +313,7 @@ exports.listSellerAliases = `
       items {
         id
         firstSellerId
-        firstSeller {
-          id
-          notes
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         secondSellerId
-        secondSeller {
-          id
-          notes
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         createdAt
         updatedAt
         _version
@@ -461,25 +341,7 @@ exports.syncSellerAliases = `
       items {
         id
         firstSellerId
-        firstSeller {
-          id
-          notes
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         secondSellerId
-        secondSeller {
-          id
-          notes
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         createdAt
         updatedAt
         _version
@@ -498,8 +360,6 @@ exports.getMatch = `
       advertisementId
       advertisement {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -514,10 +374,6 @@ exports.getMatch = `
         status
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -527,8 +383,6 @@ exports.getMatch = `
       theftId
       theft {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -540,10 +394,6 @@ exports.getMatch = `
         location
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -569,52 +419,7 @@ exports.listMatches = `
       items {
         id
         advertisementId
-        advertisement {
-          id
-          platformName
-          platformId
-          title
-          url
-          price
-          description
-          model
-          brand
-          color
-          images
-          sellerId
-          sellerName
-          sellerImage
-          status
-          postDate
-          sortOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         theftId
-        theft {
-          id
-          platformName
-          platformId
-          title
-          url
-          description
-          model
-          brand
-          color
-          images
-          status
-          location
-          postDate
-          sortOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         status
         createdAt
         updatedAt
@@ -643,103 +448,8 @@ exports.syncMatches = `
       items {
         id
         advertisementId
-        advertisement {
-          id
-          platformName
-          platformId
-          title
-          url
-          price
-          description
-          model
-          brand
-          color
-          images
-          sellerId
-          sellerName
-          sellerImage
-          status
-          postDate
-          sortOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         theftId
-        theft {
-          id
-          platformName
-          platformId
-          title
-          url
-          description
-          model
-          brand
-          color
-          images
-          status
-          location
-          postDate
-          sortOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         status
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-exports.advertisementsByPlatformId = `
-  query AdvertisementsByPlatformId(
-    $platformId: String!
-    $platformName: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelAdvertisementFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    advertisementsByPlatformId(
-      platformId: $platformId
-      platformName: $platformName
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        platformName
-        platformId
-        title
-        url
-        price
-        description
-        model
-        brand
-        color
-        images
-        sellerId
-        sellerName
-        sellerImage
-        status
-        postDate
-        sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -770,8 +480,6 @@ exports.advertisementsByBrandColor = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -786,10 +494,6 @@ exports.advertisementsByBrandColor = `
         status
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -818,8 +522,6 @@ exports.advertisementsBySellerId = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -834,10 +536,6 @@ exports.advertisementsBySellerId = `
         status
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -868,8 +566,6 @@ exports.advertisementsByStatusPostDateId = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         price
@@ -884,57 +580,6 @@ exports.advertisementsByStatusPostDateId = `
         status
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-exports.theftsByPlatformId = `
-  query TheftsByPlatformId(
-    $platformId: String!
-    $platformName: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelTheftFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    theftsByPlatformId(
-      platformId: $platformId
-      platformName: $platformName
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        platformName
-        platformId
-        title
-        url
-        description
-        model
-        brand
-        color
-        images
-        status
-        location
-        postDate
-        sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -965,8 +610,6 @@ exports.theftsByBrandColor = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -978,10 +621,6 @@ exports.theftsByBrandColor = `
         location
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1012,8 +651,6 @@ exports.theftsByStatusPostDateId = `
     ) {
       items {
         id
-        platformName
-        platformId
         title
         url
         description
@@ -1025,10 +662,6 @@ exports.theftsByStatusPostDateId = `
         location
         postDate
         sortOrder
-        matches {
-          nextToken
-          startedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1060,25 +693,7 @@ exports.byFirstSeller = `
       items {
         id
         firstSellerId
-        firstSeller {
-          id
-          notes
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         secondSellerId
-        secondSeller {
-          id
-          notes
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1110,25 +725,7 @@ exports.bySecondSeller = `
       items {
         id
         firstSellerId
-        firstSeller {
-          id
-          notes
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         secondSellerId
-        secondSeller {
-          id
-          notes
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         createdAt
         updatedAt
         _version
@@ -1160,52 +757,7 @@ exports.matchesByStatusAdvertisementId = `
       items {
         id
         advertisementId
-        advertisement {
-          id
-          platformName
-          platformId
-          title
-          url
-          price
-          description
-          model
-          brand
-          color
-          images
-          sellerId
-          sellerName
-          sellerImage
-          status
-          postDate
-          sortOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         theftId
-        theft {
-          id
-          platformName
-          platformId
-          title
-          url
-          description
-          model
-          brand
-          color
-          images
-          status
-          location
-          postDate
-          sortOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         status
         createdAt
         updatedAt
@@ -1238,52 +790,7 @@ exports.matchesByStatusTheftId = `
       items {
         id
         advertisementId
-        advertisement {
-          id
-          platformName
-          platformId
-          title
-          url
-          price
-          description
-          model
-          brand
-          color
-          images
-          sellerId
-          sellerName
-          sellerImage
-          status
-          postDate
-          sortOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         theftId
-        theft {
-          id
-          platformName
-          platformId
-          title
-          url
-          description
-          model
-          brand
-          color
-          images
-          status
-          location
-          postDate
-          sortOrder
-          createdAt
-          updatedAt
-          _version
-          _deleted
-          _lastChangedAt
-        }
         status
         createdAt
         updatedAt
