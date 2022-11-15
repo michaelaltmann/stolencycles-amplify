@@ -6,6 +6,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Dialog,
   Icon,
   Link,
   Snackbar,
@@ -54,6 +55,7 @@ export function AdvertisementView(props) {
   const [advertisement, setAdvertisement] = useState(props.item || {});
   const [modified, setModified] = useState(false);
   const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
+  const [editSeller, setEditSeller] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -86,17 +88,14 @@ export function AdvertisementView(props) {
     status === AdvertisementStatus.UNREVIEWED || modified
       ? classes.card
       : classes.reviewed;
+
   const listingUrl = url ? url : platformUrl();
   const notificationRef = React.createRef();
 
   function getImageUrl(imagesString) {
-    if (!imagesString) {
-      return "/images/bicycle-drawing.png";
-    } else {
+    if (imagesString) {
       const images = JSON.parse(imagesString);
-      return images && images.length > 0
-        ? images[0]
-        : "/images/bicycle-drawing.png";
+      return images && images.length > 0 ? images[0] : null;
     }
   }
   function platformUrl() {
@@ -132,7 +131,9 @@ export function AdvertisementView(props) {
     return null;
   }
   function handleViewAdvertisement() {
-    window.open(listingUrl, "_blank", "width=800,height=600");
+    if (listingUrl) {
+      window.open(listingUrl, "_blank", "width=800,height=600");
+    }
   }
 
   /* Changes */
@@ -205,7 +206,6 @@ export function AdvertisementView(props) {
         setAdvertisement({
           ...advertisement,
           url,
-          id: packId(platformName, platformId),
         });
         setModified(true);
       }
@@ -245,7 +245,6 @@ export function AdvertisementView(props) {
     navigate("/matches");
   }
   function handleSeller() {
-    console.log("Navigating to " + "/seller/" + sellerId);
     navigate("/seller/" + sellerId);
   }
 
@@ -271,7 +270,29 @@ export function AdvertisementView(props) {
 
   return (
     <Card sx={cardClass} key={id}>
-      <CardActionArea onClick={handleViewAdvertisement}>
+      <Dialog open={editSeller} onClose={() => setEditSeller(false)}>
+        <TextField
+          name="sellerId"
+          variant="standard"
+          value={sellerId || ""}
+          helperText="Seller ID"
+          sx={{
+            width: "300px",
+          }}
+          onChange={handleChange}
+        />
+        <TextField
+          name="sellerName"
+          variant="standard"
+          value={sellerName || ""}
+          helperText="Seller Name"
+          sx={{
+            width: "300px",
+          }}
+          onChange={handleChange}
+        />
+      </Dialog>
+      <CardActionArea onClick={listingUrl && handleViewAdvertisement}>
         <Box
           sx={{
             fontSize: "1rem",
@@ -293,19 +314,19 @@ export function AdvertisementView(props) {
         ) : (
           <>
             <TextField
-              name="url"
-              variant="standard"
-              value={url || ""}
-              helperText="URL"
-              onChange={handleUrlChange}
-              fullWidth
-            />
-            <TextField
               name="imageUrl"
               variant="standard"
               value={imageUrl || ""}
               helperText="Image URL"
               onChange={handleImageUrlChange}
+              fullWidth
+            />
+            <TextField
+              name="url"
+              variant="standard"
+              value={url || ""}
+              helperText="URL"
+              onChange={handleUrlChange}
               fullWidth
             />
           </>
@@ -436,7 +457,13 @@ export function AdvertisementView(props) {
             </Button>
           </Tooltip>
         ) : (
-          <Icon style={{ color: "lightgray" }}>person_icon</Icon>
+          <Button
+            onClick={() => setEditSeller(true)}
+            sx={classes.button}
+            size="small"
+          >
+            <Icon style={{ color: "lightgray" }}>person_icon</Icon>
+          </Button>
         )}
         <Tooltip title="Flagged" sx={classes.button}>
           <Button sx={classes.button} size="small" onClick={toggleFlagged}>

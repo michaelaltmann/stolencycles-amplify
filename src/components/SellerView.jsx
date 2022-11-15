@@ -1,16 +1,18 @@
 import { Button, Box, Stack, TextField, Link, Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { AdvertisementThumbnail } from "./AdvertisementThumbnail";
 import { AdvertisementPlatform } from "../models";
 import SellerRepository from "../repositories/SellerRepository";
 import { unpackId } from "../repositories/utils";
+import AdvertisementRepository from "../repositories/AdvertisementRepository";
 export default function SellerView(props) {
   const sellerId = props.sellerId || props.seller?.id;
   const [seller, setSeller] = useState(props.seller);
   const [modified, setModified] = useState(false);
   const url = buildUrl();
-  const advertisements = seller?.advertisements.items || [];
+  const advertisements = seller?.advertisements
+    ? seller.advertisements.items
+    : [];
   function buildUrl() {
     const [platformName, platformId] = unpackId(sellerId);
     if (platformName === AdvertisementPlatform.MARKETPLACE) {
@@ -25,7 +27,14 @@ export default function SellerView(props) {
   React.useEffect(() => {
     async function getData() {
       const item = await SellerRepository.get(sellerId);
-      setSeller(item || {});
+      if (!item) {
+        const { items } = await AdvertisementRepository.listBySellerId(
+          sellerId
+        );
+        setSeller({ advertisements: { items } });
+      } else {
+        setSeller(item);
+      }
     }
     if (!seller) getData();
   }, [sellerId]);
@@ -41,7 +50,6 @@ export default function SellerView(props) {
     var { name, value } = e.target;
     let draft = { ...seller };
     draft[name] = value;
-    console.log(draft);
     setSeller(draft);
     setModified(true);
   }
