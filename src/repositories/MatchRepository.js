@@ -71,7 +71,7 @@ async function listByStatusAdvertisement(status, advertisementId, currentToken, 
       status: status,
       advertisementId: advertisementId ? { eq: advertisementId } : null,
       limit: limit,
-      nextToken: currentToken,
+      nextToken: currentToken
     },
   });
   return { items, nextToken }

@@ -8,22 +8,25 @@ import MatchRepository from "../repositories/MatchRepository";
 import { MatchView } from "../components/MatchView";
 import { matchFilterAtom } from "../recoil/match";
 import { useRecoilState } from "recoil";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-export default function Matchs() {
-  const [matchs, setMatchs] = useState(null);
+export default function Matches() {
+  const [matches, setMatches] = useState(null);
+  const [currentToken, setCurrentToken] = useState(null);
+
   const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
   useEffect(() => {
     const getData = async () => {
       await fetchMatchs();
     };
-    if (!matchs) getData();
+    if (!matches) getData();
 
     const createSubscription = API.graphql(
       graphqlOperation(onCreateMatch)
     ).subscribe({
       next: ({ provider, value }) => {
         const newMatch = value.data.onCreateMatch;
-        setMatchs((list) => {
+        setMatches((list) => {
           return [newMatch].concat(list || []);
         });
       },
@@ -34,7 +37,7 @@ export default function Matchs() {
     ).subscribe({
       next: ({ provider, value }) => {
         const item = value.data.onDeleteMatch;
-        setMatchs((list) => {
+        setMatches((list) => {
           const array = list || [];
           var index = array.indexOf(item);
           if (index !== -1) {
@@ -70,12 +73,12 @@ export default function Matchs() {
       await MatchRepository.listByStatusAdvertisement(
         status,
         advertisementId,
-        matchFilter.currentToken,
+        currentToken,
         1
       );
-
-    setMatchFilter({ ...matchFilter, currentToken: nextToken });
-    setMatchs((matchs || []).concat(items));
+    setCurrentToken(nextToken);
+    const newMatches = (matches || []).concat(items);
+    setMatches(newMatches);
   }
 
   async function listByStatusTheft(status, theftId) {
@@ -83,24 +86,28 @@ export default function Matchs() {
       await MatchRepository.listByStatusAdvertisement(
         status,
         theftId,
-        matchFilter.currentToken,
+        currentToken,
         1
       );
-    setMatchFilter({ ...matchFilter, currentToken: nextToken });
-    setMatchs((matchs || []).concat(items));
+    setCurrentToken(nextToken);
+    setMatches((matches || []).concat(items));
   }
 
   return (
-    <Stack spacing={2}>
-      {matchs &&
-        matchs.map((match) => {
-          return <MatchView item={match} key={match.id} />;
-        })}
-      <Stack direction="row">
-        <Button onClick={fetchMatchs} disabled={!matchFilter.currentToken}>
-          More
-        </Button>
-      </Stack>
-    </Stack>
+    <>
+      {matches && (
+        <InfiniteScroll
+          dataLength={matches ? matches.length : 0}
+          next={fetchMatchs}
+          hasMore={currentToken != null}
+        >
+          <Stack>
+            {matches.map((match) => {
+              return <MatchView item={match} key={match.id} />;
+            })}
+          </Stack>
+        </InfiniteScroll>
+      )}
+    </>
   );
 }

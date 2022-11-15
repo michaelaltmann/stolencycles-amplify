@@ -14,8 +14,6 @@ export function MatchView(props) {
   function handleThumbDown() {}
   function handleThumbUp() {}
 
-  function handleNext() {}
-
   const styles = {
     card: {
       maxWidth: 750,
@@ -53,11 +51,6 @@ export function MatchView(props) {
           >
             <Flag />
           </IconButton>
-        </Tooltip>
-        <Tooltip title="Next">
-          <Button size="small" color="primary" onClick={handleNext}>
-            Next
-          </Button>
         </Tooltip>
         <Tooltip title="Not a Match">
           <IconButton
