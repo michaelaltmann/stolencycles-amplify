@@ -1,3 +1,4 @@
+import { Image } from "@mui/icons-material";
 import { AppBar, Button, Toolbar } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -7,6 +8,12 @@ const NavBar = () => {
     <div>
       <AppBar position="static">
         <Toolbar>
+          <Button color="inherit" component={Link} to="/home">
+            <img
+              src="/icon.png"
+              style={{ backgroundColor: "white", height: "30px" }}
+            />
+          </Button>
           <Button color="inherit" component={Link} to="/ads">
             Ads
           </Button>

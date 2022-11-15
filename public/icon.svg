@@ -29,8 +29,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="32.09375"
-     inkscape:cx="9.9240506"
-     inkscape:cy="16.514119"
+     inkscape:cx="9.9552093"
+     inkscape:cy="16.545278"
      inkscape:window-width="2158"
      inkscape:window-height="1312"
      inkscape:window-x="0"
@@ -43,7 +43,7 @@
        inkscape:collect="always"
        id="linearGradient1137">
       <stop
-         style="stop-color:#e11e1e;stop-opacity:1;"
+         style="stop-color:#dc1f1f;stop-opacity:1;"
          offset="0"
          id="stop1133" />
       <stop
@@ -87,7 +87,7 @@
        xlink:href="#linearGradient1137"
        id="linearGradient1139"
        x1="4.7234697"
-       y1="5.585362"
+       y1="6.1789355"
        x2="4.6912661"
        y2="7.094028"
        gradientUnits="userSpaceOnUse"
@@ -115,7 +115,7 @@
        id="path1029"
        sodipodi:nodetypes="cssc" />
     <ellipse
-       style="fill:none;stroke:url(#linearGradient1139);stroke-width:0.264583;stroke-opacity:1"
+       style="fill:none;stroke:url(#linearGradient1139);stroke-width:0.365;stroke-opacity:1;stroke-dasharray:none"
        id="path1131"
        cx="4.7650766"
        cy="6.4839664"
