@@ -1,6 +1,7 @@
 import API from '@aws-amplify/api';
 import { createSeller, updateSeller } from '../graphql/mutations'
-import { listSellers, getSeller } from "../graphql/queries-depth-3"
+import { getSeller } from "../graphql/queries-depth-3"
+import { listSellers } from "../graphql/queries-depth-4"
 
 /**
  * 

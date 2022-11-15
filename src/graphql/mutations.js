@@ -27,7 +27,49 @@ export const createAdvertisement = /* GraphQL */ `
         items {
           id
           advertisementId
+          advertisement {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           theftId
+          theft {
+            id
+            title
+            url
+            description
+            model
+            brand
+            color
+            images
+            status
+            location
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           status
           createdAt
           updatedAt
@@ -72,7 +114,49 @@ export const updateAdvertisement = /* GraphQL */ `
         items {
           id
           advertisementId
+          advertisement {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           theftId
+          theft {
+            id
+            title
+            url
+            description
+            model
+            brand
+            color
+            images
+            status
+            location
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           status
           createdAt
           updatedAt
@@ -117,7 +201,49 @@ export const deleteAdvertisement = /* GraphQL */ `
         items {
           id
           advertisementId
+          advertisement {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           theftId
+          theft {
+            id
+            title
+            url
+            description
+            model
+            brand
+            color
+            images
+            status
+            location
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           status
           createdAt
           updatedAt
@@ -158,7 +284,49 @@ export const createTheft = /* GraphQL */ `
         items {
           id
           advertisementId
+          advertisement {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           theftId
+          theft {
+            id
+            title
+            url
+            description
+            model
+            brand
+            color
+            images
+            status
+            location
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           status
           createdAt
           updatedAt
@@ -199,7 +367,49 @@ export const updateTheft = /* GraphQL */ `
         items {
           id
           advertisementId
+          advertisement {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           theftId
+          theft {
+            id
+            title
+            url
+            description
+            model
+            brand
+            color
+            images
+            status
+            location
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           status
           createdAt
           updatedAt
@@ -240,7 +450,49 @@ export const deleteTheft = /* GraphQL */ `
         items {
           id
           advertisementId
+          advertisement {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           theftId
+          theft {
+            id
+            title
+            url
+            description
+            model
+            brand
+            color
+            images
+            status
+            location
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           status
           createdAt
           updatedAt
@@ -286,6 +538,10 @@ export const createSeller = /* GraphQL */ `
           status
           postDate
           sortOrder
+          matches {
+            nextToken
+            startedAt
+          }
           createdAt
           updatedAt
           _version
@@ -299,7 +555,27 @@ export const createSeller = /* GraphQL */ `
         items {
           id
           firstSellerId
+          firstSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           secondSellerId
+          secondSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           createdAt
           updatedAt
           _version
@@ -313,7 +589,27 @@ export const createSeller = /* GraphQL */ `
         items {
           id
           firstSellerId
+          firstSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           secondSellerId
+          secondSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           createdAt
           updatedAt
           _version
@@ -358,6 +654,10 @@ export const updateSeller = /* GraphQL */ `
           status
           postDate
           sortOrder
+          matches {
+            nextToken
+            startedAt
+          }
           createdAt
           updatedAt
           _version
@@ -371,7 +671,27 @@ export const updateSeller = /* GraphQL */ `
         items {
           id
           firstSellerId
+          firstSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           secondSellerId
+          secondSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           createdAt
           updatedAt
           _version
@@ -385,7 +705,27 @@ export const updateSeller = /* GraphQL */ `
         items {
           id
           firstSellerId
+          firstSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           secondSellerId
+          secondSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           createdAt
           updatedAt
           _version
@@ -430,6 +770,10 @@ export const deleteSeller = /* GraphQL */ `
           status
           postDate
           sortOrder
+          matches {
+            nextToken
+            startedAt
+          }
           createdAt
           updatedAt
           _version
@@ -443,7 +787,27 @@ export const deleteSeller = /* GraphQL */ `
         items {
           id
           firstSellerId
+          firstSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           secondSellerId
+          secondSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           createdAt
           updatedAt
           _version
@@ -457,7 +821,27 @@ export const deleteSeller = /* GraphQL */ `
         items {
           id
           firstSellerId
+          firstSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           secondSellerId
+          secondSeller {
+            id
+            notes
+            flagged
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           createdAt
           updatedAt
           _version
@@ -488,14 +872,57 @@ export const createSellerAlias = /* GraphQL */ `
         notes
         flagged
         advertisements {
+          items {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsFirstSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsSecondSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -511,14 +938,57 @@ export const createSellerAlias = /* GraphQL */ `
         notes
         flagged
         advertisements {
+          items {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsFirstSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsSecondSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -549,14 +1019,57 @@ export const updateSellerAlias = /* GraphQL */ `
         notes
         flagged
         advertisements {
+          items {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsFirstSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsSecondSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -572,14 +1085,57 @@ export const updateSellerAlias = /* GraphQL */ `
         notes
         flagged
         advertisements {
+          items {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsFirstSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsSecondSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -610,14 +1166,57 @@ export const deleteSellerAlias = /* GraphQL */ `
         notes
         flagged
         advertisements {
+          items {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsFirstSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsSecondSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -633,14 +1232,57 @@ export const deleteSellerAlias = /* GraphQL */ `
         notes
         flagged
         advertisements {
+          items {
+            id
+            title
+            url
+            price
+            description
+            model
+            brand
+            color
+            images
+            flagged
+            sellerId
+            sellerName
+            sellerImage
+            status
+            postDate
+            sortOrder
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsFirstSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
         aliasesAsSecondSeller {
+          items {
+            id
+            firstSellerId
+            secondSellerId
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -684,6 +1326,17 @@ export const createMatch = /* GraphQL */ `
         postDate
         sortOrder
         matches {
+          items {
+            id
+            advertisementId
+            theftId
+            status
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -708,6 +1361,17 @@ export const createMatch = /* GraphQL */ `
         postDate
         sortOrder
         matches {
+          items {
+            id
+            advertisementId
+            theftId
+            status
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -752,6 +1416,17 @@ export const updateMatch = /* GraphQL */ `
         postDate
         sortOrder
         matches {
+          items {
+            id
+            advertisementId
+            theftId
+            status
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -776,6 +1451,17 @@ export const updateMatch = /* GraphQL */ `
         postDate
         sortOrder
         matches {
+          items {
+            id
+            advertisementId
+            theftId
+            status
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -820,6 +1506,17 @@ export const deleteMatch = /* GraphQL */ `
         postDate
         sortOrder
         matches {
+          items {
+            id
+            advertisementId
+            theftId
+            status
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
@@ -844,6 +1541,17 @@ export const deleteMatch = /* GraphQL */ `
         postDate
         sortOrder
         matches {
+          items {
+            id
+            advertisementId
+            theftId
+            status
+            createdAt
+            updatedAt
+            _version
+            _deleted
+            _lastChangedAt
+          }
           nextToken
           startedAt
         }
