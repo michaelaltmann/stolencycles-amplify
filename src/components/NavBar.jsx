@@ -11,7 +11,11 @@ const NavBar = () => {
           <Button color="inherit" component={Link} to="/home">
             <img
               src="/icon.png"
-              style={{ backgroundColor: "white", height: "30px" }}
+              style={{
+                borderRadius: "50%",
+                backgroundColor: "white",
+                height: "30px",
+              }}
             />
           </Button>
           <Button color="inherit" component={Link} to="/ads">

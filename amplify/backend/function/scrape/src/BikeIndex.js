@@ -42,7 +42,8 @@ async function scrape(limit, page) {
 function BI2DBColor(s) {
   if (!s) return null
   const colorMap = {
-    'Silver, gray or bare metal': 'Gray'
+    'Silver, gray or bare metal': 'Gray',
+    'Brown': 'Orange'
   }
   return colorMap[s] || s
 }

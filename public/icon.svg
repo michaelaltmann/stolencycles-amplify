@@ -29,8 +29,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="32.09375"
-     inkscape:cx="9.9552093"
-     inkscape:cy="16.545278"
+     inkscape:cx="9.9863681"
+     inkscape:cy="16.576436"
      inkscape:window-width="2158"
      inkscape:window-height="1312"
      inkscape:window-x="0"
@@ -97,6 +97,13 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="fill:none;stroke:none;stroke-width:0.364974"
+       id="rect854"
+       width="8.7692928"
+       height="8.123621"
+       x="0.34369782"
+       y="0.057972006" />
     <circle
        style="fill:none;stroke-width:0.665;stroke:url(#linearGradient823);stroke-dasharray:none"
        id="path114"

@@ -341,6 +341,7 @@ export function AdvertisementView(props) {
       >
         <Box
           sx={{
+            textAlign: "left",
             alignContent: "space-between",
           }}
         >
@@ -349,6 +350,7 @@ export function AdvertisementView(props) {
             sx={{
               fontSize: "1.2rem",
               textAlign: "left",
+              width: "10em",
             }}
             value={title ? title.substring(0, Math.min(title.length, 24)) : ""}
             variant="standard"

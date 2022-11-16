@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import { CirclePicker } from 'react-color';
+import { CirclePicker, GithubPicker } from 'react-color';
 import { colors } from "../Colors";
 
 export function ColorSelector(props) {
@@ -24,6 +24,7 @@ export function ColorSelector(props) {
           colors={colorHexes}
           width="100%"
           triangle="hide"
+          circleSize={25}
           circleSpacing={2}
           onChangeComplete={handleColorChanged}
         />
