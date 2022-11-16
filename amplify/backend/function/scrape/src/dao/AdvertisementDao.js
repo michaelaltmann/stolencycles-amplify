@@ -134,12 +134,24 @@ function merge(advertisement, existing) {
 async function upsert(advertisement) {
   const existing = await get(advertisement.id)
   if (existing) {
+    // Do this if we think there are properties worth updating
     const merged = merge(advertisement, existing)
     await update(merged)
   } else {
     await create(advertisement)
   }
   return advertisement
+}
+async function ingest(advertisement) {
+  if (advertisement.status === AdvertisementStatus.SOLD) {
+    const existing = await get(advertisement.id)
+    if (existing && !existing.flagged) {
+      remove(existing)
+      return null
+    }
+  } else {
+    return await upsert(advertisement)
+  }
 }
 
 async function listByBrandColor(brand, color, currentToken, limit = 1) {
@@ -164,4 +176,4 @@ async function listByBrandColor(brand, color, currentToken, limit = 1) {
   return { items, nextToken }
 }
 
-module.exports = { get, create, update, list, upsert, listByStatus, listByBrandColor }
+module.exports = { get, create, update, list, upsert, ingest, listByStatus, listByBrandColor }

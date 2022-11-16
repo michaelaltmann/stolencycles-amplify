@@ -36,13 +36,27 @@ const titles = [
   "Great bike. Greater breaks",
   "Cheap bike. It is a steal!",
   "My grandma's bicycle",
-  "Moving. Must go tonight!"
+  "Moving. Must go tonight!",
+  "Selling for a friend",
+  "Bought on Lake St.",
+  "It's a beauty",
+  "Too good to be true.",
+  "Inbox me"
 ]
 
-const images = ["https://surlybikes.com/uploads/bikes/_medium_image/Lowside_BK0534_Background-2000x1333.jpg",
+const images = [
+  "https://thumbor.offerup.com/dWkWWNj9m1LNq27dLucdoR0DvUg=/1922x1442/3360/33606a42418644d2a3c98597342e7645.jpg",
   "https://www.transitionbikes.com/images/2022_PatrolCarbon_Gallery1.jpg",
-  "https://www.government.nl/binaries/large/content/gallery/rijksoverheid/content-afbeeldingen/onderwerpen/bijzondere-voertuigen/bbf_7507-rdw.jpg",
-  "https://electrek.co/wp-content/uploads/sites/3/2021/08/new-electric-bird-bike-high-tech-eco-conscious-fun-you-can-own-6.jpeg?quality=82&strip=all"]
+  "https://thumbor.offerup.com/UL2kocINRx5Cubwi5H4N5EQYwKk=/400x266/45bd/45bd3d09ef3649d69834c4736265aa09.jpg",
+  "https://thumbor.offerup.com/WBG1q23gSDbIFUhTjQQQiBPkWsQ=/1440x1920/87c9/87c992894bd74794ba71639e6dc48aaa.jpg",
+  "https://thumbor.offerup.com/cjnP5iv7Tc7HYUv48FgWoXsK6B4=/718x541/5a36/5a360182f6ac4c0bb51238664914c4bd.jpg",
+  "https://thumbor.offerup.com/poRijzyDP9IUtc4j6Q2_8bNkm5o=/1008x477/7484/7484deb9b21543c0862c3c6485723a44.jpg",
+  "https://thumbor.offerup.com/c4arUN8sYUyl3zRCCVlcmuLAvJU=/1000x750/e26a/e26a81f037e04ba5b78906604bc3ca20.jpg",
+  "https://thumbor.offerup.com/Oze85jeL74E6FkDDjZLCJMbh7Us=/1922x1442/39a7/39a7c4f79cba4cf3b815b199ead96aff.jpg",
+  "https://thumbor.offerup.com/ycU107UKR2oF7Yg7fPOdYZj0flg=/1920x1440/38e5/38e5af8f90734afb8cd4878dc8bf9834.jpg",
+  "https://thumbor.offerup.com/FnlnSKYsgAL4BvRpj2FO7BOs-f0=/701x1043/2d2a/2d2a9edf12e442ba82ee756aa3d4de93.jpg",
+  "https://thumbor.offerup.com/N1KGrbfrYP1fxfvNiaH0sbRFZes=/1922x1442/21c1/21c1e39a55304965bfc7d90e9097a2d1.jpg"
+]
 
 const sellers = [
   {
@@ -83,10 +97,11 @@ async function scrapeMarketplace(limit) {
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       postDate: now.toISOString()
     }
-    const item = await AdvertisementDao.upsert(advertisement)
+    const item = await AdvertisementDao.ingest(advertisement)
     return item
   }))
-  return items
+  // Filter out the null from ads that were marked sold
+  return items.filter(x => x)
 }
 
 async function scrapeOfferUp(limit) {
@@ -104,11 +119,12 @@ async function scrapeOfferUp(limit) {
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       postDate: now.toISOString()
     }
-    const item = await AdvertisementDao.upsert(advertisement)
+    const item = await AdvertisementDao.ingest(advertisement)
     return item
   }))
   console.log(items)
-  return items
+  // Filter out the null from ads that were marked sold
+  return items.filter(x => x)
 }
 
 
