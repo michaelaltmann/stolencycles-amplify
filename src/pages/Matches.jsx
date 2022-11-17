@@ -74,7 +74,7 @@ export default function Matches() {
         status,
         advertisementId,
         currentToken,
-        1
+        6
       );
     setCurrentToken(nextToken);
     const newMatches = (matches || []).concat(items);
@@ -87,7 +87,7 @@ export default function Matches() {
         status,
         theftId,
         currentToken,
-        1
+        6
       );
     setCurrentToken(nextToken);
     setMatches((matches || []).concat(items));
@@ -101,11 +101,25 @@ export default function Matches() {
           next={fetchMatchs}
           hasMore={currentToken != null}
         >
-          <Stack>
+          <Grid container>
             {matches.map((match) => {
-              return <MatchView item={match} key={match.id} />;
+              return (
+                <Grid
+                  item
+                  key={match.id}
+                  sx={{
+                    width: "500px",
+                    border: "solid",
+                    borderWidth: "2px",
+                    margin: "4px",
+                    padding: "2px",
+                  }}
+                >
+                  <MatchView item={match} />
+                </Grid>
+              );
             })}
-          </Stack>
+          </Grid>
         </InfiniteScroll>
       )}
     </>

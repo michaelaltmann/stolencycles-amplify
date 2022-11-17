@@ -3,16 +3,24 @@ import { Button, IconButton, Stack, Tooltip } from "@mui/material";
 import { borderColor } from "@mui/system";
 import { useState } from "react";
 import { MatchStatus } from "../models";
+import MatchRepository from "../repositories/MatchRepository";
 import { AdvertisementView } from "./AdvertisementView";
 import { TheftView } from "./TheftView";
 
 export function MatchView(props) {
   const [match, setMatch] = useState(props.item);
-  const [modified, setModified] = useState(false);
   const { status } = match;
 
-  function handleThumbDown() {}
-  function handleThumbUp() {}
+  async function handleThumbDown() {
+    const draft = { ...match, status: MatchStatus.MATCHED };
+    setMatch(draft);
+    await MatchRepository.update(draft);
+  }
+  async function handleThumbUp() {
+    const draft = { ...match, status: MatchStatus.MISMATCHED };
+    setMatch(draft);
+    await MatchRepository.update(draft);
+  }
 
   const styles = {
     card: {
@@ -32,8 +40,16 @@ export function MatchView(props) {
       color: "red",
     },
   };
+  const visibility = status === MatchStatus.UNREVIEWED ? "visible" : "hidden";
   return (
-    <Stack sx={{ border: "2px", borderColor: "black", borderStyle: "solid" }}>
+    <Stack
+      sx={{
+        border: "2px",
+        borderColor: "black",
+        borderStyle: "solid",
+        visibility: visibility,
+      }}
+    >
       <Stack direction={"row"}>
         <AdvertisementView item={match.advertisement} />
         <TheftView item={match.theft} />
