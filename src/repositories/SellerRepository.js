@@ -16,6 +16,7 @@ function coreProperties(seller) {
     _deleted,
     aliasesAsFirstSeller,
     aliasesAsSecondSeller,
+    advertisements,
     ...rest
   } = seller
   return rest

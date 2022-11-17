@@ -1,10 +1,20 @@
-import { Button, Box, Stack, TextField, Link, Grid } from "@mui/material";
+import {
+  Button,
+  Box,
+  Stack,
+  TextField,
+  Link,
+  Grid,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { AdvertisementThumbnail } from "./AdvertisementThumbnail";
 import { AdvertisementPlatform } from "../models";
 import SellerRepository from "../repositories/SellerRepository";
 import { unpackId } from "../repositories/utils";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
+import { Check, Flag } from "@mui/icons-material";
 export default function SellerView(props) {
   const sellerId = props.sellerId || props.seller?.id;
   const [seller, setSeller] = useState(props.seller);
@@ -13,6 +23,7 @@ export default function SellerView(props) {
   const advertisements = seller?.advertisements
     ? seller.advertisements.items
     : [];
+  const { flagged } = seller;
   function buildUrl() {
     const [platformName, platformId] = unpackId(sellerId);
     if (platformName === AdvertisementPlatform.MARKETPLACE) {
@@ -53,10 +64,16 @@ export default function SellerView(props) {
     setSeller(draft);
     setModified(true);
   }
-
+  function toggleFlagged() {
+    const draft = { ...seller, flagged: !seller.flagged };
+    setSeller(draft);
+    setModified(true);
+  }
   async function save() {
     if (seller.id) {
-      await SellerRepository.update(seller);
+      const newSeller = await SellerRepository.update(seller);
+      setSeller(newSeller);
+      setModified(false);
     } else {
       const newSeller = await SellerRepository.create({
         ...seller,
@@ -68,12 +85,31 @@ export default function SellerView(props) {
   }
 
   return (
-    <>
+    <Box
+      sx={{
+        border: "2px",
+        borderColor: "black",
+        borderStyle: "solid",
+      }}
+    >
       <Box>
         <Link href={url} target="_blank">
           {sellerId} {names()}{" "}
         </Link>
       </Box>
+
+      <Grid container direction="row">
+        {advertisements &&
+          advertisements.map((advertisement) => {
+            return (
+              <Grid item key={advertisement.id}>
+                <AdvertisementThumbnail
+                  item={advertisement}
+                ></AdvertisementThumbnail>
+              </Grid>
+            );
+          })}
+      </Grid>
       <TextField
         name="notes"
         label="Notes"
@@ -90,23 +126,26 @@ export default function SellerView(props) {
       ></TextField>
 
       <Stack direction="row">
-        <Button disabled={seller?.id && !modified} onClick={save}>
-          Save
-        </Button>
+        <Tooltip title="Save">
+          <IconButton
+            sx={{ color: modified ? "green" : "gray" }}
+            size="small"
+            disabled={seller?.id && !modified}
+            onClick={save}
+          >
+            <Check />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Flag">
+          <IconButton
+            sx={{ color: flagged ? "red" : "gray" }}
+            size="small"
+            onClick={toggleFlagged}
+          >
+            <Flag />
+          </IconButton>
+        </Tooltip>
       </Stack>
-
-      <Grid container direction="row">
-        {advertisements &&
-          advertisements.map((advertisement) => {
-            return (
-              <Grid item key={advertisement.id}>
-                <AdvertisementThumbnail
-                  item={advertisement}
-                ></AdvertisementThumbnail>
-              </Grid>
-            );
-          })}
-      </Grid>
-    </>
+    </Box>
   );
 }
