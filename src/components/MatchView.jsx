@@ -77,18 +77,20 @@ export function MatchView(props) {
           </span>
         </Tooltip>
         <Tooltip title="Undo">
-          <IconButton
-            sx={{
-              minWidth: 30,
-              color: !unreviewed ? "gray" : "blue",
-              borderStyle: "solid",
-              borderWidth: 0,
-            }}
-            disabled={unreviewed}
-            onClick={revert}
-          >
-            <Undo />
-          </IconButton>
+          <span>
+            <IconButton
+              sx={{
+                minWidth: 30,
+                color: !unreviewed ? "gray" : "blue",
+                borderStyle: "solid",
+                borderWidth: 0,
+              }}
+              disabled={unreviewed}
+              onClick={revert}
+            >
+              <Undo />
+            </IconButton>
+          </span>
         </Tooltip>
       </Stack>
     </Stack>
