@@ -1,6 +1,5 @@
-import { Flag, ThumbDown, ThumbUp } from "@mui/icons-material";
-import { Button, IconButton, Stack, Tooltip } from "@mui/material";
-import { borderColor } from "@mui/system";
+import { Flag, ThumbUp, Undo } from "@mui/icons-material";
+import { IconButton, Stack, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { MatchStatus } from "../models";
 import MatchRepository from "../repositories/MatchRepository";
@@ -21,6 +20,11 @@ export function MatchView(props) {
     setMatch(draft);
     await MatchRepository.update(draft);
   }
+  async function revert() {
+    const draft = { ...match, status: MatchStatus.UNREVIEWED };
+    setMatch(draft);
+    await MatchRepository.update(draft);
+  }
 
   const styles = {
     card: {
@@ -30,27 +34,18 @@ export function MatchView(props) {
     media: {
       height: 140,
     },
-    upButtonDisabled: {
-      color: "paleGreen",
-    },
-    upButton: {
-      color: "green",
-    },
-    downButton: {
-      color: "red",
-    },
   };
-  const visibility = status === MatchStatus.UNREVIEWED ? "visible" : "hidden";
+  const reviewed = status != MatchStatus.UNREVIEWED;
+  const visibility = reviewed ? "hidden" : "visible";
   return (
     <Stack
       sx={{
         border: "2px",
         borderColor: "black",
         borderStyle: "solid",
-        visibility: visibility,
       }}
     >
-      <Stack direction={"row"}>
+      <Stack direction={"row"} sx={{ visibility: visibility }}>
         <AdvertisementView item={match.advertisement} />
         <TheftView item={match.theft} />
       </Stack>
@@ -60,7 +55,7 @@ export function MatchView(props) {
       >
         <Tooltip title="A Match!">
           <IconButton
-            sx={styles.downButton}
+            sx={{ color: !reviewed ? "red" : "gray" }}
             size="small"
             disabled={MatchStatus.MATCHED === status}
             onClick={handleThumbDown}
@@ -70,11 +65,25 @@ export function MatchView(props) {
         </Tooltip>
         <Tooltip title="Not a Match">
           <IconButton
-            sx={styles.upButton}
+            sx={{ color: !reviewed ? "green" : "gray" }}
             onClick={handleThumbUp}
             disabled={MatchStatus.MISMATCHED === status}
           >
             <ThumbUp />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Undo" sx={styles.button}>
+          <IconButton
+            size="small"
+            onClick={revert}
+            sx={{
+              minWidth: 30,
+              color: !reviewed ? "gray" : "blue",
+              borderStyle: "solid",
+              borderWidth: 0,
+            }}
+          >
+            <Undo />
           </IconButton>
         </Tooltip>
       </Stack>
