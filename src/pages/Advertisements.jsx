@@ -74,7 +74,7 @@ export default function Advertisements() {
     const { items, nextToken } = await AdvertisementRepository.listByStatus(
       status,
       currentToken,
-      20
+      1
     );
     setCurrentToken(nextToken);
     setAdvertisements((advertisements || []).concat(items));
@@ -85,14 +85,14 @@ export default function Advertisements() {
       brand,
       color,
       currentToken,
-      3
+      20
     );
     setCurrentToken(nextToken);
     setAdvertisements((advertisements || []).concat(items));
   }
 
   async function scrape() {
-    await API.post("scrape", "/scrape/marketplace");
+    await API.get("scrape", "/scrape/marketplace");
   }
   function handleStatusFilterChanged(e) {
     setCurrentToken(null);
@@ -152,7 +152,7 @@ export default function Advertisements() {
         <InfiniteScroll
           dataLength={advertisements ? advertisements.length : 0}
           next={fetchAdvertisements}
-          hasMore={currentToken != null}
+          hasMore={false && currentToken != null}
         >
           <Grid container direction="row">
             {advertisements.map((advertisement) => {

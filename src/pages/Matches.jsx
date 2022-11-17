@@ -108,7 +108,7 @@ export default function Matches() {
                   item
                   key={match.id}
                   sx={{
-                    width: "500px",
+                    width: "612px",
                     border: "solid",
                     borderWidth: "2px",
                     margin: "4px",

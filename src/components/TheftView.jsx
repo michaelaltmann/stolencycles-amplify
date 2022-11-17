@@ -7,6 +7,7 @@ import {
   CardContent,
   CardMedia,
   Icon,
+  IconButton,
   Snackbar,
   TextField,
   Tooltip,
@@ -23,6 +24,7 @@ import { matchFilterAtom } from "../recoil/match";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { packId, unpackId } from "../repositories/utils";
+import { Delete, DeleteOutline } from "@mui/icons-material";
 
 const classes = {
   card: {
@@ -47,7 +49,8 @@ const classes = {
 };
 
 export function TheftView(props) {
-  const [theft, setTheft] = useState(props.item || {});
+  const original = props.item || {};
+  const [theft, setTheft] = useState(original);
   const [modified, setModified] = useState(false);
   const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
   const navigate = useNavigate();
@@ -169,12 +172,16 @@ export function TheftView(props) {
     setModified(true);
   }
   function revert() {
-    setTheft(props.item);
+    setTheft(original);
     setModified(false);
   }
 
   function setStatus(status) {
-    setTheft({ ...theft, status: status });
+    if (status === theft.status) {
+      setTheft({ ...theft, status: original.status || TheftStatus.UNREVIEWED });
+    } else {
+      setTheft({ ...theft, status: status });
+    }
     setModified(true);
   }
   function handleColorChanged(selectedColor, e) {
@@ -190,7 +197,7 @@ export function TheftView(props) {
    */
   async function handleSubmit() {
     let item;
-    if (props.item?.id) {
+    if (original.id) {
       item = await TheftRepository.update({
         ...theft,
         postDate: new Date().toISOString(),
@@ -324,56 +331,45 @@ export function TheftView(props) {
         }}
       >
         <Tooltip title="Save" sx={classes.button}>
-          <div>
+          <span>
             <Button
               onClick={handleSubmit}
-              disabled={!modified}
               sx={classes.button}
+              disabled={!modified}
               size="small"
             >
-              <Icon
-                style={modified ? { color: "green" } : { color: "lightGray" }}
-              >
+              <Icon sx={{ color: modified ? "green" : "gray" }}>
                 check_icon
               </Icon>
             </Button>
-          </div>
+          </span>
         </Tooltip>
-        <Tooltip title="Search" sx={classes.button}>
-          <div>
+        <Tooltip title="Matches" sx={classes.button}>
+          <span>
             <Button
-              sx={classes.button}
               size="small"
-              color="primary"
-              onClick={handleSearch}
+              sx={{ color: "black" }}
               disabled={!brand}
+              onClick={handleSearch}
             >
               <Icon>search_icon</Icon>
             </Button>
-          </div>
+          </span>
         </Tooltip>
 
         <Tooltip title="Recovered" sx={classes.button}>
-          <Button
-            sx={classes.button}
+          <IconButton
+            sx={{ color: "blue" }}
             size="small"
             onClick={() => setStatus(TheftStatus.RECOVERED)}
           >
-            <Icon
-              style={{
-                color: status === TheftStatus.RECOVERED ? "gray" : "blue",
-                borderStyle: "solid",
-                borderWidth: status === TheftStatus.RECOVERED ? 1 : 0,
-              }}
-            >
-              delete_icon
-            </Icon>
-          </Button>
+            {status === TheftStatus.RECOVERED ? <Delete /> : <DeleteOutline />}
+          </IconButton>
         </Tooltip>
         <Tooltip title="Undo" sx={classes.button}>
           <Button sx={classes.button} size="small" onClick={() => revert()}>
             <Icon
-              style={{
+              sx={{
                 color: !modified ? "gray" : "blue",
                 borderStyle: "solid",
                 borderWidth: 0,

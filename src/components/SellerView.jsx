@@ -138,7 +138,7 @@ export default function SellerView(props) {
         </Tooltip>
         <Tooltip title="Flag">
           <IconButton
-            sx={{ color: flagged ? "red" : "gray" }}
+            sx={{ color: flagged ? "red" : "#FFB0B0" }}
             size="small"
             onClick={toggleFlagged}
           >

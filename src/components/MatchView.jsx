@@ -1,4 +1,10 @@
-import { Flag, ThumbUp, Undo } from "@mui/icons-material";
+import {
+  Flag,
+  FlagOutlined,
+  ThumbUp,
+  ThumbUpOutlined,
+  Undo,
+} from "@mui/icons-material";
 import { IconButton, Stack, Tooltip } from "@mui/material";
 import { useState } from "react";
 import { MatchStatus } from "../models";
@@ -26,17 +32,10 @@ export function MatchView(props) {
     await MatchRepository.update(draft);
   }
 
-  const styles = {
-    card: {
-      maxWidth: 750,
-      margin: 5,
-    },
-    media: {
-      height: 140,
-    },
-  };
-  const reviewed = status != MatchStatus.UNREVIEWED;
-  const visibility = reviewed ? "hidden" : "visible";
+  const unreviewed = status === MatchStatus.UNREVIEWED;
+  const mismatched = status === MatchStatus.MISMATCHED;
+  const matched = status === MatchStatus.MATCHED;
+  const visibility = unreviewed ? "visible" : "hidden";
   return (
     <Stack
       sx={{
@@ -54,34 +53,39 @@ export function MatchView(props) {
         sx={{ alignItems: "center", justifyContent: "center" }}
       >
         <Tooltip title="A Match!">
-          <IconButton
-            sx={{ color: !reviewed ? "red" : "gray" }}
-            size="small"
-            disabled={MatchStatus.MATCHED === status}
-            onClick={handleThumbDown}
-          >
-            <Flag />
-          </IconButton>
+          <span>
+            <IconButton
+              sx={{ color: "red" }}
+              disabled={!unreviewed}
+              onClick={handleThumbDown}
+            >
+              {matched ? <Flag /> : <FlagOutlined />}
+            </IconButton>
+          </span>
         </Tooltip>
         <Tooltip title="Not a Match">
-          <IconButton
-            sx={{ color: !reviewed ? "green" : "gray" }}
-            onClick={handleThumbUp}
-            disabled={MatchStatus.MISMATCHED === status}
-          >
-            <ThumbUp />
-          </IconButton>
+          <span>
+            <IconButton
+              sx={{
+                color: "green",
+              }}
+              disabled={!unreviewed}
+              onClick={handleThumbUp}
+            >
+              {mismatched ? <ThumbUp /> : <ThumbUpOutlined />}
+            </IconButton>
+          </span>
         </Tooltip>
-        <Tooltip title="Undo" sx={styles.button}>
+        <Tooltip title="Undo">
           <IconButton
-            size="small"
-            onClick={revert}
             sx={{
               minWidth: 30,
-              color: !reviewed ? "gray" : "blue",
+              color: !unreviewed ? "gray" : "blue",
               borderStyle: "solid",
               borderWidth: 0,
             }}
+            disabled={unreviewed}
+            onClick={revert}
           >
             <Undo />
           </IconButton>

@@ -146,7 +146,7 @@ export default function Thefts() {
           next={fetchThefts}
           hasMore={currentToken != null}
         >
-          <Grid container direction="row">
+          <Grid container direction="row" sx={{ margin: "2px" }}>
             {thefts.map((theft) => {
               return (
                 <Grid item key={theft.id}>

@@ -8,6 +8,7 @@ import {
   CardMedia,
   Dialog,
   Icon,
+  IconButton,
   Link,
   Snackbar,
   TextField,
@@ -28,6 +29,16 @@ import { matchFilterAtom } from "../recoil/match";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { packId, unpackId } from "../repositories/utils";
+import {
+  Check,
+  Delete,
+  DeleteOutline,
+  Flag,
+  FlagOutlined,
+  Search,
+  ShoppingCart,
+  ShoppingCartOutlined,
+} from "@mui/icons-material";
 
 const classes = {
   card: {
@@ -52,7 +63,8 @@ const classes = {
 };
 
 export function AdvertisementView(props) {
-  const [advertisement, setAdvertisement] = useState(props.item || {});
+  const original = props.item || {};
+  const [advertisement, setAdvertisement] = useState(original);
   const [modified, setModified] = useState(false);
   const [matchFilter, setMatchFilter] = useRecoilState(matchFilterAtom);
   const [editSeller, setEditSeller] = useState(false);
@@ -219,7 +231,14 @@ export function AdvertisementView(props) {
   }
 
   function setStatus(status) {
-    setAdvertisement({ ...advertisement, status: status });
+    if (status === advertisement.status) {
+      setAdvertisement({
+        ...advertisement,
+        status: original.status || AdvertisementStatus.UNREVIEWED,
+      });
+    } else {
+      setAdvertisement({ ...advertisement, status: status });
+    }
     setModified(true);
   }
   function handleColorChanged(selectedColor, e) {
@@ -232,7 +251,7 @@ export function AdvertisementView(props) {
   }
 
   function revert() {
-    setAdvertisement(props.item);
+    setAdvertisement(original);
     setModified(false);
   }
   function handleSearch() {
@@ -253,7 +272,7 @@ export function AdvertisementView(props) {
    */
   async function handleSubmit() {
     let item;
-    if (props.item?.id) {
+    if (original.id) {
       item = await AdvertisementRepository.update({
         ...advertisement,
         postDate: new Date().toISOString(),
@@ -352,7 +371,7 @@ export function AdvertisementView(props) {
               textAlign: "left",
               width: "10em",
             }}
-            value={title ? title.substring(0, Math.min(title.length, 24)) : ""}
+            value={title ? title.substring(0, Math.min(title.length, 25)) : ""}
             variant="standard"
             onChange={handleChange}
           ></TextField>
@@ -408,38 +427,38 @@ export function AdvertisementView(props) {
           maxWidth: 325,
           position: "absolute",
           bottom: "0px",
-          margin: "5px",
+          margin: "2px",
         }}
       >
         <Tooltip title="Save" sx={classes.button}>
-          <div>
-            <Button
+          <span>
+            <IconButton
               onClick={handleSubmit}
-              disabled={!modified}
               sx={classes.button}
               size="small"
+              disabled={!modified}
             >
-              <Icon
+              <Check
                 style={modified ? { color: "green" } : { color: "lightGray" }}
-              >
-                check_icon
-              </Icon>
-            </Button>
-          </div>
+              />
+            </IconButton>
+          </span>
         </Tooltip>
+
         <Tooltip title="Search" sx={classes.button}>
-          <div>
-            <Button
+          <span>
+            <IconButton
               sx={classes.button}
               size="small"
               color="primary"
-              onClick={handleSearch}
               disabled={!brand}
+              onClick={handleSearch}
             >
-              <Icon>search_icon</Icon>
-            </Button>
-          </div>
+              <Search />
+            </IconButton>
+          </span>
         </Tooltip>
+
         {sellerId ? (
           <Tooltip
             title={sellerId ? sellerName || "" : "Seller"}
@@ -468,63 +487,60 @@ export function AdvertisementView(props) {
           </Button>
         )}
         <Tooltip title="Flagged" sx={classes.button}>
-          <Button sx={classes.button} size="small" onClick={toggleFlagged}>
-            <Icon
-              style={{
-                color: flagged ? "red" : "gray",
-              }}
-            >
-              flag_icon
-            </Icon>
-          </Button>
+          <IconButton
+            sx={{ color: "red" }}
+            size="small"
+            onClick={toggleFlagged}
+          >
+            {flagged ? <Flag /> : <FlagOutlined />}
+          </IconButton>
         </Tooltip>
 
         <Tooltip title="Not of Interest" sx={classes.button}>
-          <Button
-            sx={classes.button}
+          <IconButton
+            sx={{ color: "blue" }}
             size="small"
             onClick={() => setStatus(AdvertisementStatus.JUNK)}
           >
-            <Icon
-              style={{
-                color: status === AdvertisementStatus.JUNK ? "gray" : "blue",
-                borderStyle: "solid",
-                borderWidth: status === AdvertisementStatus.JUNK ? 1 : 0,
-              }}
-            >
-              delete_icon
-            </Icon>
-          </Button>
+            {status === AdvertisementStatus.JUNK ? (
+              <Delete />
+            ) : (
+              <DeleteOutline />
+            )}
+          </IconButton>
         </Tooltip>
         <Tooltip title="Sold" sx={classes.button}>
-          <Button
-            sx={classes.button}
+          <IconButton
+            sx={{ color: "blue" }}
             size="small"
             onClick={() => setStatus(AdvertisementStatus.SOLD)}
           >
-            <Icon
-              style={{
-                color: status === AdvertisementStatus.SOLD ? "gray" : "blue",
-                borderStyle: "solid",
-                borderWidth: status === AdvertisementStatus.SOLD ? 1 : 0,
-              }}
-            >
-              shopping_cart_icon
-            </Icon>
-          </Button>
+            {status === AdvertisementStatus.SOLD ? (
+              <ShoppingCart />
+            ) : (
+              <ShoppingCartOutlined />
+            )}
+          </IconButton>
         </Tooltip>
         <Tooltip title="Undo" sx={classes.button}>
-          <Button sx={classes.button} size="small" onClick={() => revert()}>
-            <Icon
-              style={{
-                color: !modified ? "gray" : "blue",
-                borderStyle: "solid",
-                borderWidth: 0,
-              }}
+          <span>
+            <Button
+              sx={classes.button}
+              size="small"
+              disabled={!modified}
+              onClick={() => revert()}
             >
-              undo_icon
-            </Icon>
-          </Button>
+              <Icon
+                style={{
+                  color: !modified ? "gray" : "blue",
+                  borderStyle: "solid",
+                  borderWidth: 0,
+                }}
+              >
+                undo_icon
+              </Icon>
+            </Button>
+          </span>
         </Tooltip>
         <Snackbar message="" ref={notificationRef} />
       </CardActions>
