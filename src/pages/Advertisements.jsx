@@ -92,8 +92,7 @@ export default function Advertisements() {
   }
 
   async function scrape() {
-    console.log(advertisements);
-    await API.post("scrape", "/marketplace");
+    await API.post("scrape", "/scrape/marketplace");
   }
   function handleStatusFilterChanged(e) {
     setCurrentToken(null);
@@ -173,7 +172,7 @@ export default function Advertisements() {
         >
           New
         </Button>
-        <Button onClick={() => scrape()}>Scrape</Button>
+        <Button onClick={scrape}>Scrape</Button>
       </Stack>
     </Stack>
   );

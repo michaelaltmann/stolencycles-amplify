@@ -19,7 +19,7 @@ const brands = [
   "Trek",
   "Yuba",
 ]
-const colors = colors = [
+const colors = [
   { name: "Black", rgb: "#000000" },
   { name: "Silver", rgb: "#A0A0A0" },
   { name: "Red", rgb: "#FF0000" },
