@@ -17,17 +17,24 @@ export function MatchView(props) {
   const { status } = match;
 
   async function handleThumbDown() {
-    const draft = { ...match, status: MatchStatus.MATCHED };
+    const draft = {
+      ...match,
+      status:
+        status === MatchStatus.MATCHED
+          ? MatchStatus.UNREVIEWED
+          : MatchStatus.MATCHED,
+    };
     setMatch(draft);
     await MatchRepository.update(draft);
   }
   async function handleThumbUp() {
-    const draft = { ...match, status: MatchStatus.MISMATCHED };
-    setMatch(draft);
-    await MatchRepository.update(draft);
-  }
-  async function revert() {
-    const draft = { ...match, status: MatchStatus.UNREVIEWED };
+    const draft = {
+      ...match,
+      status:
+        status === MatchStatus.MISMATCHED
+          ? MatchStatus.UNREVIEWED
+          : MatchStatus.MISMATCHED,
+    };
     setMatch(draft);
     await MatchRepository.update(draft);
   }
@@ -54,41 +61,15 @@ export function MatchView(props) {
       >
         <Tooltip title="A Match!">
           <span>
-            <IconButton
-              sx={{ color: "red" }}
-              disabled={!unreviewed}
-              onClick={handleThumbDown}
-            >
+            <IconButton sx={{ color: "red" }} onClick={handleThumbDown}>
               {matched ? <Flag /> : <FlagOutlined />}
             </IconButton>
           </span>
         </Tooltip>
         <Tooltip title="Not a Match">
           <span>
-            <IconButton
-              sx={{
-                color: "green",
-              }}
-              disabled={!unreviewed}
-              onClick={handleThumbUp}
-            >
+            <IconButton sx={{ color: "green" }} onClick={handleThumbUp}>
               {mismatched ? <ThumbUp /> : <ThumbUpOutlined />}
-            </IconButton>
-          </span>
-        </Tooltip>
-        <Tooltip title="Undo">
-          <span>
-            <IconButton
-              sx={{
-                minWidth: 30,
-                color: !unreviewed ? "gray" : "blue",
-                borderStyle: "solid",
-                borderWidth: 0,
-              }}
-              disabled={unreviewed}
-              onClick={revert}
-            >
-              <Undo />
             </IconButton>
           </span>
         </Tooltip>
