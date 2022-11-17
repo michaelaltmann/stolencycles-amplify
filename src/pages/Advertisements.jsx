@@ -74,7 +74,7 @@ export default function Advertisements() {
     const { items, nextToken } = await AdvertisementRepository.listByStatus(
       status,
       currentToken,
-      1
+      20
     );
     setCurrentToken(nextToken);
     setAdvertisements((advertisements || []).concat(items));
@@ -152,7 +152,7 @@ export default function Advertisements() {
         <InfiniteScroll
           dataLength={advertisements ? advertisements.length : 0}
           next={fetchAdvertisements}
-          hasMore={false && currentToken != null}
+          hasMore={currentToken != null}
         >
           <Grid container direction="row">
             {advertisements.map((advertisement) => {
