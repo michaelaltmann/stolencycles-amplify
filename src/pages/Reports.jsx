@@ -7,11 +7,11 @@ export default function Reports(props) {
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
-    async function getData() {
-      const data = API.get("scrape", "/report/" + report);
-      setData(data);
+    async function fetchData() {
+      const d = await API.get("scrape", "/report/" + report);
+      setData(d);
     }
-    getData();
+    fetchData();
   }, [report]);
 
   function handleChange(ev) {
@@ -28,10 +28,11 @@ export default function Reports(props) {
         <Typography
           sx={{
             fontFamily: "monospace",
+            textAlign: "left",
           }}
         >
           {" "}
-          {JSON.stringify(data, null, 3)}
+          <pre>{JSON.stringify(data, null, 3)}</pre>
         </Typography>
       )}
     </Stack>
