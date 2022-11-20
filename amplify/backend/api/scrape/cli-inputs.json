@@ -35,6 +35,13 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/report/countTheftsByYearMonth": {
+      "name": "/report/countTheftsByYearMonth",
+      "lambdaFunction": "scrape",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }

@@ -3,7 +3,7 @@ const { createAdvertisement, updateAdvertisement } = require('../graphql/mutatio
 const { advertisementsByStatusPostDateId, listAdvertisements, advertisementsByBrandColor } = require("../graphql/queries")
 const { AdvertisementStatus } = require('../models')
 const { docClient, advertisementTableName } = require("./Tables");
-
+const SellerDao = require("./SellerDao")
 /**
  * 
  * @param {Advertisement} advertisement 
@@ -150,6 +150,10 @@ async function ingest(advertisement) {
       return null
     }
   } else {
+    const existingSeller = advertisement.sellerId ? SellerDao.get(advertisement.sellerId) : null
+    if (existingSeller?.flagged) {
+      advertisement.flagged = true
+    }
     return await upsert(advertisement)
   }
 }

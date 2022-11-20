@@ -31,6 +31,17 @@ async function get(id) {
   return response.Items[0]
 }
 
+async function list(currentToken, limit) {
+  console.log('scan ' + currentToken)
+  let queryParams = {
+    TableName: theftTableName,
+    Limit: limit,
+    ExclusiveStartKey: currentToken
+  }
+  const response = await docClient.scan(queryParams).promise()
+  return { items: response.Items, nextToken: response.LastEvaluatedKey }
+}
+
 async function update(theft) {
   const {
     data: { updateTheft: item },
@@ -74,8 +85,6 @@ async function upsert(theft) {
 }
 
 async function listByBrandColor(brand, color, currentToken, limit = 1) {
-
-
   const response = await API.graphql({
     query: theftsByBrandColor,
     variables: {
@@ -94,4 +103,4 @@ async function listByBrandColor(brand, color, currentToken, limit = 1) {
   return { items, nextToken }
 }
 
-module.exports = { get, update, upsert, insert, listByBrandColor }
+module.exports = { get, update, upsert, insert, list, listByBrandColor }

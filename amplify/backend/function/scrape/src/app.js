@@ -51,6 +51,7 @@ const AdvertisementDao = require("./dao/AdvertisementDao")
 const MatchDao = require("./dao/MatchDao")
 const BrightData = require('./BrightData');
 const BikeIndex = require('./BikeIndex');
+const Report = require('./Report')
 
 // declare a new express app
 const app = express()
@@ -117,6 +118,11 @@ app.get('/scrape/bikeindex', async function (req, res) {
   const page = params.page ? parseInt(params.page) : 1
   const thefts = await BikeIndex.scrape(limit, page)
   return res.json({ success: true, items: thefts })
+});
+
+app.get('/report/countTheftsByYearMonth', async function (req, res) {
+  const counts = await Report.countTheftsByYearMonth()
+  return res.json(counts)
 });
 
 

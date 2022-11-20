@@ -1,0 +1,8 @@
+{
+  "httpMethod": "GET",
+  "path": "/report/countTheftsByYearMonth",
+  "queryStringParameters": {},
+  "headers": {
+    "Content-Type": "application/json"
+  }
+}

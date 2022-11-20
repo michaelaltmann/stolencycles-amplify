@@ -1,5 +1,4 @@
 import {
-  Button,
   Box,
   Stack,
   TextField,
@@ -8,13 +7,13 @@ import {
   Tooltip,
   IconButton,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AdvertisementThumbnail } from "./AdvertisementThumbnail";
 import { AdvertisementPlatform } from "../models";
 import SellerRepository from "../repositories/SellerRepository";
 import { unpackId } from "../repositories/utils";
 import AdvertisementRepository from "../repositories/AdvertisementRepository";
-import { Check, Flag } from "@mui/icons-material";
+import { Check, Flag, FlagOutlined } from "@mui/icons-material";
 export default function SellerView(props) {
   const sellerId = props.sellerId || props.seller?.id;
   const [seller, setSeller] = useState(props.seller);
@@ -138,11 +137,11 @@ export default function SellerView(props) {
         </Tooltip>
         <Tooltip title="Flag">
           <IconButton
-            sx={{ color: flagged ? "red" : "#FFB0B0" }}
+            sx={{ color: "red" }}
             size="small"
             onClick={toggleFlagged}
           >
-            <Flag />
+            {flagged ? <Flag /> : <FlagOutlined />}
           </IconButton>
         </Tooltip>
       </Stack>

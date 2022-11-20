@@ -8,6 +8,7 @@ import Matches from './pages/Matches';
 import Thefts from './pages/Thefts';
 import Sellers from './pages/Sellers';
 import Seller from './pages/Seller';
+import Reports from './pages/Reports';
 import { Home } from './pages/Home';
 
 Amplify.configure(awsconfig);
@@ -40,6 +41,7 @@ function App() {
           <Route path="/thefts" element={<Thefts />} />
           <Route path="/matches" element={<Matches />} />
           <Route path="/sellers" element={<Sellers />} />
+          <Route path="/reports" element={<Reports />} />
           <Route path="/seller/:sellerId" element={<Seller />} />
         </Route>
       </Routes>
