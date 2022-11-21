@@ -11,10 +11,12 @@ async function countTheftsByYearMonth() {
       if (item.postDate) {
         try {
           const d = new Date(Date.parse(item.postDate))
-          const yearMonth = `${d.getFullYear()}-${d.getMonth()}`
+          const year = d.getFullYear()
+          const month = d.getMonth()
+          const yearMonth = `${year}-${month}`
           const current = tally.get(yearMonth)
-          if (!current) tally.set(yearMonth, 1)
-          else tally.set(yearMonth, 1 + current)
+          const count = current ? 1 + (current.count) : 1
+          tally.set(yearMonth, { year, month, count })
         } catch (e) {
           console.log(e)
         }
@@ -22,12 +24,7 @@ async function countTheftsByYearMonth() {
     });
     currentToken = nextToken
   } while (currentToken)
-  const tallyEntries = Array.from(tally.entries()).map(x => {
-    const [key, count] = x
-    const [year, month] = key.split("-")
-    return { year, month, count }
-  })
-  return tallyEntries
+  return Array.from(tally.values())
 }
 
 
