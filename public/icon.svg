@@ -28,17 +28,29 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="32.09375"
-     inkscape:cx="9.9863681"
-     inkscape:cy="16.576436"
-     inkscape:window-width="2158"
-     inkscape:window-height="1312"
-     inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:zoom="22.693708"
+     inkscape:cx="7.7113885"
+     inkscape:cy="19.322536"
+     inkscape:window-width="2411"
+     inkscape:window-height="1155"
+     inkscape:window-x="178"
+     inkscape:window-y="112"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer1" />
   <defs
      id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1167">
+      <stop
+         style="stop-color:#8bcbc8;stop-opacity:1;"
+         offset="0.00228832"
+         id="stop1163" />
+      <stop
+         style="stop-color:#acece6;stop-opacity:0;"
+         offset="1"
+         id="stop1165" />
+    </linearGradient>
     <linearGradient
        inkscape:collect="always"
        id="linearGradient1137">
@@ -71,7 +83,8 @@
        y1="4.7156115"
        x2="3.7180784"
        y2="3.3635831"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,0.02885449)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient821"
@@ -81,7 +94,7 @@
        y1="4.7156115"
        x2="3.7180784"
        y2="3.3635831"
-       gradientTransform="translate(4.715612,0.05770867)" />
+       gradientTransform="translate(4.715612,0.02885418)" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient1137"
@@ -91,12 +104,27 @@
        x2="4.6912661"
        y2="7.094028"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(0.07419669,-0.07419669)" />
+       gradientTransform="translate(-0.18487991,-0.07419669)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1167"
+       id="linearGradient1259"
+       x1="0.006000042"
+       y1="4.1042843"
+       x2="9.0059996"
+       y2="4.1042843"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <circle
+       style="fill:url(#linearGradient1259);fill-opacity:1;stroke-width:0.65462"
+       id="path1092"
+       cx="4.506"
+       cy="4.1042843"
+       r="4.5" />
     <rect
        style="fill:none;stroke:none;stroke-width:0.364974"
        id="rect854"
@@ -104,27 +132,31 @@
        height="8.123621"
        x="0.34369782"
        y="0.057972006" />
-    <circle
-       style="fill:none;stroke-width:0.665;stroke:url(#linearGradient823);stroke-dasharray:none"
-       id="path114"
-       cx="2.3578057"
-       cy="3.3635831"
-       r="1.3602726" />
-    <circle
-       style="fill:none;stroke:url(#linearGradient858);stroke-width:0.665;stroke-dasharray:none"
-       id="path114-8"
-       cx="7.0734177"
-       cy="3.4212921"
-       r="1.3602726" />
+    <g
+       id="g1098"
+       transform="translate(-0.20961165)">
+      <circle
+         style="fill:none;stroke:url(#linearGradient823);stroke-width:0.665;stroke-dasharray:none"
+         id="path114"
+         cx="2.3578057"
+         cy="3.3924375"
+         r="1.3602726" />
+      <circle
+         style="fill:none;stroke:url(#linearGradient858);stroke-width:0.665;stroke-dasharray:none"
+         id="path114-8"
+         cx="7.0734177"
+         cy="3.3924377"
+         r="1.3602726" />
+    </g>
     <path
        style="fill:none;stroke:#5e6b6b;stroke-width:0.264583;stroke-opacity:1"
        d="M 2.8112301,0.87387212 C 3.2316779,3.0750406 2.8846791,3.711541 4.0148652,2.6793249 5.4404951,1.3772754 5.6801687,0.61830574 5.8038298,2.0610191 c 0.1487354,1.7352461 1.2530997,1.07173 1.2530997,1.07173"
        id="path1029"
        sodipodi:nodetypes="cssc" />
     <ellipse
-       style="fill:none;stroke:url(#linearGradient1139);stroke-width:0.365;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:none;stroke:url(#linearGradient1139);stroke-width:0.365;stroke-dasharray:none;stroke-opacity:1"
        id="path1131"
-       cx="4.7650766"
+       cx="4.506"
        cy="6.4839664"
        rx="2.0033104"
        ry="0.37510547" />
