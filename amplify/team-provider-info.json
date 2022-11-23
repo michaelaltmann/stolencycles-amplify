@@ -1,32 +1,32 @@
 {
-  "main": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-stolencycles-main-160247-authRole",
-      "UnauthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-main-160247-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-main-160247-authRole",
+      "AuthRoleName": "amplify-stolencycles-dev-154344-authRole",
+      "UnauthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-dev-154344-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::216407560218:role/amplify-stolencycles-dev-154344-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-stolencycles-main-160247-deployment",
-      "UnauthRoleName": "amplify-stolencycles-main-160247-unauthRole",
-      "StackName": "amplify-stolencycles-main-160247",
-      "StackId": "arn:aws:cloudformation:us-east-1:216407560218:stack/amplify-stolencycles-main-160247/0d748780-5316-11ed-9143-0ead4def83c5",
-      "AmplifyAppId": "d2ujzmmwgg63s8"
+      "DeploymentBucketName": "amplify-stolencycles-dev-154344-deployment",
+      "UnauthRoleName": "amplify-stolencycles-dev-154344-unauthRole",
+      "StackName": "amplify-stolencycles-dev-154344",
+      "StackId": "arn:aws:cloudformation:us-east-1:216407560218:stack/amplify-stolencycles-dev-154344/e8823100-6b77-11ed-ab71-0e34049355e7",
+      "AmplifyAppId": "d23xbjwlf9mwgh"
     },
     "categories": {
+      "api": {
+        "stolencycles": {},
+        "scrape": {}
+      },
       "function": {
         "scrape": {
-          "deploymentBucketName": "amplify-stolencycles-main-160247-deployment",
-          "s3Key": "amplify-builds/scrape-6f454e4d694d4b764553-build.zip"
+          "deploymentBucketName": "amplify-stolencycles-dev-154344-deployment",
+          "s3Key": "amplify-builds/scrape-30345a416567734b366f-build.zip"
         }
       },
       "hosting": {
         "amplifyhosting": {
-          "appId": "d2ujzmmwgg63s8",
+          "appId": "d23xbjwlf9mwgh",
           "type": "manual"
         }
-      },
-      "api": {
-        "scrape": {},
-        "stolencycles": {}
       }
     }
   }

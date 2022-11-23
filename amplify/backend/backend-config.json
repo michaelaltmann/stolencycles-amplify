@@ -1,5 +1,23 @@
 {
   "api": {
+    "stolencycles": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 365,
+              "apiKeyExpirationDate": "2023-11-23T21:48:39.983Z",
+              "description": "stolencyclesapikey"
+            }
+          },
+          "additionalAuthenticationProviders": []
+        }
+      }
+    },
     "scrape": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
@@ -13,22 +31,6 @@
           ]
         }
       ]
-    },
-    "stolencycles": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "API_KEY",
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
-            }
-          },
-          "additionalAuthenticationProviders": []
-        }
-      }
     }
   },
   "function": {

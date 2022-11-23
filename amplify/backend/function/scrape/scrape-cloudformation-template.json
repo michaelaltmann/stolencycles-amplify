@@ -240,12 +240,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "stolencyclesLambdaRoleac975a8b",
+            "stolencyclesLambdaRole68b721fc",
             {
               "Fn::Join": [
                 "",
                 [
-                  "stolencyclesLambdaRoleac975a8b",
+                  "stolencyclesLambdaRole68b721fc",
                   "-",
                   {
                     "Ref": "env"
@@ -376,26 +376,6 @@
                       "/types/Mutation/*"
                     ]
                   ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:appsync:",
-                      {
-                        "Ref": "AWS::Region"
-                      },
-                      ":",
-                      {
-                        "Ref": "AWS::AccountId"
-                      },
-                      ":apis/",
-                      {
-                        "Ref": "apistolencyclesGraphQLAPIIdOutput"
-                      },
-                      "/types/Subscription/*"
-                    ]
-                  ]
                 }
               ]
             },
@@ -709,45 +689,6 @@
                 }
               ]
             }
-          ]
-        }
-      }
-    },
-    "CloudWatchEvent": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "Description": "Schedule rule for Lambda",
-        "ScheduleExpression": {
-          "Ref": "CloudWatchRule"
-        },
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "LambdaFunction",
-                "Arn"
-              ]
-            },
-            "Id": {
-              "Ref": "LambdaFunction"
-            }
-          }
-        ]
-      }
-    },
-    "PermissionForEventsToInvokeLambda": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "FunctionName": {
-          "Ref": "LambdaFunction"
-        },
-        "Action": "lambda:InvokeFunction",
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "CloudWatchEvent",
-            "Arn"
           ]
         }
       }
@@ -775,11 +716,6 @@
     "LambdaExecutionRole": {
       "Value": {
         "Ref": "LambdaExecutionRole"
-      }
-    },
-    "CloudWatchEventRule": {
-      "Value": {
-        "Ref": "CloudWatchEvent"
       }
     }
   }

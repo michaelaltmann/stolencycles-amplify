@@ -1,6 +1,13 @@
 {
   "version": 1,
   "paths": {
+    "/scrape/marketplace": {
+      "name": "/scrape/marketplace",
+      "lambdaFunction": "scrape",
+      "permissions": {
+        "setting": "open"
+      }
+    },
     "/check/advertisement/{id}": {
       "name": "/check/advertisement/{id}",
       "lambdaFunction": "scrape",
@@ -10,13 +17,6 @@
     },
     "/check/theft/{id}": {
       "name": "/check/theft/{id}",
-      "lambdaFunction": "scrape",
-      "permissions": {
-        "setting": "open"
-      }
-    },
-    "/scrape/marketplace": {
-      "name": "/scrape/marketplace",
       "lambdaFunction": "scrape",
       "permissions": {
         "setting": "open"
