@@ -39,6 +39,7 @@ import {
   ShoppingCart,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
+import Carousel from "./Carousel";
 
 const classes = {
   card: {
@@ -78,7 +79,7 @@ export function AdvertisementView(props) {
     price,
     model,
     color,
-    images,
+    images: imagesString,
     flagged,
     postDate,
     sellerId,
@@ -91,7 +92,7 @@ export function AdvertisementView(props) {
     advertisement.brand ||
     guessBrand((title || "") + " " + (description || " "));
 
-  const imageUrl = getImageUrl(images);
+  const images = getImages(imagesString);
   const postDateText = postDate
     ? new Date(Date.parse(postDate)).toDateString()
     : "";
@@ -104,10 +105,10 @@ export function AdvertisementView(props) {
   const listingUrl = url ? url : platformUrl();
   const notificationRef = React.createRef();
 
-  function getImageUrl(imagesString) {
+  function getImages(imagesString) {
     if (imagesString) {
       const images = JSON.parse(imagesString);
-      return images && images.length > 0 ? images[0] : null;
+      return images && images.length > 0 ? images : [];
     }
   }
   function platformUrl() {
@@ -286,7 +287,33 @@ export function AdvertisementView(props) {
     setAdvertisement(item);
     setModified(false);
   }
-
+  function buildImageDisplay() {
+    if (images?.length > 1) {
+      const imageList = images.map((s) => {
+        return { imgPath: s };
+      });
+      return <Carousel images={imageList} />;
+    } else if (images?.length == 1 && images[0]) {
+      return (
+        <CardMedia
+          sx={{
+            height: 200,
+          }}
+          image={images[0]}
+        />
+      );
+    } else {
+      return (
+        <TextField
+          name="imageUrl"
+          variant="standard"
+          helperText="Image URL"
+          onBlur={handleImageUrlChange}
+          fullWidth
+        />
+      );
+    }
+  }
   return (
     <Card sx={cardClass} key={id}>
       <Dialog open={editSeller} onClose={() => setEditSeller(false)}>
@@ -311,8 +338,9 @@ export function AdvertisementView(props) {
           onChange={handleChange}
         />
       </Dialog>
-      <CardActionArea onClick={listingUrl && handleViewAdvertisement}>
+      <CardActionArea>
         <Box
+          onClick={listingUrl && handleViewAdvertisement}
           sx={{
             fontSize: "1rem",
             fontStyle: "italic",
@@ -322,24 +350,9 @@ export function AdvertisementView(props) {
           {platformName} {postDateText}
         </Box>{" "}
         {url ? (
-          imageUrl && (
-            <CardMedia
-              sx={{
-                height: 200,
-              }}
-              image={imageUrl}
-            />
-          )
+          buildImageDisplay()
         ) : (
           <>
-            <TextField
-              name="imageUrl"
-              variant="standard"
-              value={imageUrl || ""}
-              helperText="Image URL"
-              onChange={handleImageUrlChange}
-              fullWidth
-            />
             <TextField
               name="url"
               variant="standard"
