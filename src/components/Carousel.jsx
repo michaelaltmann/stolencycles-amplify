@@ -2,7 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { CardMedia } from "@mui/material";
+import { CardMedia, MobileStepper } from "@mui/material";
 
 function Carousel(props) {
   const { images } = props;
@@ -19,35 +19,48 @@ function Carousel(props) {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, flexGrow: 1, display: "inline" }}>
-      {images[activeStep].label && (
-        <Paper
-          square
-          elevation={0}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            height: 50,
-            pl: 2,
-            bgcolor: "background.default",
-          }}
-        >
-          <Typography>{images[activeStep].label}</Typography>
-        </Paper>
-      )}
-      {images.map((step, index) => (
-        <div key={step.label}>
-          {Math.abs(activeStep - index) == 0 ? (
-            <CardMedia
-              onClick={changeSlide}
-              sx={{
-                height: 200,
-              }}
-              image={step.imgPath}
-            />
-          ) : null}
-        </div>
-      ))}
+    <Box sx={{ position: "relative", display: "flex", alignItems: "center" }}>
+      <Box sx={{ maxWidth: 400, flexGrow: 1, display: "inline" }}>
+        {images[activeStep].label && (
+          <Paper
+            square
+            elevation={0}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              height: 50,
+              pl: 2,
+              bgcolor: "background.default",
+            }}
+          >
+            <Typography>{images[activeStep].label}</Typography>
+          </Paper>
+        )}
+        {images.map((step, index) => (
+          <div key={step.label}>
+            {Math.abs(activeStep - index) == 0 ? (
+              <CardMedia
+                onClick={changeSlide}
+                sx={{
+                  height: 200,
+                }}
+                image={step.imgPath}
+              />
+            ) : null}
+          </div>
+        ))}
+      </Box>
+      <MobileStepper
+        steps={maxSteps}
+        position="static"
+        activeStep={activeStep}
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          background: "none",
+          left: "100px",
+        }}
+      ></MobileStepper>
     </Box>
   );
 }

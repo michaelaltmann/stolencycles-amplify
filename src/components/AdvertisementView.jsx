@@ -108,7 +108,7 @@ export function AdvertisementView(props) {
   function getImages(imagesString) {
     if (imagesString) {
       const images = JSON.parse(imagesString);
-      return images && images.length > 0 ? images : [];
+      return images && images.length > 0 ? images.concat(images) : [];
     }
   }
   function platformUrl() {
