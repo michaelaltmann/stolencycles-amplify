@@ -1,6 +1,6 @@
 {
   "httpMethod": "GET",
-  "path": "/check/advertisement/MARKETPLACE~6611",
+  "path": "/check/advertisement/MARKETPLACE~2369",
   "queryStringParameters": {},
   "headers": {
     "Content-Type": "application/json"

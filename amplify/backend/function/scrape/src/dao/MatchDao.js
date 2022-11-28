@@ -7,7 +7,7 @@ const GRAPHQL_API_KEY = process.env.API_STOLENCYCLES_GRAPHQLAPIKEYOUTPUT;
 const fetch = require('node-fetch-commonjs');
 const { createMatch } = require('../graphql/mutations');
 const { docClient, matchTableName, theftTableName } = require('./Tables')
-const DEBUG = false
+const DEBUG = process.env.DEBUG || false
 
 async function remove(item) {
     const putItemParams = {
@@ -171,7 +171,7 @@ async function getThefts() {
     }
     const response = await docClient.scan(queryParams).promise()
     const stop = new Date()
-    console.log('MatchDao.getThefts returned ' + (response.Items.length) + ' in ' + (stop - start) + ' ms')
+    if (DEBUG) console.log('MatchDao.getThefts returned ' + (response.Items.length) + ' in ' + (stop - start) + ' ms')
     return response.Items
 }
 
@@ -213,7 +213,33 @@ async function getByAdvertisementIdTheftId(advertisementId, theftId) {
         return null
     }
 }
+async function getByAdvertisementId(advertisementId) {
+    const queryParams = {
+        TableName: matchTableName,
+        IndexName: 'byAdvertisementIndex',
+        KeyConditionExpression: "advertisementId = :advertisementId ",
 
+        ExpressionAttributeValues: {
+            ":advertisementId": advertisementId,
+        }
+    }
+    const response = await docClient.query(queryParams).promise()
+    return response.Items
+}
+
+async function getByTheftId(theftId) {
+    const queryParams = {
+        TableName: matchTableName,
+        IndexName: 'byTheftIndex',
+        KeyConditionExpression: "theftId = :theftId ",
+
+        ExpressionAttributeValues: {
+            ":theftId": theftId,
+        }
+    }
+    const response = await docClient.query(queryParams).promise()
+    return response.Items
+}
 /**
  * Return -1 if x or y are specified and they disagree
  * 0 if neither are specifed
@@ -283,6 +309,8 @@ function splitModel(model) {
  * @param {*} theft 
  */
 function similarity(advertisement, theft) {
+    if (!advertisement) return -1
+    if (!theft) return -1
     const advertisementDate = Date.parse(advertisement.postDate)
     const theftDate = Date.parse(theft.postDate)
     const elapsedDays = (advertisementDate - theftDate) / (1000 * 60 * 60 * 24)
@@ -385,7 +413,7 @@ async function getByAdvertisementId(advertisementId) {
         ScanIndexForward: true
     }
     const response = await docClient.query(query).promise()
-    return response
+    return response.Items
 }
 
 /**
@@ -396,8 +424,19 @@ async function getByAdvertisementId(advertisementId) {
 async function checkTheft(theft) {
     const newMatches = []
     if (!theft) return newMatches
+    const existingMatches = await getByTheftId(theft.id)
+    await Promise.all(existingMatches.map(async existing => {
+        const advertisement = await AdvertisementDao.get(existing.advertisementId)
+        const sim = similarity(advertisement, theft)
+        if (sim > 0) {
+            // Still a reasonable match
+        } else {
+            if (DEBUG) console.log('Removing matched between ' + advertisement.id + " and " + theft.id)
+            await remove(existing)
+        }
+    }))
     if (theft.status === TheftStatus.RECOVERED) {
-        console.log("Deleting matches for recovered theft " + theft.id)
+        if (DEBUG) console.log("Deleting matches for recovered theft " + theft.id)
         await deleteByTheftId(theft.id)
         return newMatches
     } else if (theft.brand) {
@@ -428,7 +467,7 @@ async function checkTheft(theft) {
                         status: MatchStatus.UNREVIEWED,
                         //similarity: sim
                     }
-                    console.log("Inserting match between " +
+                    if (DEBUG) console.log("Inserting match between " +
                         advertisement.id + ':' + advertisement.brand + ':' + advertisement.color + ':' + advertisement.model + ' and ' +
                         theft.id + ':' + theft.brand + ':' + theft.color + ':' + theft.model
                     )
@@ -436,9 +475,6 @@ async function checkTheft(theft) {
                     await insert(newMatch)
                     newMatches.push(newMatch)
                 }
-            } else {
-                // No longer a potential match
-                if (existing) await remove(existing)
             }
         }))
     }
@@ -453,10 +489,20 @@ async function checkTheft(theft) {
 async function checkAdvertisement(advertisement) {
     let newMatches = []
     if (!advertisement) return newMatches
+    const existingMatches = await getByAdvertisementId(advertisement.id)
+    await Promise.all(existingMatches.map(async existing => {
+        const theft = await AdvertisementDao.get(existing.theftId)
+        const sim = similarity(advertisement, theft)
+        if (sim > 0) {
+            // Still a reasonable match
+        } else {
+            await remove(existing)
+        }
+    }))
+
     if (advertisement.status == AdvertisementStatus.JUNK ||
         advertisement.status == AdvertisementStatus.SOLD
     ) {
-        console.log("Deleting matches for advertisement with status " + advertisement.status)
         await deleteByAdvertisementId(advertisement.id)
         return newMatches
     } else if (advertisement.brand) {
@@ -476,15 +522,13 @@ async function checkAdvertisement(advertisement) {
             )
             if (sim > 0) {
                 if (!existing) {
-
                     const newMatch = {
                         advertisementId: advertisement.id,
                         theftId: theft.id,
-                        //postDate: now,
                         status: MatchStatus.UNREVIEWED,
                         //similarity: sim
                     }
-                    console.log("Inserting " + newMatch.id + ' ' +
+                    if (DEBUG) console.log("Inserting new match " +
                         advertisement.id + ':' + advertisement.brand + ' ' +
                         theft.id + ':' + theft.brand
                     )
@@ -492,9 +536,6 @@ async function checkAdvertisement(advertisement) {
                     await insert(newMatch)
                     newMatches.push(newMatch)
                 }
-            } else {
-                // No longer a potential match
-                if (existing) await remove(existing)
             }
         }))
     }
