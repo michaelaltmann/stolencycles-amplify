@@ -1,7 +1,8 @@
 const API = require("./API")
 const { createTheft, updateTheft } = require('../graphql/mutations');
 const { theftsByBrandColor } = require('../graphql/queries')
-const { docClient, theftTableName } = require("./Tables")
+const { docClient, theftTableName } = require("./Tables");
+const { JS } = require('@aws-amplify/core');
 
 function coreProperties(theft) {
   let {
@@ -9,6 +10,8 @@ function coreProperties(theft) {
     updatedAt,
     _lastChangedAt,
     _deleted,
+    __typename,
+    'postDate#id': postDateId,
     matches,
     ...rest
   } = theft
@@ -43,14 +46,16 @@ async function list(currentToken, limit) {
 }
 
 async function update(theft) {
-  const {
-    data: { updateTheft: item },
-  } = await API.graphql({
+
+  const response = await API.graphql({
     query: updateTheft,
     variables: {
       input: coreProperties(theft),
     },
   });
+  const {
+    data: { updateTheft: item },
+  } = response
   console.log(`Updated ${theft.id}`)
   return item
 }

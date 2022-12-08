@@ -18,7 +18,8 @@ async function scrape(limit, page) {
   }
   let remaining = limit ? limit : max_per_page
   let bikesForQuery = []
-  while (remaining > 0) {
+  let done = false
+  while (!done) {
     query.per_page = Math.min(max_per_page, remaining)
     const options = {
       method: 'GET',
@@ -32,6 +33,7 @@ async function scrape(limit, page) {
     bikesForQuery = bikesForQuery.concat(body.bikes)
     query.page = query.page + 1
     remaining = remaining - query.per_page
+    done = (remaining == 0 || body.bikes.length == 0)
   }
   return await Promise.all(bikesForQuery.map(async bike => {
     const theft = bikeIndexToTheft(bike)

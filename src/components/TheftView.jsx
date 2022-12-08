@@ -236,14 +236,12 @@ export function TheftView(props) {
           {platformName} {postDateText}
         </Box>
         {url ? (
-          imageUrl && (
-            <CardMedia
-              sx={{
-                height: 200,
-              }}
-              image={imageUrl}
-            />
-          )
+          <CardMedia
+            sx={{
+              height: 200,
+            }}
+            image={imageUrl || "/images/bicycle-placeholder.svg"}
+          />
         ) : (
           <>
             <TextField
